@@ -1,0 +1,39 @@
+Complete the existing Vite + React prototype in the current directory.
+
+Do not ask questions. Do not discuss. Just finish the runnable prototype.
+
+Requirements:
+- Create src/App.jsx and any supporting files needed.
+- Build a polished internal dashboard for "Okeanos Marketing AI Team Platform".
+- All content in English.
+- The app must include:
+  1. A left sidebar or navigation
+  2. A dashboard overview
+  3. A visible AI team section with these agents:
+     - AI Team Leader
+     - Social & Reputation Agent
+     - Content Strategist Agent
+     - Lead Response Agent
+     - Reporting Agent
+  4. A chat interface with the AI Team Leader
+  5. The Team Leader must respond differently for:
+     - weekly report requests
+     - work summary requests
+     - social/reputation requests
+     - lead response requests
+     - general clarification requests
+  6. A tasks/activity panel with statuses
+  7. A reports panel with seeded sample outputs
+- Use Okeanos-specific positioning:
+  engineer credibility, high quality, practical value, low-friction lead generation.
+- Make the experience realistic for an internal marketing team prototype.
+- Use local mock logic only; no external API needed.
+- Create README.md with setup/run instructions.
+- Create NOTES.md with assumptions and next steps.
+- Run npm install if needed.
+- Run npm run build to validate.
+- Commit changes to git; if needed configure local git user.name OpenClaw and user.email openclaw@local.
+- At the end print a concise summary and how to run the app.
+
+When completely finished, run this command:
+openclaw system event --text "Done: Built Okeanos marketing AI team prototype" --mode now

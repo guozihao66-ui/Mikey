@@ -16,19 +16,33 @@ export default function App() {
   const [tasks, setTasks]       = useState(INITIAL_TASKS);
   const [approvals, setApprovals] = useState(APPROVAL_ITEMS);
 
-  const handleTaskCreated = useCallback((newTask) => {
-    setTasks((prev) => [newTask, ...prev]);
+  const handleTaskCreated = useCallback((payload) => {
+    const task = payload?.task || (payload?.id ? payload : null);
+    const approval = payload?.approval || payload?.newApproval || payload?.generatedApproval || task?.generatedApproval || null;
+
+    if (task) {
+      setTasks((prev) => [task, ...prev]);
+    }
+    if (approval) {
+      setApprovals((prev) => [approval, ...prev]);
+    }
   }, []);
 
   const handleApprovalAction = useCallback((id, action) => {
-    setApprovals((prev) =>
-      prev.map((item) => item.id === id ? { ...item, resolved: action } : item)
-    );
+    let matchedApproval = null;
+
+    setApprovals((prev) => {
+      matchedApproval = prev.find((item) => item.id === id) || null;
+      return prev.map((item) => item.id === id ? { ...item, resolved: action } : item);
+    });
+
     if (action === 'approved') {
       setTasks((prev) =>
         prev.map((t) => {
-          const ap = APPROVAL_ITEMS.find((a) => a.id === id);
-          return ap && t.id === ap.taskId ? { ...t, status: 'in-progress' } : t;
+          const ap = matchedApproval || APPROVAL_ITEMS.find((a) => a.id === id);
+          return ap && t.id === ap.taskId
+            ? { ...t, status: 'in-progress', updatedAt: new Date().toISOString() }
+            : t;
         })
       );
     }

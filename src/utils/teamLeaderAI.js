@@ -160,6 +160,9 @@ function socialReputationResponse(userMessage) {
     taskId: task.id,
   };
 
+  task.generatedApproval = approvalItem;
+  task.newApproval = approvalItem;
+
   return {
     intent: 'social-reputation',
     message: `Routed to the **Social & Reputation Agent** and a first draft is already ready for review.\n\n**Task created:** Social/Reputation — "${taskTitle}"\n\nWhat happened next:\n- A draft output was generated automatically\n- The task moved directly into **In Review**\n- An approval item was created for your sign-off\n\nOpen **Tasks** to see the full draft output, or go to **Approvals** to review it formally.`,
@@ -200,6 +203,9 @@ function leadResponseResponse(userMessage) {
     preview: draftOutput,
     taskId: task.id,
   };
+
+  task.generatedApproval = approvalItem;
+  task.newApproval = approvalItem;
 
   return {
     intent: 'lead-response',
@@ -242,6 +248,9 @@ function contentStrategistResponse(userMessage) {
     taskId: task.id,
   };
 
+  task.generatedApproval = approvalItem;
+  task.newApproval = approvalItem;
+
   return {
     intent: 'content-strategist',
     message: `Routed to the **Content Strategist Agent**.\n\n**Task created:** Content — "${userMessage.substring(0, 60)}"\n\nA first-pass content brief has already been generated and placed into review. Open **Tasks** to see the output or **Approvals** to approve the direction before the team develops the full asset.`,
@@ -283,6 +292,9 @@ function reportingResponse(userMessage) {
     taskId: task.id,
   };
 
+  task.generatedApproval = approvalItem;
+  task.newApproval = approvalItem;
+
   return {
     intent: 'reporting',
     message: `Routed to the **Reporting Agent**.\n\n**Task created:** Analytics — "${userMessage.substring(0, 60)}"\n\nA first-pass reporting snapshot is already ready for review. The task has been moved to **In Review**, and an approval item has been created so you can confirm the direction before sharing it more broadly.`,
@@ -323,6 +335,9 @@ function growthOpsResponse(userMessage) {
     preview: draftOutput,
     taskId: task.id,
   };
+
+  task.generatedApproval = approvalItem;
+  task.newApproval = approvalItem;
 
   return {
     intent: 'growth-ops',

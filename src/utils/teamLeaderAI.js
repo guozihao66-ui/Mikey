@@ -14,10 +14,12 @@ const today = () => {
 function detectIntent(message) {
   const m = message.toLowerCase();
 
-  if (
-    /\b(goal|target|objective|plan|strategy|roadmap|growth plan|increase|grow|improve|boost|reduce|decrease|hit|achieve)\b/.test(m) &&
-    /\b(order|orders|bookings|booked consultations|consultations|leads|revenue|sales|conversion|close rate|response time|pipeline)\b/.test(m)
-  ) {
+  const goalVerb = /\b(goal|target|objective|plan|strategy|roadmap|growth plan|increase|grow|improve|boost|reduce|decrease|hit|achieve|get|gain|add|raise|lift|want|need)\b/.test(m);
+  const goalMetric = /\b(order|orders|customer|customers|booking|bookings|booked consultations|consultation|consultations|lead|leads|revenue|sales|conversion|conversions|close rate|response time|pipeline|traffic|reviews|rating|roi)\b/.test(m);
+  const goalTime = /\b(next week|next month|this month|this quarter|next quarter|in 30 days|in 60 days|this year|next year|by [a-z]+)\b/.test(m);
+  const numericTarget = /\b\d+\b/.test(m);
+
+  if ((goalVerb && goalMetric) || (numericTarget && goalMetric && goalTime) || (goalVerb && goalTime && goalMetric)) {
     return 'goal-planning';
   }
 
@@ -464,6 +466,12 @@ What would you like to do?`,
 }
 
 function generalResponse(userMessage) {
+  const m = userMessage.toLowerCase();
+  const maybeGoal = (/\b(want|need|get|gain|add|increase|grow|improve|boost|reduce|hit|achieve)\b/.test(m) && /\b(order|orders|customer|customers|booking|bookings|consultation|consultations|lead|leads|revenue|sales|conversion|pipeline|traffic|reviews|rating|roi)\b/.test(m));
+  if (maybeGoal) {
+    return goalPlanningResponse(userMessage);
+  }
+
   const responses = [
     `Understood. I'll add this to the queue and assign it to the appropriate agent.
 
@@ -516,7 +524,9 @@ export async function getTeamLeaderResponse(userMessage) {
   const backendResult = await tryBackendTeamLeader(userMessage);
   if (backendResult) return backendResult;
 
-  const intent = detectIntent(userMessage);
+  const lower = userMessage.toLowerCase();
+  const hardGoalFallback = /\b\d+\b/.test(lower) && /\b(next week|next month|this month|this quarter|next quarter|in 30 days|in 60 days)\b/.test(lower) && /\b(order|orders|customer|customers|booking|bookings|consultation|consultations|lead|leads|revenue|sales|conversion|pipeline)\b/.test(lower);
+  const intent = hardGoalFallback ? 'goal-planning' : detectIntent(userMessage);
 
   // Simulate network / AI processing latency
   const delay = 900 + Math.random() * 800;

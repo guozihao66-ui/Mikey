@@ -9,6 +9,7 @@ const SUGGESTIONS = [
   'Give me a work summary',
   'Draft a follow-up for a new lead who requested a pool quote',
   'Route a task for Instagram captions for our spring pool photos',
+  'Check the CRM pipeline status and conversion blockers',
   'What can the AI team help me with?',
 ];
 
@@ -155,7 +156,7 @@ export default function Chat({ onTaskCreated }) {
       id: 1,
       role: 'assistant',
       intent: null,
-      text: `Hi — I'm the AI Team Leader for Okeanos Marketing. I coordinate your five-agent AI team and can answer questions, route tasks, or generate reports on demand.
+      text: `Hi — I'm the AI Team Leader for Okeanos Marketing. I coordinate your six-agent AI team and can answer questions, route tasks, or generate reports on demand.
 
 **Try asking me:**
 - "Generate this week's weekly report"
@@ -304,6 +305,7 @@ All output requires your approval before any action is taken.`,
               { kw: 'lead / follow-up', agent: 'Lead Response Agent', color: '#d97706' },
               { kw: 'blog / SEO / copy', agent: 'Content Strategist', color: '#059669' },
               { kw: 'analytics / GA4', agent: 'Reporting Agent', color: '#0ea5e9' },
+              { kw: 'CRM / conversion / campaign ops', agent: 'Growth Ops Agent', color: '#b91c1c' },
             ].map((r) => (
               <div key={r.kw} style={styles.routeRow}>
                 <code style={styles.routeKw}>{r.kw}</code>

@@ -195,7 +195,7 @@ All output requires your approval before any action is taken.`,
         newTask: res.newTask,
       };
       setMessages((prev) => [...prev, aiMsg]);
-      if (res.newTask) onTaskCreated(res.newTask);
+      if (res.newTask || res.newApproval) onTaskCreated({ task: res.newTask, approval: res.newApproval });
     } catch (e) {
       setMessages((prev) => [
         ...prev,

@@ -130,174 +130,206 @@ function socialReputationResponse(userMessage) {
     ? userMessage.substring(0, 57) + '...'
     : userMessage;
 
+  const draftOutput = `Recommended platform: Google / Instagram / Facebook (confirm as needed)\n\nDraft Option A\n"Thank you for the feedback. We take this seriously and have already reviewed the issue internally. Our team has followed up directly to make sure the next step is clear and professionally handled."\n\nDraft Option B\n"We appreciate the feedback and understand the concern. Okeanos is committed to clear communication, quality delivery, and professional follow-through. We have already reached out directly to resolve this."\n\nSuggested internal note\n- Use Option A if the goal is de-escalation\n- Use Option B if the goal is stronger brand reassurance\n- Human approval required before posting`;
+
   const task = {
     id: nextId(),
     title: `Social/Reputation: ${taskTitle}`,
-    description: `Request from Team Leader: "${userMessage}"\n\nThe Social & Reputation Agent will draft content for your review. No content will be published without your approval.`,
+    description: `Request from Team Leader: "${userMessage}"\n\nThe Social & Reputation Agent has prepared an initial draft output for review. No content will be published without your approval.`,
     assignedTo: 'social-reputation',
     requestedBy: 'team-leader',
     priority: 'medium',
-    status: 'pending',
+    status: 'in-review',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
     tags: ['social', 'routed'],
+    output: draftOutput,
+    outputLabel: 'Draft Output',
+  };
+
+  const approvalItem = {
+    id: `ap-${task.id}`,
+    title: `Social Draft Approval — ${taskTitle}`,
+    description: 'Social & Reputation Agent prepared a first-pass response draft for review.',
+    agent: 'social-reputation',
+    agentName: 'Social & Reputation Agent',
+    priority: 'medium',
+    type: 'Review Response',
+    createdAt: new Date().toISOString(),
+    preview: draftOutput,
+    taskId: task.id,
   };
 
   return {
     intent: 'social-reputation',
-    message: `Routing this to the **Social & Reputation Agent** now.
-
-**Task created:** Social/Reputation — "${taskTitle}"
-
-The agent will:
-- Analyze the request against Okeanos brand voice (credible, warm, Ontario-local)
-- Draft content options for your review
-- Flag any reputation risks before recommending action
-
-**Reminder:** No post, caption, or review response goes live without your approval. The draft will appear in the **Tasks** panel and any approval-required items will surface in **Approvals**.
-
-Is there a specific platform or tone you'd like the agent to prioritize?`,
+    message: `Routed to the **Social & Reputation Agent** and a first draft is already ready for review.\n\n**Task created:** Social/Reputation — "${taskTitle}"\n\nWhat happened next:\n- A draft output was generated automatically\n- The task moved directly into **In Review**\n- An approval item was created for your sign-off\n\nOpen **Tasks** to see the full draft output, or go to **Approvals** to review it formally.`,
     routedAgent: 'social-reputation',
     newTask: task,
+    newApproval: approvalItem,
   };
 }
 
 function leadResponseResponse(userMessage) {
+  const shortTitle = `${userMessage.substring(0, 55)}${userMessage.length > 55 ? '...' : ''}`;
+  const draftOutput = `Subject Option A: Your Okeanos pool quote — next steps\nSubject Option B: Thanks for reaching out about your pool project\n\nEmail Draft\nHi there,\n\nThank you for reaching out to Okeanos. We would be happy to help you explore the right fiberglass pool option for your property and timeline. Based on your inquiry, the next best step is a short consultation so we can confirm layout, access, and project goals.\n\nIf it works for you, we can arrange a call or site visit and walk you through the process, timing, and next steps.\n\nBest,\nOkeanos Pools GTA\n\nSMS Draft\nThanks for reaching out to Okeanos — we received your inquiry and can help with the next step. Would you prefer a quick call or site visit discussion?\n\nRecommended CTA\n- Book consultation within 24 hours\n- Human approval required before sending`;
+
   const task = {
     id: nextId(),
-    title: `Lead Response: ${userMessage.substring(0, 55)}${userMessage.length > 55 ? '...' : ''}`,
-    description: `Request from Team Leader: "${userMessage}"\n\nThe Lead Response Agent will prepare follow-up drafts. All messages require your approval before sending.`,
+    title: `Lead Response: ${shortTitle}`,
+    description: `Request from Team Leader: "${userMessage}"\n\nThe Lead Response Agent has prepared an initial follow-up draft. All messages require your approval before sending.`,
     assignedTo: 'lead-response',
     requestedBy: 'team-leader',
     priority: 'high',
-    status: 'pending',
+    status: 'in-review',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
     tags: ['leads', 'routed', 'urgent'],
+    output: draftOutput,
+    outputLabel: 'Draft Follow-up',
+  };
+
+  const approvalItem = {
+    id: `ap-${task.id}`,
+    title: `Lead Follow-up Approval — ${shortTitle}`,
+    description: 'Lead Response Agent prepared email and SMS follow-up drafts for review.',
+    agent: 'lead-response',
+    agentName: 'Lead Response Agent',
+    priority: 'high',
+    type: 'Lead Follow-up',
+    createdAt: new Date().toISOString(),
+    preview: draftOutput,
+    taskId: task.id,
   };
 
   return {
     intent: 'lead-response',
-    message: `Routing to the **Lead Response Agent** — high priority.
-
-**Task created:** Lead Response — "${userMessage.substring(0, 60)}"
-
-The agent will:
-- Prepare a personalized follow-up draft (email + SMS option)
-- Qualify the lead based on available info
-- Keep response time under our 30-minute target
-
-**Draft format you'll receive:**
-- Subject line options (A/B)
-- Email body (personalized, ~150 words)
-- SMS follow-up (under 160 chars)
-- Suggested next step / CTA
-
-The draft will appear in the **Tasks** panel and in **Approvals** once ready. Want me to flag this as urgent so it gets prioritized ahead of the queue?`,
+    message: `Routed to the **Lead Response Agent** — high priority.\n\n**Task created:** Lead Response — "${userMessage.substring(0, 60)}"\n\nA first-pass output is already ready:\n- subject line options\n- email draft\n- SMS draft\n- recommended CTA\n\nThe task is now in **In Review** and a matching approval item has been created. Open **Tasks** to read the draft or **Approvals** to review it formally.`,
     routedAgent: 'lead-response',
     newTask: task,
+    newApproval: approvalItem,
   };
 }
 
 function contentStrategistResponse(userMessage) {
+  const shortTitle = `${userMessage.substring(0, 60)}${userMessage.length > 60 ? '...' : ''}`;
+  const draftOutput = `Recommended primary angle\n- Engineer-led pool expertise for Ontario homeowners\n\nProposed outline\n1. Homeowner problem / goal\n2. Why fiberglass works in Ontario\n3. Okeanos differentiators\n4. Common objections and answers\n5. Clear CTA to consultation\n\nSuggested CTA\nBook a consultation to review your yard, timeline, and project goals.\n\nNotes\n- Keep tone practical, credible, and professional\n- Use Ontario-local trust framing\n- Human approval required before publishing`;
+
   const task = {
     id: nextId(),
-    title: `Content: ${userMessage.substring(0, 60)}${userMessage.length > 60 ? '...' : ''}`,
-    description: `Request from Team Leader: "${userMessage}"\n\nContent Strategist Agent will draft a content plan or copy for your review.`,
+    title: `Content: ${shortTitle}`,
+    description: `Request from Team Leader: "${userMessage}"\n\nContent Strategist Agent has prepared a first-pass brief/output for your review.`,
     assignedTo: 'content-strategist',
     requestedBy: 'team-leader',
     priority: 'medium',
-    status: 'pending',
+    status: 'in-review',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
     tags: ['content', 'seo', 'routed'],
+    output: draftOutput,
+    outputLabel: 'Content Brief',
+  };
+
+  const approvalItem = {
+    id: `ap-${task.id}`,
+    title: `Content Brief Approval — ${shortTitle}`,
+    description: 'Content Strategist Agent prepared a content brief and draft direction for review.',
+    agent: 'content-strategist',
+    agentName: 'Content Strategist Agent',
+    priority: 'medium',
+    type: 'Campaign Brief',
+    createdAt: new Date().toISOString(),
+    preview: draftOutput,
+    taskId: task.id,
   };
 
   return {
     intent: 'content-strategist',
-    message: `Routing to the **Content Strategist Agent**.
-
-**Task created:** Content — "${userMessage.substring(0, 60)}"
-
-The agent will:
-- Identify the primary keyword target and search intent
-- Outline structure (headers, word count, CTA placement)
-- Draft copy aligned with Okeanos brand voice: knowledgeable, trustworthy, Ontario-local
-- Suggest internal links to product and gallery pages
-
-**Note on SEO:** All content is written to rank for Ontario fiberglass pool searches. The agent avoids keyword stuffing and focuses on genuine homeowner value.
-
-Draft brief and outline will appear in **Tasks** for your review. Nothing gets published without sign-off.`,
+    message: `Routed to the **Content Strategist Agent**.\n\n**Task created:** Content — "${userMessage.substring(0, 60)}"\n\nA first-pass content brief has already been generated and placed into review. Open **Tasks** to see the output or **Approvals** to approve the direction before the team develops the full asset.`,
     routedAgent: 'content-strategist',
     newTask: task,
+    newApproval: approvalItem,
   };
 }
 
 function reportingResponse(userMessage) {
+  const shortTitle = `${userMessage.substring(0, 60)}${userMessage.length > 60 ? '...' : ''}`;
+  const draftOutput = `Metrics snapshot\n- Website sessions: 1,842\n- New leads: 14\n- Avg. lead response time: 23 minutes\n- Google rating: 4.7★\n\nTop observations\n- Organic traffic is trending up week over week\n- Meta performance needs creative refresh\n- Lead response remains within target\n\nRecommended actions\n1. Clear approvals queue\n2. Refresh paid creative\n3. Publish the next high-intent content asset`;
+
   const task = {
     id: nextId(),
-    title: `Analytics: ${userMessage.substring(0, 60)}${userMessage.length > 60 ? '...' : ''}`,
-    description: `Request from Team Leader: "${userMessage}"\n\nReporting Agent will compile the requested metrics and analysis.`,
+    title: `Analytics: ${shortTitle}`,
+    description: `Request from Team Leader: "${userMessage}"\n\nReporting Agent prepared an initial analysis snapshot for review.`,
     assignedTo: 'reporting',
     requestedBy: 'team-leader',
     priority: 'medium',
-    status: 'pending',
+    status: 'in-review',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
     tags: ['reporting', 'analytics', 'routed'],
+    output: draftOutput,
+    outputLabel: 'Reporting Snapshot',
+  };
+
+  const approvalItem = {
+    id: `ap-${task.id}`,
+    title: `Reporting Snapshot Approval — ${shortTitle}`,
+    description: 'Reporting Agent prepared a first-pass metrics summary and recommendations.',
+    agent: 'reporting',
+    agentName: 'Reporting Agent',
+    priority: 'medium',
+    type: 'Campaign Brief',
+    createdAt: new Date().toISOString(),
+    preview: draftOutput,
+    taskId: task.id,
   };
 
   return {
     intent: 'reporting',
-    message: `Routing to the **Reporting Agent**.
-
-**Task created:** Analytics — "${userMessage.substring(0, 60)}"
-
-The agent will pull from:
-- **GA4** — traffic, sessions, goal completions
-- **Google Ads** — impressions, clicks, CPC, conversions
-- **Meta Ads** — reach, CPL, ROAS
-- **CRM data** — lead counts, source attribution
-
-**Output format:** Clean table + narrative summary with recommended actions. Formatted for easy sharing with your team or clients.
-
-The report will be added to the **Reports** tab once compiled. Do you need a specific date range, or should I default to the most recent full week?`,
+    message: `Routed to the **Reporting Agent**.\n\n**Task created:** Analytics — "${userMessage.substring(0, 60)}"\n\nA first-pass reporting snapshot is already ready for review. The task has been moved to **In Review**, and an approval item has been created so you can confirm the direction before sharing it more broadly.`,
     routedAgent: 'reporting',
     newTask: task,
+    newApproval: approvalItem,
   };
 }
 
 function growthOpsResponse(userMessage) {
+  const shortTitle = `${userMessage.substring(0, 55)}${userMessage.length > 55 ? '...' : ''}`;
+  const draftOutput = `Initial diagnosis\n- Review CRM stage drop-off between inquiry and consultation\n- Check response-time gaps for quote-ready leads\n- Review landing page CTA clarity and form friction\n\nRecommended next actions\n1. Re-engage stalled leads older than 14 days\n2. Simplify the primary consultation CTA\n3. Align campaign messaging with landing page promise\n\nApproval checkpoint\nHuman review required before changing live campaign or CRM workflows.`;
+
   const task = {
     id: nextId(),
-    title: `Growth Ops: ${userMessage.substring(0, 55)}${userMessage.length > 55 ? '...' : ''}`,
-    description: `Request from Team Leader: "${userMessage}"\n\nGrowth Ops Agent will handle this request — covering CRM, conversion, campaign ops, or workflow coordination.`,
+    title: `Growth Ops: ${shortTitle}`,
+    description: `Request from Team Leader: "${userMessage}"\n\nGrowth Ops Agent prepared an initial operating brief for review.`,
     assignedTo: 'growth-ops',
     requestedBy: 'team-leader',
     priority: 'medium',
-    status: 'pending',
+    status: 'in-review',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
     tags: ['growth-ops', 'routed'],
+    output: draftOutput,
+    outputLabel: 'Growth Ops Brief',
+  };
+
+  const approvalItem = {
+    id: `ap-${task.id}`,
+    title: `Growth Ops Approval — ${shortTitle}`,
+    description: 'Growth Ops Agent prepared an initial brief covering CRM, conversion, or campaign operations.',
+    agent: 'growth-ops',
+    agentName: 'Growth Ops Agent',
+    priority: 'medium',
+    type: 'Campaign Brief',
+    createdAt: new Date().toISOString(),
+    preview: draftOutput,
+    taskId: task.id,
   };
 
   return {
     intent: 'growth-ops',
-    message: `Routing to the **Growth Ops Agent**.
-
-**Task created:** Growth Ops — "${userMessage.substring(0, 60)}"
-
-Growth Ops handles the operational layer connecting marketing to pipeline:
-- **CRM & Nurture** — pipeline health, stalled-deal alerts, drip sequences
-- **Website Conversion** — CTA briefs, form optimization, landing page CRO
-- **Campaign Operations** — Google/Meta ad coordination, creative briefs
-- **Workflow & Approvals** — routing outputs through the right review steps
-
-The agent will assess the request and prepare a brief or draft for your review. You'll see the output in **Tasks** and, if approval is needed, it will surface in **Approvals**.
-
-Any specific deadline or context to attach to this task?`,
+    message: `Routed to the **Growth Ops Agent**.\n\n**Task created:** Growth Ops — "${userMessage.substring(0, 60)}"\n\nA first-pass operating brief has been generated already. The item is now in **In Review**, and a corresponding approval item has been added so you can validate the direction before execution.`,
     routedAgent: 'growth-ops',
     newTask: task,
+    newApproval: approvalItem,
   };
 }
 

@@ -140,10 +140,19 @@ export default function Tasks({ tasks }) {
               <p style={styles.description}>{selected.description}</p>
             </div>
 
+            {selected.output && (
+              <div style={styles.outputBox}>
+                <div style={styles.descLabel}>{selected.outputLabel || 'Latest Output'}</div>
+                <pre style={styles.outputText}>{selected.output}</pre>
+              </div>
+            )}
+
             {selected.status !== 'completed' && (
               <div style={styles.approvalNote}>
                 <span style={styles.approvalIcon}>⚑</span>
-                This task output requires human approval before any action is taken.
+                {selected.output
+                  ? 'A draft output has been generated and is ready for human approval before any action is taken.'
+                  : 'This task output requires human approval before any action is taken.'}
               </div>
             )}
           </div>
@@ -318,6 +327,21 @@ const styles = {
     color: 'var(--color-text-secondary)',
     lineHeight: 1.6,
     whiteSpace: 'pre-wrap',
+  },
+  outputBox: {
+    background: '#f8fafc',
+    border: '1px solid var(--color-border)',
+    borderRadius: 8,
+    padding: '12px 14px',
+    marginBottom: 14,
+  },
+  outputText: {
+    margin: 0,
+    whiteSpace: 'pre-wrap',
+    fontSize: 12,
+    lineHeight: 1.65,
+    color: 'var(--color-text)',
+    fontFamily: 'var(--font-sans)',
   },
   approvalNote: {
     display: 'flex',

@@ -7,8 +7,8 @@ const LEADER = AGENTS.find((a) => a.id === 'team-leader');
 const SUGGESTIONS = [
   'Generate this week\'s weekly report',
   'Give me a work summary',
+  'I want 10 more orders next month',
   'Draft a follow-up for a new lead who requested a pool quote',
-  'Route a task for Instagram captions for our spring pool photos',
   'Check the CRM pipeline status and conversion blockers',
   'What can the AI team help me with?',
 ];
@@ -140,6 +140,7 @@ function parseInline(text) {
 }
 
 const INTENT_LABELS = {
+  'goal-planning':     { label: 'Growth Objective', color: '#b91c1c' },
   'weekly-report':     { label: 'Weekly Report', color: '#0ea5e9' },
   'work-summary':      { label: 'Work Summary', color: '#7c3aed' },
   'social-reputation': { label: '→ Social Agent', color: '#7c3aed' },
@@ -195,7 +196,9 @@ All output requires your approval before any action is taken.`,
         newTask: res.newTask,
       };
       setMessages((prev) => [...prev, aiMsg]);
-      if (res.newTask || res.newApproval) onTaskCreated({ task: res.newTask, approval: res.newApproval });
+      if (res.newTask || res.newApproval || res.extraTasks?.length) {
+        onTaskCreated({ task: res.newTask, approval: res.newApproval, extraTasks: res.extraTasks || [] });
+      }
     } catch (e) {
       setMessages((prev) => [
         ...prev,

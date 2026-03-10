@@ -13,6 +13,13 @@ const today = () => {
 function detectIntent(message) {
   const m = message.toLowerCase();
 
+  if (
+    /\b(goal|target|objective|plan|strategy|roadmap|growth plan|increase|grow|improve|boost|reduce|decrease|hit|achieve)\b/.test(m) &&
+    /\b(order|orders|bookings|booked consultations|consultations|leads|revenue|sales|conversion|close rate|response time|pipeline)\b/.test(m)
+  ) {
+    return 'goal-planning';
+  }
+
   if (/\b(weekly report|weekly marketing report|this week.{0,20}report|report for the week)\b/.test(m)) {
     return 'weekly-report';
   }
@@ -42,6 +49,82 @@ function detectIntent(message) {
 }
 
 // ── Response generators ───────────────────────────────────────────────────────
+
+function goalPlanningResponse(userMessage) {
+  const taskA = {
+    id: nextId(),
+    title: 'Growth Plan Workstream: Funnel & Conversion Diagnosis',
+    description: `Derived from business objective: "${userMessage}"\n\nGrowth Ops Agent will diagnose the main funnel constraints preventing Okeanos from reaching the target.` ,
+    assignedTo: 'growth-ops',
+    requestedBy: 'team-leader',
+    priority: 'high',
+    status: 'in-review',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    tags: ['goal', 'growth-plan', 'conversion'],
+    outputLabel: 'Growth Diagnosis',
+    output: `Primary business objective\n- Increase orders next month using the current marketing team and channels\n\nLikely leverage points\n1. More qualified leads from high-intent channels\n2. Faster response for quote-ready leads\n3. Better follow-up conversion from inquiry to consultation\n4. Stronger trust signals at the decision stage\n\nImmediate analysis focus\n- Lead volume gap\n- Consultation booking rate\n- Follow-up delay\n- Website conversion friction`,
+  };
+
+  const taskB = {
+    id: nextId(),
+    title: 'Growth Plan Workstream: Lead Response Acceleration',
+    description: `Derived from business objective: "${userMessage}"\n\nLead Response Agent will prepare a tighter follow-up and prioritization plan for quote-ready inquiries.`,
+    assignedTo: 'lead-response',
+    requestedBy: 'team-leader',
+    priority: 'high',
+    status: 'in-review',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    tags: ['goal', 'lead-response', 'speed-to-lead'],
+    outputLabel: 'Lead Response Plan',
+    output: `Recommended response objective\n- Keep quote-ready response time below 15 minutes during business hours\n\nExecution focus\n1. Prioritize quote-ready inquiries first\n2. Use consultation-first CTA\n3. Standardize 24-hour follow-up cadence\n4. Escalate stalled leads after 48 hours\n\nSuccess metric\n- Improve inquiry-to-consultation conversion next month`,
+  };
+
+  const taskC = {
+    id: nextId(),
+    title: 'Growth Plan Workstream: Trust & Demand Support',
+    description: `Derived from business objective: "${userMessage}"\n\nContent Strategist and Social & Reputation functions should support conversion with trust-building assets and proof.`,
+    assignedTo: 'content-strategist',
+    requestedBy: 'team-leader',
+    priority: 'medium',
+    status: 'in-review',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    tags: ['goal', 'content', 'trust'],
+    outputLabel: 'Demand Support Plan',
+    output: `Recommended support assets\n1. One BOFU landing page or quote-focused page refresh\n2. One case study or project proof asset\n3. Review-response and social proof visibility push\n4. Weekly KPI checkpoint to track progress toward the order goal\n\nRecommended KPI watchlist\n- New qualified leads\n- Consultation bookings\n- Quote-to-close rate\n- Pending approvals blocking execution`,
+  };
+
+  const approvalItem = {
+    id: `ap-goal-${taskA.id}`,
+    title: 'Growth Plan Approval — Monthly Order Target',
+    description: 'AI Team Leader prepared a first-pass growth plan and decomposed the objective into executable workstreams.',
+    agent: 'growth-ops',
+    agentName: 'AI Team Leader + Growth Ops Agent',
+    priority: 'high',
+    type: 'Campaign Brief',
+    createdAt: new Date().toISOString(),
+    preview: `Proposed objective handling\n- Treat this as a business growth target, not a copywriting request\n\nRecommended workstreams\n1. Funnel & conversion diagnosis\n2. Lead response acceleration\n3. Trust and demand support\n\nSuggested KPI focus\n- Qualified leads\n- Consultation bookings\n- Response time\n- Close rate`,
+    taskId: taskA.id,
+  };
+
+  taskA.generatedApproval = approvalItem;
+  taskA.newApproval = approvalItem;
+
+  return {
+    intent: 'goal-planning',
+    message: `Understood — I am treating this as a **growth objective**, not a simple drafting request.\n\n**Objective received:** ${userMessage}\n\n### Recommended interpretation
+This goal should be handled through three coordinated levers:\n1. **Funnel & conversion diagnosis**\n2. **Lead response acceleration**\n3. **Trust and demand support**\n\n### Proposed plan
+- Review current lead-to-order bottlenecks\n- Tighten response speed for quote-ready leads\n- Strengthen bottom-of-funnel trust assets and social proof\n- Track progress weekly using a KPI checkpoint\n\n### KPI focus
+- Qualified leads\n- Consultation bookings\n- Average response time\n- Quote-to-close rate\n\n### What I did next
+I created **3 linked workstream tasks** so the AI team can act on this objective instead of giving you a random draft.\n\nOpen **Tasks** to review the workstreams, and **Approvals** to approve the initial growth plan direction.`,
+    routedAgent: 'team-leader',
+    newTask: taskA,
+    extraTasks: [taskB, taskC],
+    newApproval: approvalItem,
+  };
+}
 
 function weeklyReportResponse() {
   return {
@@ -436,6 +519,8 @@ export async function getTeamLeaderResponse(userMessage) {
   await new Promise((resolve) => setTimeout(resolve, delay));
 
   switch (intent) {
+    case 'goal-planning':
+      return goalPlanningResponse(userMessage);
     case 'weekly-report':
       return weeklyReportResponse();
     case 'work-summary':

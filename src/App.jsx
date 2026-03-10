@@ -19,9 +19,14 @@ export default function App() {
   const handleTaskCreated = useCallback((payload) => {
     const task = payload?.task || (payload?.id ? payload : null);
     const approval = payload?.approval || payload?.newApproval || payload?.generatedApproval || task?.generatedApproval || null;
+    const extraTasks = payload?.extraTasks || [];
 
-    if (task) {
-      setTasks((prev) => [task, ...prev]);
+    if (task || extraTasks.length) {
+      setTasks((prev) => [
+        ...(task ? [task] : []),
+        ...extraTasks,
+        ...prev,
+      ]);
     }
     if (approval) {
       setApprovals((prev) => [approval, ...prev]);

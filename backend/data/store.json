@@ -1,0 +1,110 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Google review response — J. Morrison (1-star)",
+      "description": "Customer J. Morrison left a 1-star review citing delays in project start. Social & Reputation Agent prepared two response options. Awaiting approval.",
+      "assignedTo": "social-reputation",
+      "requestedBy": "team-leader",
+      "priority": "high",
+      "status": "in-review",
+      "createdAt": "2026-03-07T09:15:00Z",
+      "updatedAt": "2026-03-07T14:30:00Z",
+      "tags": [
+        "reputation",
+        "google",
+        "urgent"
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Lead follow-up drafts — March 9 batch (3 leads)",
+      "description": "Lead Response Agent drafted personalized email and SMS follow-ups for three quote-ready inquiries. Awaiting approval before sending.",
+      "assignedTo": "lead-response",
+      "requestedBy": "team-leader",
+      "priority": "high",
+      "status": "in-review",
+      "createdAt": "2026-03-09T08:00:00Z",
+      "updatedAt": "2026-03-09T09:45:00Z",
+      "tags": [
+        "leads",
+        "follow-up",
+        "urgent"
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Weekly marketing report — Week of Mar 9",
+      "description": "Reporting Agent compiling weekly metrics summary and recommended actions.",
+      "assignedTo": "reporting",
+      "requestedBy": "team-leader",
+      "priority": "medium",
+      "status": "in-progress",
+      "createdAt": "2026-03-09T08:00:00Z",
+      "updatedAt": "2026-03-09T11:00:00Z",
+      "tags": [
+        "reporting",
+        "weekly"
+      ]
+    }
+  ],
+  "approvals": [
+    {
+      "id": "ap-1",
+      "title": "Google Review Response — J. Morrison",
+      "description": "Social & Reputation Agent prepared two response options for a 1-star review.",
+      "agent": "social-reputation",
+      "agentName": "Social & Reputation Agent",
+      "priority": "high",
+      "type": "Review Response",
+      "createdAt": "2026-03-07T14:30:00Z",
+      "preview": "Option A: Thank you for your feedback. We apologize for the delay and have followed up directly to resolve this.\n\nOption B: We appreciate the feedback, take the delay seriously, and have reached out to review your timeline.",
+      "taskId": 1
+    },
+    {
+      "id": "ap-2",
+      "title": "Lead Follow-up Drafts — March 9 Batch",
+      "description": "Lead Response Agent drafted personalized email and SMS messages for 3 quote-ready inquiries.",
+      "agent": "lead-response",
+      "agentName": "Lead Response Agent",
+      "priority": "high",
+      "type": "Lead Follow-up",
+      "createdAt": "2026-03-09T09:45:00Z",
+      "preview": "Lead 1: Subject options + draft email + SMS follow-up.\nLead 2: Subject options + draft email + SMS follow-up.\nLead 3: Subject options + draft email + SMS follow-up.",
+      "taskId": 2
+    }
+  ],
+  "reports": [
+    {
+      "id": "generated-10",
+      "type": "weekly",
+      "title": "Generated Weekly Marketing Report",
+      "generatedAt": "2026-03-10T01:58:33.399Z",
+      "generatedBy": "reporting",
+      "status": "draft",
+      "content": "# Generated Weekly Marketing Report\n\n## Executive Summary\nThis week showed healthy marketing activity with steady lead volume and active reputation monitoring.\n\n## Key Metrics\n- New leads: 14\n- Website sessions: 1,842\n- Avg. lead response time: 23 minutes\n- Pending approvals: 2\n\n## Recommended Actions\n1. Clear pending approvals.\n2. Prioritize fast lead response.\n3. Keep content pipeline moving."
+    },
+    {
+      "id": "report-weekly-mar3",
+      "type": "weekly",
+      "title": "Weekly Marketing Report — Week of March 3, 2026",
+      "generatedAt": "2026-03-08T12:00:00Z",
+      "generatedBy": "reporting",
+      "status": "approved",
+      "content": "# Weekly Marketing Report\n\n## Executive Summary\nA strong week across paid and organic channels. Website traffic was up 12% week over week, lead volume matched forecast, and average lead response time remained under the 30-minute target.\n\n## Key Metrics\n- Website sessions: 1,842\n- New leads: 14\n- Google rating: 4.7★\n- Average lead response time: 23 minutes\n\n## Recommended Actions\n1. Publish the response for the 1-star review.\n2. Refresh Meta creative.\n3. Publish the fiberglass vs. concrete blog post."
+    }
+  ],
+  "activity": [
+    {
+      "id": 1773107913400,
+      "at": "2026-03-10T01:58:33.400Z",
+      "channel": "whatsapp",
+      "message": "Generate this week's weekly marketing report",
+      "intent": "weekly-report",
+      "createdTaskId": null,
+      "createdReportId": "generated-10"
+    }
+  ],
+  "nextTaskId": 100,
+  "nextReportId": 11
+}

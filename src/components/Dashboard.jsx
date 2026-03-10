@@ -35,12 +35,12 @@ const METRICS = [
     icon: '◆',
   },
   {
-    label: 'Google Ads CPC',
-    value: '$4.82',
-    change: '-26%',
-    changeUp: true,
-    sub: 'vs last week',
-    icon: '◇',
+    label: 'Ad Spend',
+    value: '$4,570',
+    change: '4 active campaigns',
+    changeUp: null,
+    sub: 'Google + Meta · this month',
+    icon: '◌',
   },
   {
     label: 'Active Tasks',
@@ -67,6 +67,22 @@ function getAgentTaskCount(tasks, agentId) {
   return tasks.filter((t) => t.assignedTo === agentId).length;
 }
 
+const AD_OVERVIEW = {
+  spend: '$4,570',
+  activeCampaigns: 4,
+  leadsFromAds: 11,
+  cpl: '$38.20',
+  topCampaign: 'Google Search — Fiberglass Pool Quotes',
+  worstCampaign: 'Meta Awareness — Spring Visual Teaser',
+  recommendation: 'Reallocate part of Meta awareness spend toward high-intent Google search and refresh underperforming creative this week.',
+  campaigns: [
+    { name: 'Google Search — Fiberglass Pool Quotes', platform: 'Google Ads', spend: '$2,140', leads: 6, cpl: '$356.67', status: 'Top performer' },
+    { name: 'Google Search — Pool Installation GTA', platform: 'Google Ads', spend: '$1,120', leads: 3, cpl: '$373.33', status: 'Stable' },
+    { name: 'Meta Lead Form — Backyard Renovation', platform: 'Meta Ads', spend: '$860', leads: 2, cpl: '$430.00', status: 'Watch' },
+    { name: 'Meta Awareness — Spring Visual Teaser', platform: 'Meta Ads', spend: '$450', leads: 0, cpl: '—', status: 'Worst performer' },
+  ],
+};
+
 export default function Dashboard({ onNav, approvalCount, tasks = [], approvals = [] }) {
   const recentTasks = [...tasks].sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)).slice(0, 5);
   const metrics = [
@@ -74,7 +90,7 @@ export default function Dashboard({ onNav, approvalCount, tasks = [], approvals 
     METRICS[1],
     METRICS[2],
     METRICS[3],
-    METRICS[4],
+    { ...METRICS[4], value: AD_OVERVIEW.spend, change: `${AD_OVERVIEW.activeCampaigns} active campaigns` },
     { ...METRICS[5], value: String(tasks.filter((t) => t.status !== 'completed').length), change: `${approvals.filter((a) => !a.resolved).length} need approval` },
   ];
 
@@ -121,6 +137,77 @@ export default function Dashboard({ onNav, approvalCount, tasks = [], approvals 
             <div style={styles.metricSub}>{m.sub}</div>
           </div>
         ))}
+      </div>
+
+      <div style={styles.adPanelWrap}>
+        <div className="card" style={styles.panel}>
+          <div style={styles.panelHeader}>
+            <h2 style={styles.panelTitle}>Advertising Performance</h2>
+            <button className="btn btn-ghost btn-sm" onClick={() => onNav('reports')}>View reports</button>
+          </div>
+
+          <div style={styles.adSummaryGrid}>
+            <div style={styles.adSummaryCard}>
+              <div style={styles.adLabel}>Ad Spend</div>
+              <div style={styles.adValue}>{AD_OVERVIEW.spend}</div>
+            </div>
+            <div style={styles.adSummaryCard}>
+              <div style={styles.adLabel}>Active Campaigns</div>
+              <div style={styles.adValue}>{AD_OVERVIEW.activeCampaigns}</div>
+            </div>
+            <div style={styles.adSummaryCard}>
+              <div style={styles.adLabel}>Leads from Ads</div>
+              <div style={styles.adValue}>{AD_OVERVIEW.leadsFromAds}</div>
+            </div>
+            <div style={styles.adSummaryCard}>
+              <div style={styles.adLabel}>CPL</div>
+              <div style={styles.adValue}>{AD_OVERVIEW.cpl}</div>
+            </div>
+          </div>
+
+          <div style={styles.adBreakdownGrid}>
+            <div style={styles.adInfoBox}>
+              <div style={styles.detailMiniLabel}>Top Campaign</div>
+              <div style={styles.adInfoTitle}>{AD_OVERVIEW.topCampaign}</div>
+            </div>
+            <div style={styles.adInfoBox}>
+              <div style={styles.detailMiniLabel}>Worst Campaign</div>
+              <div style={styles.adInfoTitle}>{AD_OVERVIEW.worstCampaign}</div>
+            </div>
+          </div>
+
+          <div style={styles.aiRecBox}>
+            <div style={styles.detailMiniLabel}>AI Recommendation</div>
+            <div style={styles.aiRecText}>{AD_OVERVIEW.recommendation}</div>
+          </div>
+
+          <div style={styles.campaignTableWrap}>
+            <table style={styles.campaignTable}>
+              <thead>
+                <tr>
+                  <th style={styles.th}>Campaign</th>
+                  <th style={styles.th}>Platform</th>
+                  <th style={styles.th}>Spend</th>
+                  <th style={styles.th}>Leads</th>
+                  <th style={styles.th}>CPL</th>
+                  <th style={styles.th}>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {AD_OVERVIEW.campaigns.map((c) => (
+                  <tr key={c.name}>
+                    <td style={styles.td}>{c.name}</td>
+                    <td style={styles.td}>{c.platform}</td>
+                    <td style={styles.td}>{c.spend}</td>
+                    <td style={styles.td}>{c.leads}</td>
+                    <td style={styles.td}>{c.cpl}</td>
+                    <td style={styles.td}>{c.status}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
 
       <div style={styles.columns}>
@@ -221,6 +308,98 @@ export default function Dashboard({ onNav, approvalCount, tasks = [], approvals 
 
 const styles = {
   page: { display: 'flex', flexDirection: 'column', gap: 18 },
+  adPanelWrap: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  adSummaryGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(4, 1fr)',
+    gap: 10,
+    marginBottom: 12,
+  },
+  adSummaryCard: {
+    background: 'var(--color-surface-2)',
+    border: '1px solid var(--color-border)',
+    borderRadius: 8,
+    padding: '12px 14px',
+  },
+  adLabel: {
+    fontSize: 11,
+    fontWeight: 600,
+    color: 'var(--color-text-muted)',
+    textTransform: 'uppercase',
+    letterSpacing: '0.05em',
+    marginBottom: 6,
+  },
+  adValue: {
+    fontSize: 22,
+    fontWeight: 700,
+    color: 'var(--color-text)',
+  },
+  adBreakdownGrid: {
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr',
+    gap: 10,
+    marginBottom: 12,
+  },
+  adInfoBox: {
+    background: 'var(--color-surface)',
+    border: '1px solid var(--color-border)',
+    borderRadius: 8,
+    padding: '12px 14px',
+  },
+  adInfoTitle: {
+    fontSize: 13,
+    fontWeight: 600,
+    color: 'var(--color-text)',
+    lineHeight: 1.5,
+  },
+  detailMiniLabel: {
+    fontSize: 10,
+    fontWeight: 700,
+    textTransform: 'uppercase',
+    letterSpacing: '0.06em',
+    color: 'var(--color-text-muted)',
+    marginBottom: 6,
+  },
+  aiRecBox: {
+    background: '#eef6ff',
+    border: '1px solid #bfdbfe',
+    borderRadius: 8,
+    padding: '12px 14px',
+    marginBottom: 12,
+  },
+  aiRecText: {
+    fontSize: 13,
+    color: 'var(--color-text)',
+    lineHeight: 1.6,
+  },
+  campaignTableWrap: {
+    overflowX: 'auto',
+    border: '1px solid var(--color-border)',
+    borderRadius: 8,
+  },
+  campaignTable: {
+    width: '100%',
+    borderCollapse: 'collapse',
+    fontSize: 12,
+  },
+  th: {
+    textAlign: 'left',
+    background: 'var(--color-surface-2)',
+    color: 'var(--color-text)',
+    fontWeight: 600,
+    padding: '10px 12px',
+    borderBottom: '1px solid var(--color-border)',
+    whiteSpace: 'nowrap',
+  },
+  td: {
+    padding: '10px 12px',
+    borderBottom: '1px solid var(--color-border)',
+    color: 'var(--color-text-secondary)',
+    whiteSpace: 'nowrap',
+  },
 
   alertBanner: {
     display: 'flex',

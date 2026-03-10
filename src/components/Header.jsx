@@ -19,7 +19,8 @@ export default function Header({ page }) {
         <p style={styles.sub}>{sub}</p>
       </div>
       <div style={styles.right}>
-        <div style={styles.modelBadge}>claude-sonnet-4-6</div>
+        <div style={styles.modeBadge}>Prototype Mode</div>
+        <div style={styles.modelBadge}>workflow-first</div>
         <div style={styles.avatar}>MT</div>
       </div>
     </header>
@@ -51,6 +52,16 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     gap: 10,
+  },
+  modeBadge: {
+    fontSize: 11,
+    fontWeight: 700,
+    color: '#92400e',
+    background: '#fffbeb',
+    border: '1px solid #fde68a',
+    borderRadius: 6,
+    padding: '3px 8px',
+    letterSpacing: '0.01em',
   },
   modelBadge: {
     fontSize: 11,

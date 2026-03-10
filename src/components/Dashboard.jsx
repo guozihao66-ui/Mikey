@@ -1,6 +1,5 @@
 import React from 'react';
 import { AGENTS } from '../data/agents.js';
-import { INITIAL_TASKS } from '../data/tasks.js';
 
 const METRICS = [
   {
@@ -64,12 +63,20 @@ const agentColors = Object.fromEntries(AGENTS.map((a) => [a.id, a.color]));
 const agentNames  = Object.fromEntries(AGENTS.map((a) => [a.id, a.name]));
 
 // Task counts per agent for status summary
-function getAgentTaskCount(agentId) {
-  return INITIAL_TASKS.filter((t) => t.assignedTo === agentId).length;
+function getAgentTaskCount(tasks, agentId) {
+  return tasks.filter((t) => t.assignedTo === agentId).length;
 }
 
-export default function Dashboard({ onNav, approvalCount }) {
-  const recentTasks = [...INITIAL_TASKS].slice(0, 5);
+export default function Dashboard({ onNav, approvalCount, tasks = [], approvals = [] }) {
+  const recentTasks = [...tasks].sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)).slice(0, 5);
+  const metrics = [
+    { ...METRICS[0], value: String(tasks.filter((t) => t.tags?.includes('leads') || t.assignedTo === 'lead-response').length || 14) },
+    METRICS[1],
+    METRICS[2],
+    METRICS[3],
+    METRICS[4],
+    { ...METRICS[5], value: String(tasks.filter((t) => t.status !== 'completed').length), change: `${approvals.filter((a) => !a.resolved).length} need approval` },
+  ];
 
   return (
     <div style={styles.page}>
@@ -94,7 +101,7 @@ export default function Dashboard({ onNav, approvalCount }) {
 
       {/* KPI metrics strip */}
       <div style={styles.metricsGrid}>
-        {METRICS.map((m) => (
+        {metrics.map((m) => (
           <div key={m.label} className="card" style={styles.metricCard}>
             <div style={styles.metricTop}>
               <div style={styles.metricLabel}>{m.label}</div>
@@ -166,7 +173,7 @@ export default function Dashboard({ onNav, approvalCount }) {
             </div>
             <div>
               {AGENTS.map((a) => {
-                const taskCount = getAgentTaskCount(a.id);
+                const taskCount = getAgentTaskCount(tasks, a.id);
                 return (
                   <div key={a.id} style={styles.agentRow}>
                     <div style={{ ...styles.agentAvatar, background: a.color }}>{a.avatar}</div>

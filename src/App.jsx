@@ -33,24 +33,49 @@ export default function App() {
     }
   }, []);
 
-  const handleApprovalAction = useCallback((id, action) => {
+  const handleApprovalAction = useCallback((id, action, feedback = '') => {
     let matchedApproval = null;
 
     setApprovals((prev) => {
       matchedApproval = prev.find((item) => item.id === id) || null;
-      return prev.map((item) => item.id === id ? { ...item, resolved: action } : item);
+      return prev.map((item) => {
+        if (item.id !== id) return item;
+        return {
+          ...item,
+          resolved: action === 'changes-requested' ? null : action,
+          lastAction: action,
+          feedback: feedback || item.feedback || '',
+          updatedAt: new Date().toISOString(),
+          revisionCount: action === 'changes-requested' ? (item.revisionCount || 0) + 1 : (item.revisionCount || 0),
+        };
+      });
     });
 
-    if (action === 'approved') {
-      setTasks((prev) =>
-        prev.map((t) => {
-          const ap = matchedApproval || APPROVAL_ITEMS.find((a) => a.id === id);
-          return ap && t.id === ap.taskId
-            ? { ...t, status: 'in-progress', updatedAt: new Date().toISOString() }
-            : t;
-        })
-      );
-    }
+    setTasks((prev) =>
+      prev.map((t) => {
+        const ap = matchedApproval || APPROVAL_ITEMS.find((a) => a.id === id);
+        if (!(ap && t.id === ap.taskId)) return t;
+
+        if (action === 'approved') {
+          return { ...t, status: 'in-progress', updatedAt: new Date().toISOString() };
+        }
+
+        if (action === 'changes-requested') {
+          const existingOutput = t.output || 'Draft output pending.';
+          const note = feedback?.trim() || 'Reviewer requested changes.';
+          return {
+            ...t,
+            status: 'in-review',
+            updatedAt: new Date().toISOString(),
+            reviewerFeedback: note,
+            outputLabel: t.outputLabel || 'Revised Draft',
+            output: `${existingOutput}\n\n---\nRevision Note\n${note}\n\nRevised Direction\n- Adjust tone and structure based on reviewer feedback\n- Prepare a cleaner second-pass draft for approval`,
+          };
+        }
+
+        return t;
+      })
+    );
   }, []);
 
   const pendingCount   = tasks.filter(
@@ -62,7 +87,7 @@ export default function App() {
   function renderPage() {
     switch (page) {
       case 'dashboard':
-        return <Dashboard onNav={setPage} approvalCount={approvalCount} />;
+        return <Dashboard onNav={setPage} approvalCount={approvalCount} tasks={tasks} approvals={approvals} />;
       case 'team':
         return <Team onChatWithLeader={() => setPage('chat')} />;
       case 'chat':

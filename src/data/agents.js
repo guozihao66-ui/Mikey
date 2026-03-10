@@ -1,4 +1,4 @@
-// Agent definitions for the Okeanos Marketing AI Team
+// Agent definitions — Okeanos Marketing AI Team (6 agents)
 
 export const AGENTS = [
   {
@@ -8,13 +8,14 @@ export const AGENTS = [
     avatar: 'TL',
     color: '#0f4c81',
     description:
-      'Orchestrates the marketing team, interprets briefs, routes tasks, and synthesizes output into actionable deliverables. Your primary interface to the AI team.',
+      'Orchestrates the full marketing team. Interprets briefs, routes tasks to specialist agents, manages the approvals queue, and synthesizes outputs into actionable deliverables. Your primary interface to the AI team.',
     capabilities: [
       'Task routing & prioritization',
       'Brief interpretation',
       'Weekly report synthesis',
-      'Work summaries',
       'Cross-agent coordination',
+      'Approvals queue management',
+      'Work status summaries',
     ],
     status: 'active',
   },
@@ -25,30 +26,32 @@ export const AGENTS = [
     avatar: 'SR',
     color: '#7c3aed',
     description:
-      'Manages Okeanos presence on Google, Instagram, Facebook, and Houzz. Drafts review response templates, social captions, and flags reputation risks.',
+      'Manages Okeanos presence on Google, Instagram, Facebook, and Houzz. Drafts review response options, social captions, and flags reputation risks for human review.',
     capabilities: [
-      'Google review responses',
+      'Google review response drafts',
       'Instagram & Facebook captions',
-      'Reputation monitoring alerts',
+      'Reputation risk monitoring',
       'Houzz profile content',
       'Social calendar planning',
+      'Before/after post copy',
     ],
     status: 'active',
   },
   {
     id: 'content-strategist',
     name: 'Content Strategist Agent',
-    role: 'Content & SEO',
+    role: 'Content & Copywriting',
     avatar: 'CS',
     color: '#059669',
     description:
-      'Plans and drafts SEO-aligned blog posts, landing page copy, and email campaigns. Focuses on Ontario homeowner keywords and fiberglass pool education.',
+      'Plans and drafts SEO-aligned blog posts, geo-targeted landing pages, email campaigns, and project case studies. Focuses on Ontario homeowner keywords and fiberglass pool education.',
     capabilities: [
       'Blog post drafts',
-      'Landing page copy',
-      'Email campaigns',
+      'Geo-targeted landing page copy',
+      'Email campaign copy',
       'Keyword research briefs',
       'Content calendar management',
+      'Project case study writeups',
     ],
     status: 'active',
   },
@@ -59,13 +62,14 @@ export const AGENTS = [
     avatar: 'LR',
     color: '#d97706',
     description:
-      'Drafts immediate follow-up messages for new inquiries, qualifies leads, and prepares personalized quote-request acknowledgements under 5 minutes.',
+      'Drafts personalized follow-up messages for new inquiries within 30 minutes. Qualifies leads, prepares quote-request acknowledgements, and builds re-engagement sequences for dormant contacts.',
     capabilities: [
-      'Instant follow-up drafts',
+      'Instant follow-up drafts (email + SMS)',
       'Lead qualification scripts',
       'Quote acknowledgement emails',
       'Re-engagement sequences',
       'CRM note summaries',
+      'Lead tier classification',
     ],
     status: 'active',
   },
@@ -76,13 +80,32 @@ export const AGENTS = [
     avatar: 'RA',
     color: '#0ea5e9',
     description:
-      'Compiles performance data from GA4, Meta Ads, and Google Ads into clear weekly and monthly reports with recommended actions.',
+      'Compiles performance data from GA4, Google Ads, and Meta Ads into clear weekly and monthly reports. Surfaces trends, flags anomalies, and recommends next actions with supporting data.',
     capabilities: [
       'Weekly performance reports',
-      'Ad spend analysis',
+      'Ad spend & ROI analysis',
       'Lead source breakdown',
       'SEO position tracking',
-      'Campaign ROI summaries',
+      'Competitor signal summaries',
+      'Campaign ROI snapshots',
+    ],
+    status: 'active',
+  },
+  {
+    id: 'growth-ops',
+    name: 'Growth Ops Agent',
+    role: 'CRM, Conversion & Campaigns',
+    avatar: 'GO',
+    color: '#b91c1c',
+    description:
+      'The operational backbone connecting marketing to pipeline. Manages CRM nurture sequences, identifies website conversion bottlenecks, coordinates campaign operations, and supports workflow approvals.',
+    capabilities: [
+      'CRM pipeline health & nurture sequences',
+      'Website conversion optimization briefs',
+      'Campaign operations coordination',
+      'Workflow & approvals support',
+      'Stalled-deal alerts',
+      'Homepage CTA and form improvement briefs',
     ],
     status: 'active',
   },

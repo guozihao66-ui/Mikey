@@ -1,14 +1,18 @@
 import React from 'react';
 
 const NAV = [
-  { id: 'dashboard', label: 'Dashboard', icon: '▦' },
-  { id: 'team',      label: 'AI Team',   icon: '◈' },
-  { id: 'chat',      label: 'Chat',      icon: '◻' },
-  { id: 'tasks',     label: 'Tasks',     icon: '☰' },
-  { id: 'reports',   label: 'Reports',   icon: '⊞' },
+  { id: 'dashboard', label: 'Dashboard',  icon: '▦' },
+  { id: 'team',      label: 'AI Team',    icon: '◈' },
+  { id: 'chat',      label: 'Chat',       icon: '◻' },
+  { id: 'approvals', label: 'Approvals',  icon: '✓', badge: 'approvalBadge' },
+  { id: 'tasks',     label: 'Tasks',      icon: '☰', badge: 'taskBadge' },
+  { id: 'reports',   label: 'Reports',    icon: '⊞' },
+  { id: 'playbooks', label: 'Playbooks',  icon: '◑' },
 ];
 
-export default function Sidebar({ active, onNav, taskBadge }) {
+export default function Sidebar({ active, onNav, taskBadge, approvalBadge }) {
+  const badges = { taskBadge, approvalBadge };
+
   return (
     <aside style={styles.sidebar}>
       <div style={styles.brand}>
@@ -22,6 +26,7 @@ export default function Sidebar({ active, onNav, taskBadge }) {
       <nav style={styles.nav}>
         {NAV.map((item) => {
           const isActive = active === item.id;
+          const badgeCount = item.badge ? badges[item.badge] : 0;
           return (
             <button
               key={item.id}
@@ -33,8 +38,13 @@ export default function Sidebar({ active, onNav, taskBadge }) {
             >
               <span style={styles.navIcon}>{item.icon}</span>
               <span style={styles.navLabel}>{item.label}</span>
-              {item.id === 'tasks' && taskBadge > 0 && (
-                <span style={styles.badge}>{taskBadge}</span>
+              {badgeCount > 0 && (
+                <span style={{
+                  ...styles.badge,
+                  ...(item.id === 'approvals' ? styles.badgeAmber : {}),
+                }}>
+                  {badgeCount}
+                </span>
               )}
             </button>
           );
@@ -43,7 +53,7 @@ export default function Sidebar({ active, onNav, taskBadge }) {
 
       <div style={styles.footer}>
         <div style={styles.statusDot} />
-        <span style={styles.statusText}>All agents online</span>
+        <span style={styles.statusText}>6 agents online</span>
       </div>
     </aside>
   );
@@ -118,7 +128,7 @@ const styles = {
     color: '#fff',
   },
   navIcon: {
-    fontSize: 15,
+    fontSize: 14,
     width: 18,
     textAlign: 'center',
     flexShrink: 0,
@@ -135,6 +145,10 @@ const styles = {
     padding: '1px 6px',
     minWidth: 18,
     textAlign: 'center',
+  },
+  badgeAmber: {
+    background: '#f59e0b',
+    color: '#fff',
   },
   footer: {
     padding: '14px 16px',

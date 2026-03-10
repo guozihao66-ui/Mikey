@@ -1,11 +1,13 @@
 import React from 'react';
 
 const PAGE_TITLES = {
-  dashboard: { title: 'Dashboard', sub: 'Overview — Week of March 9, 2026' },
-  team:      { title: 'AI Team',   sub: '5 agents active' },
-  chat:      { title: 'Chat',      sub: 'AI Team Leader' },
-  tasks:     { title: 'Tasks',     sub: 'Activity & task queue' },
-  reports:   { title: 'Reports',   sub: 'Generated outputs' },
+  dashboard: { title: 'Dashboard',  sub: 'Overview — Week of March 9, 2026' },
+  team:      { title: 'AI Team',    sub: '6 agents · all active' },
+  chat:      { title: 'Chat',       sub: 'AI Team Leader' },
+  tasks:     { title: 'Tasks',      sub: 'Activity & task queue' },
+  reports:   { title: 'Reports',    sub: 'Generated outputs' },
+  approvals: { title: 'Approvals',  sub: 'Items awaiting your review' },
+  playbooks: { title: 'Playbooks',  sub: 'Standard workflows & processes' },
 };
 
 export default function Header({ page }) {
@@ -17,6 +19,7 @@ export default function Header({ page }) {
         <p style={styles.sub}>{sub}</p>
       </div>
       <div style={styles.right}>
+        <div style={styles.modelBadge}>claude-sonnet-4-6</div>
         <div style={styles.avatar}>MT</div>
       </div>
     </header>
@@ -47,7 +50,17 @@ const styles = {
   right: {
     display: 'flex',
     alignItems: 'center',
-    gap: 12,
+    gap: 10,
+  },
+  modelBadge: {
+    fontSize: 11,
+    fontWeight: 500,
+    color: 'var(--color-text-muted)',
+    background: 'var(--color-surface-2)',
+    border: '1px solid var(--color-border)',
+    borderRadius: 6,
+    padding: '3px 8px',
+    letterSpacing: '0.01em',
   },
   avatar: {
     width: 32,

@@ -2,6 +2,7 @@ import React from 'react';
 
 const PAGE_TITLES = {
   dashboard: { title: 'Dashboard',  sub: 'Overview — Week of March 9, 2026' },
+  goals:     { title: 'Goals',      sub: 'Business objectives and linked workstreams' },
   team:      { title: 'AI Team',    sub: '6 agents · all active' },
   chat:      { title: 'Chat',       sub: 'AI Team Leader' },
   tasks:     { title: 'Tasks',      sub: 'Activity & task queue' },

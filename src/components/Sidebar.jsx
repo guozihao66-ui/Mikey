@@ -2,6 +2,7 @@ import React from 'react';
 
 const NAV = [
   { id: 'dashboard', label: 'Dashboard',  icon: '▦' },
+  { id: 'goals',     label: 'Goals',      icon: '◎' },
   { id: 'team',      label: 'AI Team',    icon: '◈' },
   { id: 'chat',      label: 'Chat',       icon: '◻' },
   { id: 'approvals', label: 'Approvals',  icon: '✓', badge: 'approvalBadge' },

@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import Sidebar    from './components/Sidebar.jsx';
 import Header     from './components/Header.jsx';
 import Dashboard  from './components/Dashboard.jsx';
+import Goals      from './components/Goals.jsx';
 import Team       from './components/Team.jsx';
 import Chat       from './components/Chat.jsx';
 import Tasks      from './components/Tasks.jsx';
@@ -10,11 +11,13 @@ import Approvals  from './components/Approvals.jsx';
 import Playbooks  from './components/Playbooks.jsx';
 import { INITIAL_TASKS } from './data/tasks.js';
 import { APPROVAL_ITEMS } from './data/tasks.js';
+import { INITIAL_GOALS } from './data/goals.js';
 
 export default function App() {
   const [page, setPage]         = useState('dashboard');
   const [tasks, setTasks]       = useState(INITIAL_TASKS);
   const [approvals, setApprovals] = useState(APPROVAL_ITEMS);
+  const [goals] = useState(INITIAL_GOALS);
 
   const handleTaskCreated = useCallback((payload) => {
     const task = payload?.task || (payload?.id ? payload : null);
@@ -88,6 +91,8 @@ export default function App() {
     switch (page) {
       case 'dashboard':
         return <Dashboard onNav={setPage} approvalCount={approvalCount} tasks={tasks} approvals={approvals} />;
+      case 'goals':
+        return <Goals goals={goals} tasks={tasks} onNav={setPage} />;
       case 'team':
         return <Team onChatWithLeader={() => setPage('chat')} />;
       case 'chat':

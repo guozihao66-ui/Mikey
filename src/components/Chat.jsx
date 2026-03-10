@@ -3,6 +3,23 @@ import { getTeamLeaderResponse } from '../utils/teamLeaderAI.js';
 import { AGENTS } from '../data/agents.js';
 
 const LEADER = AGENTS.find((a) => a.id === 'team-leader');
+const CHAT_STORAGE_KEY = 'okeanos-ai-team-chat-history-v1';
+
+const INITIAL_MESSAGE = {
+  id: 1,
+  role: 'assistant',
+  intent: null,
+  text: `Hi — I'm the AI Team Leader for Okeanos Marketing. I coordinate your six-agent AI team and can answer questions, route tasks, or generate reports on demand.
+
+**Try asking me:**
+- "Generate this week's weekly report"
+- "Give me a work summary"
+- "Draft a follow-up for a new lead"
+- "Route an Instagram caption task"
+- "What can you help me with?"
+
+All output requires your approval before any action is taken.`,
+};
 
 const SUGGESTIONS = [
   'Generate this week\'s weekly report',
@@ -13,23 +30,30 @@ const SUGGESTIONS = [
   'What can the AI team help me with?',
 ];
 
+function loadStoredMessages() {
+  try {
+    const raw = window.localStorage.getItem(CHAT_STORAGE_KEY);
+    if (!raw) return [INITIAL_MESSAGE];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) && parsed.length ? parsed : [INITIAL_MESSAGE];
+  } catch {
+    return [INITIAL_MESSAGE];
+  }
+}
+
 function renderMarkdown(text) {
-  // Simple inline markdown → React elements
   const lines = text.split('\n');
   const elements = [];
   let i = 0;
 
   while (i < lines.length) {
     const line = lines[i];
-
-    // Horizontal rule
     if (/^---+$/.test(line.trim())) {
       elements.push(<hr key={i} style={mdStyles.hr} />);
       i++;
       continue;
     }
 
-    // Heading
     const h3 = line.match(/^### (.+)/);
     const h2 = line.match(/^## (.+)/);
     const h1 = line.match(/^# (.+)/);
@@ -37,7 +61,6 @@ function renderMarkdown(text) {
     if (h2) { elements.push(<h2 key={i} style={mdStyles.h2}>{parseInline(h2[1])}</h2>); i++; continue; }
     if (h3) { elements.push(<h3 key={i} style={mdStyles.h3}>{parseInline(h3[1])}</h3>); i++; continue; }
 
-    // Unordered list block
     if (/^[-*] /.test(line)) {
       const items = [];
       while (i < lines.length && /^[-*] /.test(lines[i])) {
@@ -48,7 +71,6 @@ function renderMarkdown(text) {
       continue;
     }
 
-    // Ordered list block
     if (/^\d+\. /.test(line)) {
       const items = [];
       while (i < lines.length && /^\d+\. /.test(lines[i])) {
@@ -59,7 +81,6 @@ function renderMarkdown(text) {
       continue;
     }
 
-    // Table
     if (line.includes('|') && lines[i + 1] && /^\|[-| ]+\|$/.test(lines[i + 1].trim())) {
       const rows = [];
       const headerCells = line.split('|').filter((_, idx, arr) => idx > 0 && idx < arr.length - 1);
@@ -68,7 +89,7 @@ function renderMarkdown(text) {
           {headerCells.map((c, ci) => <th key={ci} style={mdStyles.th}>{parseInline(c.trim())}</th>)}
         </tr>
       );
-      i += 2; // skip header and separator
+      i += 2;
       while (i < lines.length && lines[i].includes('|')) {
         const cells = lines[i].split('|').filter((_, idx, arr) => idx > 0 && idx < arr.length - 1);
         rows.push(
@@ -86,14 +107,12 @@ function renderMarkdown(text) {
       continue;
     }
 
-    // Empty line → spacer
     if (line.trim() === '') {
       elements.push(<div key={i} style={{ height: 6 }} />);
       i++;
       continue;
     }
 
-    // Normal paragraph
     elements.push(<p key={i} style={mdStyles.p}>{parseInline(line)}</p>);
     i++;
   }
@@ -102,13 +121,11 @@ function renderMarkdown(text) {
 }
 
 function parseInline(text) {
-  // Handle bold+italic, bold, italic, inline code
   const parts = [];
   let remaining = text;
   let key = 0;
 
   while (remaining.length) {
-    // Bold **text**
     const bold = remaining.match(/^(.*?)\*\*(.+?)\*\*(.*)/s);
     if (bold) {
       if (bold[1]) parts.push(bold[1]);
@@ -116,7 +133,6 @@ function parseInline(text) {
       remaining = bold[3];
       continue;
     }
-    // Italic *text*
     const italic = remaining.match(/^(.*?)\*(.+?)\*(.*)/s);
     if (italic) {
       if (italic[1]) parts.push(italic[1]);
@@ -124,7 +140,6 @@ function parseInline(text) {
       remaining = italic[3];
       continue;
     }
-    // Code `text`
     const code = remaining.match(/^(.*?)`(.+?)`(.*)/s);
     if (code) {
       if (code[1]) parts.push(code[1]);
@@ -152,23 +167,7 @@ const INTENT_LABELS = {
 };
 
 export default function Chat({ onTaskCreated }) {
-  const [messages, setMessages] = useState([
-    {
-      id: 1,
-      role: 'assistant',
-      intent: null,
-      text: `Hi — I'm the AI Team Leader for Okeanos Marketing. I coordinate your six-agent AI team and can answer questions, route tasks, or generate reports on demand.
-
-**Try asking me:**
-- "Generate this week's weekly report"
-- "Give me a work summary"
-- "Draft a follow-up for a new lead"
-- "Route an Instagram caption task"
-- "What can you help me with?"
-
-All output requires your approval before any action is taken.`,
-    },
-  ]);
+  const [messages, setMessages] = useState(() => loadStoredMessages());
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const bottomRef = useRef(null);
@@ -177,6 +176,20 @@ All output requires your approval before any action is taken.`,
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, loading]);
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(messages));
+    } catch {}
+  }, [messages]);
+
+  function clearChat() {
+    const reset = [INITIAL_MESSAGE];
+    setMessages(reset);
+    try {
+      window.localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(reset));
+    } catch {}
+  }
 
   async function send(text) {
     if (!text.trim() || loading) return;
@@ -218,8 +231,15 @@ All output requires your approval before any action is taken.`,
 
   return (
     <div style={styles.layout}>
-      {/* Left: chat */}
       <div style={styles.chatCol}>
+        <div style={styles.chatHeader}>
+          <div>
+            <div style={styles.chatHeaderTitle}>AI Team Leader Conversation</div>
+            <div style={styles.chatHeaderSub}>Conversation is now preserved when you leave and return to Chat.</div>
+          </div>
+          <button className="btn btn-ghost btn-sm" onClick={clearChat}>Clear Chat</button>
+        </div>
+
         <div style={styles.chatWindow}>
           {messages.map((msg) => (
             <div key={msg.id} className="fade-in" style={{ ...styles.msgRow, justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start' }}>
@@ -281,7 +301,6 @@ All output requires your approval before any action is taken.`,
         </div>
       </div>
 
-      {/* Right: suggestions */}
       <div style={styles.sideCol}>
         <div className="card" style={styles.sidePanel}>
           <h3 style={styles.sidePanelTitle}>Quick Prompts</h3>
@@ -339,6 +358,25 @@ const styles = {
     overflow: 'hidden',
     minHeight: 0,
     height: 'calc(100vh - var(--header-height) - 48px)',
+  },
+  chatHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    gap: 12,
+    padding: '12px 16px',
+    borderBottom: '1px solid var(--color-border)',
+    background: 'var(--color-surface)',
+  },
+  chatHeaderTitle: {
+    fontSize: 13,
+    fontWeight: 700,
+    color: 'var(--color-text)',
+  },
+  chatHeaderSub: {
+    fontSize: 11,
+    color: 'var(--color-text-muted)',
+    marginTop: 2,
   },
   chatWindow: {
     flex: 1,

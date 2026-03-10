@@ -28,8 +28,9 @@ const server = http.createServer(async (req, res) => {
       try {
         const parsed = JSON.parse(body || '{}')
         const message = parsed.message || ''
-        const result = handleTeamLeaderMessage(message, parsed.channel || 'web')
-        sendJson(res, 200, result)
+        Promise.resolve(handleTeamLeaderMessage(message, parsed.channel || 'web'))
+          .then((result) => sendJson(res, 200, result))
+          .catch((error) => sendJson(res, 500, { error: String(error) }))
       } catch (error) {
         sendJson(res, 500, { error: String(error) })
       }

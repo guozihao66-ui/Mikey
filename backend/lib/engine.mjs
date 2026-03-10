@@ -1,4 +1,5 @@
 import { readStore, writeStore, touchActivity } from './store.mjs'
+import { callTeamLeaderLLM, llmAvailable } from './llm.mjs'
 
 function detectIntent(message) {
   const m = message.toLowerCase()
@@ -12,7 +13,7 @@ function detectIntent(message) {
   return 'general'
 }
 
-function createTask(store, assignedTo, title, description, priority = 'medium', tags = []) {
+function createTask(store, assignedTo, title, description, priority = 'medium', tags = [], extra = {}) {
   const task = {
     id: store.nextTaskId++,
     title,
@@ -20,13 +21,31 @@ function createTask(store, assignedTo, title, description, priority = 'medium', 
     assignedTo,
     requestedBy: 'whatsapp-team-leader',
     priority,
-    status: 'pending',
+    status: extra.output ? 'in-review' : 'pending',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
     tags,
+    ...extra,
   }
   store.tasks.unshift(task)
   return task
+}
+
+function createApproval(store, base, taskId) {
+  const approval = {
+    id: `ap-${taskId}`,
+    title: base.title,
+    description: base.description,
+    agent: base.agent,
+    agentName: base.agentName,
+    priority: base.priority || 'medium',
+    type: base.type || 'Campaign Brief',
+    createdAt: new Date().toISOString(),
+    preview: base.preview || '',
+    taskId,
+  }
+  store.approvals.unshift(approval)
+  return approval
 }
 
 function createReport(store, type, title, generatedBy, content) {
@@ -43,8 +62,73 @@ function createReport(store, type, title, generatedBy, content) {
   return report
 }
 
-export function handleTeamLeaderMessage(message, channel = 'whatsapp') {
+async function tryLLMPath(store, message, channel) {
+  if (!llmAvailable()) return null
+
+  const parsed = await callTeamLeaderLLM(message)
+  const intent = parsed.intent || 'general'
+  const reply = parsed.message || 'No response returned.'
+  const tasks = []
+  let firstTask = null
+  let createdApproval = null
+
+  for (const plan of parsed.taskPlan || []) {
+    const task = createTask(
+      store,
+      plan.assignedTo || 'growth-ops',
+      plan.title || 'Generated Task',
+      plan.description || `Requested from ${channel}: ${message}`,
+      plan.priority || 'medium',
+      ['llm', intent],
+      {
+        outputLabel: plan.outputLabel || 'Draft Output',
+        output: plan.output || '',
+      },
+    )
+    if (!firstTask) firstTask = task
+    tasks.push(task)
+  }
+
+  if (parsed.approval && firstTask) {
+    createdApproval = createApproval(store, {
+      ...parsed.approval,
+      preview: parsed.approval.preview || firstTask.output || '',
+    }, firstTask.id)
+    firstTask.generatedApproval = createdApproval
+    firstTask.newApproval = createdApproval
+  }
+
+  touchActivity(store, {
+    channel,
+    message,
+    intent,
+    createdTaskId: firstTask?.id ?? null,
+    createdReportId: null,
+    mode: 'llm',
+  })
+  writeStore(store)
+
+  return {
+    intent,
+    reply,
+    createdTask: firstTask,
+    extraTasks: tasks.slice(1),
+    createdApproval,
+    mode: 'llm',
+  }
+}
+
+export async function handleTeamLeaderMessage(message, channel = 'whatsapp') {
   const store = readStore()
+
+  try {
+    const llmResult = await tryLLMPath(store, message, channel)
+    if (llmResult) return llmResult
+  } catch (error) {
+    touchActivity(store, { channel, message, intent: 'llm-error', error: String(error), mode: 'llm-fallback' })
+    writeStore(store)
+  }
+
   const intent = detectIntent(message)
   let reply = ''
   let createdTask = null
@@ -70,11 +154,9 @@ export function handleTeamLeaderMessage(message, channel = 'whatsapp') {
     reply = `Here is the latest work summary:\n\nCompleted: ${store.tasks.filter((t) => t.status === 'completed').length}\nIn progress / review: ${store.tasks.filter((t) => ['in-progress','in-review'].includes(t.status)).length}\nPending: ${store.tasks.filter((t) => t.status === 'pending').length}\n\nI also saved a full work summary draft to Reports.`
   } else if (intent === 'approvals') {
     const pending = store.approvals.filter((a) => !a.resolved)
-    if (!pending.length) {
-      reply = 'There are currently no pending approvals.'
-    } else {
-      reply = 'Pending approvals:\n' + pending.map((a, i) => `${i + 1}. ${a.title} (${a.agentName})`).join('\n')
-    }
+    reply = !pending.length
+      ? 'There are currently no pending approvals.'
+      : 'Pending approvals:\n' + pending.map((a, i) => `${i + 1}. ${a.title} (${a.agentName})`).join('\n')
   } else if (intent === 'tasks') {
     const open = store.tasks.filter((t) => t.status !== 'completed').slice(0, 5)
     reply = 'Current open work:\n' + open.map((t, i) => `${i + 1}. ${t.title} — ${t.status}`).join('\n')
@@ -91,7 +173,7 @@ export function handleTeamLeaderMessage(message, channel = 'whatsapp') {
     reply = 'I can help with weekly reports, work summaries, approvals, open tasks, reputation requests, lead follow-up drafts, or growth ops questions. Try asking for one of those directly.'
   }
 
-  touchActivity(store, { channel, message, intent, createdTaskId: createdTask?.id ?? null, createdReportId: createdReport?.id ?? null })
+  touchActivity(store, { channel, message, intent, createdTaskId: createdTask?.id ?? null, createdReportId: createdReport?.id ?? null, mode: 'mock' })
   writeStore(store)
-  return { intent, reply, createdTask, createdReport }
+  return { intent, reply, createdTask, createdReport, mode: 'mock' }
 }

@@ -3,6 +3,7 @@
 // responses. All responses are mocked — no real AI calls.
 
 import { nextId } from '../data/tasks.js';
+import { tryBackendTeamLeader } from './teamLeaderLLM.js';
 
 const today = () => {
   const d = new Date();
@@ -512,6 +513,9 @@ Want me to route this now, or refine the brief first?`,
  * @returns {Promise<{intent, message, routedAgent, newTask}>}
  */
 export async function getTeamLeaderResponse(userMessage) {
+  const backendResult = await tryBackendTeamLeader(userMessage);
+  if (backendResult) return backendResult;
+
   const intent = detectIntent(userMessage);
 
   // Simulate network / AI processing latency

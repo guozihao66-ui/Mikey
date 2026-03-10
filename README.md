@@ -72,6 +72,28 @@ Then open the local Vite URL shown in the terminal, usually:
 http://localhost:5173
 ```
 
+## Optional: enable a real LLM-powered Team Leader
+
+By default, the frontend still works in mock mode.
+
+If you want the Team Leader to use a real model instead of only mocked routing logic, start the backend and provide an API key:
+
+### PowerShell
+
+```powershell
+$env:OPENAI_API_KEY="your_api_key_here"
+$env:TEAM_LEADER_MODEL="gpt-4o-mini"
+npm run server
+```
+
+Then run the frontend normally:
+
+```bash
+npm run dev
+```
+
+When the backend is reachable, the frontend will try the backend first and fall back to mock mode if the backend is unavailable.
+
 ## Build validation
 
 ```bash

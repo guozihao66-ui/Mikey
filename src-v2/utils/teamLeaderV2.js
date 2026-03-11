@@ -195,6 +195,13 @@ function buildTrace(intent, confidence, agentId, reason) {
   };
 }
 
+function buildAssignments(assignments) {
+  return assignments.map((item, index) => ({
+    id: `${item.agent}-${index}`,
+    ...item,
+  }));
+}
+
 // ── Approval helper ──────────────────────────────────────────────────────────
 
 function makeApproval(task, title, description, agent, agentName, priority, type) {
@@ -254,7 +261,12 @@ function adEfficiencyGoalResponse(userMessage, confidence) {
   return {
     intent: 'goal-planning',
     routingTrace: trace,
-    message: `**Goal received** — I'm treating this as an **ad efficiency objective**.\n\n**What I extracted:**\n- Objective type: Reduce advertising costs\n- Primary metric: Ad spend / CPL\n- Strategy: Audit → reallocate → monitor\n\n**Routing:** Growth Ops Agent (spend analysis) + Reporting Agent (weekly monitoring)\n\n**3 workstreams created:**\n1. **Ad Spend & CPL Audit** → Growth Ops Agent\n2. **Budget Reallocation Plan** → Growth Ops Agent\n3. **Weekly Paid Media Monitor** → Reporting Agent\n\nOpen **Tasks** to review the workstreams, or **Approvals** to approve the plan.`,
+    assignments: buildAssignments([
+      { agent: 'growth-ops', title: 'Spend & CPL Audit', reason: 'Primary owner for campaign efficiency and budget decisions', deliverable: 'Channel-level audit and budget reallocation brief' },
+      { agent: 'growth-ops', title: 'Budget Reallocation Plan', reason: 'Secondary workstream to convert findings into action', deliverable: 'Reallocation plan across Google and Meta' },
+      { agent: 'reporting', title: 'Weekly Paid Media Monitor', reason: 'Keeps efficiency visible after changes go live', deliverable: 'Recurring KPI monitoring and anomaly watchlist' },
+    ]),
+    message: `**Goal received** — I'm treating this as an **ad efficiency objective**.\n\n**What I extracted:**\n- Objective type: Reduce advertising costs\n- Primary metric: Ad spend / CPL\n- Strategy: Audit → reallocate → monitor\n\n**Initial operating plan:**\n1. Identify campaigns wasting spend or producing weak lead quality\n2. Protect high-intent search campaigns that convert efficiently\n3. Reallocate budget into channels and creatives with better lead quality\n4. Track weekly CPL movement so the team can react quickly\n\n**Routing decision:** Growth Ops owns the optimization work. Reporting supports with visibility and monitoring.\n\n**3 workstreams created:**\n1. **Ad Spend & CPL Audit** → Growth Ops Agent\n2. **Budget Reallocation Plan** → Growth Ops Agent\n3. **Weekly Paid Media Monitor** → Reporting Agent\n\n**What you'll be able to review:**\n- Which campaigns should be reduced, protected, or refreshed\n- Where budget should move next\n- Which KPI thresholds should trigger a pause or revision\n\nOpen **Tasks** to review the workstreams, or **Approvals** to approve the plan.`,
     routedAgent: 'growth-ops',
     newTask: taskA,
     extraTasks: [taskB, taskC],
@@ -310,7 +322,12 @@ function leadGenerationGoalResponse(userMessage, confidence, features) {
   return {
     intent: 'goal-planning',
     routingTrace: trace,
-    message: `**Goal received** — I'm treating this as a **lead generation objective**.\n\n**What I extracted:**\n- Objective type: Increase qualified leads / bookings${numericNote}${timeNote}\n- Strategy: Fix funnel → improve response speed → build demand\n\n**Routing:** Growth Ops + Lead Response + Content Strategist\n\n**3 workstreams created:**\n1. **Funnel Diagnosis** → Growth Ops Agent\n2. **Speed-to-Lead Plan** → Lead Response Agent\n3. **Demand & Trust Content** → Content Strategist\n\nOpen **Tasks** to review the workstreams, or **Approvals** to approve the direction.`,
+    assignments: buildAssignments([
+      { agent: 'growth-ops', title: 'Funnel Diagnosis', reason: 'Owns conversion bottlenecks, campaign routing, and pipeline friction', deliverable: 'Diagnosis of lead volume gap, source quality, and funnel blockers' },
+      { agent: 'lead-response', title: 'Speed-to-Lead Plan', reason: 'Owns first-response speed and follow-up discipline', deliverable: 'Lead qualification and follow-up protocol for faster consultations' },
+      { agent: 'content-strategist', title: 'Demand & Trust Content', reason: 'Supports conversion with proof, education, and landing-page clarity', deliverable: 'Content support plan for case studies, proof assets, and BOFU pages' },
+    ]),
+    message: `**Goal received** — I'm treating this as a **lead generation objective**.\n\n**What I extracted:**\n- Objective type: Increase qualified leads / bookings${numericNote}${timeNote}\n- Strategy: Fix funnel → improve response speed → build demand\n\n**Initial operating plan:**\n1. Diagnose where qualified leads are leaking in the current funnel\n2. Tighten first-response speed for quote-ready and consultation-ready leads\n3. Add stronger trust assets such as reviews, case studies, and BOFU landing support\n4. Review progress against lead volume, consultation rate, and response-time benchmarks\n\n**Routing decision:** Growth Ops is the lead owner, with Lead Response and Content Strategist supporting execution.\n\n**3 workstreams created:**\n1. **Funnel Diagnosis** → Growth Ops Agent\n2. **Speed-to-Lead Plan** → Lead Response Agent\n3. **Demand & Trust Content** → Content Strategist\n\n**What you'll be able to review:**\n- Where the current lead flow is breaking down\n- How fast the team should respond by lead tier\n- Which content assets will most likely improve trust and conversion\n\nOpen **Tasks** to review the workstreams, or **Approvals** to approve the direction.`,
     routedAgent: 'growth-ops',
     newTask: taskA,
     extraTasks: [taskB, taskC],
@@ -350,7 +367,11 @@ function reputationGoalResponse(userMessage, confidence) {
   return {
     intent: 'goal-planning',
     routingTrace: trace,
-    message: `**Goal received** — I'm treating this as a **reputation objective**.\n\n**What I extracted:**\n- Objective type: Improve Google rating / increase reviews\n- Primary owner: Social & Reputation Agent\n\n**2 workstreams created:**\n1. **Review Generation Campaign** → Social & Reputation Agent\n2. **Review Response Backlog** → Social & Reputation Agent\n\nOpen **Tasks** to review, or **Approvals** to approve the plan.`,
+    assignments: buildAssignments([
+      { agent: 'social-reputation', title: 'Review Generation Campaign', reason: 'Owns public trust signals and reputation growth', deliverable: 'Review request sequence and platform priority plan' },
+      { agent: 'social-reputation', title: 'Review Response Backlog', reason: 'Keeps public-facing reputation clean and current', deliverable: 'Draft responses for outstanding review items' },
+    ]),
+    message: `**Goal received** — I'm treating this as a **reputation objective**.\n\n**What I extracted:**\n- Objective type: Improve Google rating / increase reviews\n- Primary owner: Social & Reputation Agent\n\n**Initial operating plan:**\n1. Identify recently completed projects that are best suited for review outreach\n2. Build a thank-you + review-request sequence with clear platform priority\n3. Clear any outstanding review response backlog so public trust signals stay current\n4. Track review velocity, rating stability, and response discipline\n\n**2 workstreams created:**\n1. **Review Generation Campaign** → Social & Reputation Agent\n2. **Review Response Backlog** → Social & Reputation Agent\n\n**What you'll be able to review:**\n- Review request messaging\n- Which customer segments should be contacted first\n- Drafts for any open reviews that still need a response\n\nOpen **Tasks** to review, or **Approvals** to approve the plan.`,
     routedAgent: 'social-reputation',
     newTask: taskA,
     extraTasks: [taskB],
@@ -380,7 +401,10 @@ function speedToLeadGoalResponse(userMessage, confidence) {
   return {
     intent: 'goal-planning',
     routingTrace: trace,
-    message: `**Goal received** — I'm treating this as a **speed-to-lead objective**.\n\n**What I extracted:**\n- Objective type: Reduce response time to new leads\n- Primary owner: Lead Response Agent\n\n**Workstream created:**\n1. **Response Protocol Redesign** → Lead Response Agent\n\nOpen **Approvals** to review and activate the new response protocol.`,
+    assignments: buildAssignments([
+      { agent: 'lead-response', title: 'Response Protocol Redesign', reason: 'Primary owner for response-time and follow-up quality', deliverable: 'Tiered protocol for quote-ready, researching, and after-hours leads' },
+    ]),
+    message: `**Goal received** — I'm treating this as a **speed-to-lead objective**.\n\n**What I extracted:**\n- Objective type: Reduce response time to new leads\n- Primary owner: Lead Response Agent\n\n**Initial operating plan:**\n1. Set stricter response windows by lead quality and urgency\n2. Standardize first-touch messaging for phone, email, and SMS\n3. Add after-hours handling so promising leads do not cool off overnight\n4. Track missed-response exceptions and escalation thresholds\n\n**Workstream created:**\n1. **Response Protocol Redesign** → Lead Response Agent\n\n**What you'll be able to review:**\n- Recommended service-level targets\n- Channel-by-channel first-response guidance\n- Escalation rules for delayed contact or stalled leads\n\nOpen **Approvals** to review and activate the new response protocol.`,
     routedAgent: 'lead-response',
     newTask: taskA,
     extraTasks: [],
@@ -431,7 +455,12 @@ function generalGrowthGoalResponse(userMessage, confidence, features) {
   return {
     intent: 'goal-planning',
     routingTrace: trace,
-    message: `**Goal received** — I'm treating this as a **${family === 'growth-orders' ? 'revenue / orders' : 'general growth'} objective**.\n\n**What I extracted:**\n- Objective type: Increase business results\n- Strategy: Fix funnel → accelerate lead response → build demand\n\n**Routing:** Growth Ops + Lead Response + Content Strategist\n\n**3 workstreams created:**\n1. **Funnel & Conversion Diagnosis** → Growth Ops Agent\n2. **Lead Response Acceleration** → Lead Response Agent\n3. **Trust & Demand Content** → Content Strategist\n\nOpen **Tasks** to review, or **Approvals** to approve the direction.`,
+    assignments: buildAssignments([
+      { agent: 'growth-ops', title: 'Funnel & Conversion Diagnosis', reason: 'Owns operational leverage points across pipeline and campaigns', deliverable: 'Diagnosis of lead flow, conversion friction, and campaign alignment' },
+      { agent: 'lead-response', title: 'Lead Response Acceleration', reason: 'Improves speed and consistency once opportunities enter the funnel', deliverable: 'Follow-up cadence and qualification improvements' },
+      { agent: 'content-strategist', title: 'Trust & Demand Content', reason: 'Strengthens decision-stage trust and conversion support', deliverable: 'Case-study, landing-page, and proof-asset plan' },
+    ]),
+    message: `**Goal received** — I'm treating this as a **${family === 'growth-orders' ? 'revenue / orders' : 'general growth'} objective**.\n\n**What I extracted:**\n- Objective type: Increase business results\n- Strategy: Fix funnel → accelerate lead response → build demand\n\n**Initial operating plan:**\n1. Diagnose the highest-impact leakage points in traffic, lead flow, and conversion\n2. Improve first-response speed and follow-up consistency for qualified opportunities\n3. Add stronger trust assets to support homeowners evaluating Okeanos\n4. Use weekly reporting to check whether the changes improve consultations, reviews, and revenue intent\n\n**Routing:** Growth Ops + Lead Response + Content Strategist\n\n**3 workstreams created:**\n1. **Funnel & Conversion Diagnosis** → Growth Ops Agent\n2. **Lead Response Acceleration** → Lead Response Agent\n3. **Trust & Demand Content** → Content Strategist\n\n**What you'll be able to review:**\n- The key bottlenecks limiting growth right now\n- Recommended response and follow-up changes\n- Which content and proof assets should support the growth objective\n\nOpen **Tasks** to review, or **Approvals** to approve the direction.`,
     routedAgent: 'growth-ops',
     newTask: taskA,
     extraTasks: [taskB, taskC],
@@ -492,7 +521,7 @@ function socialReputationResponse(userMessage) {
   const approval = makeApproval(task, `Social Draft Approval — ${shortTitle}`, 'Social & Reputation Agent prepared a first-pass response draft for review.', 'social-reputation', 'Social & Reputation Agent', 'medium', 'Review Response');
   task.generatedApproval = approval; task.newApproval = approval;
   const trace = buildTrace('social-reputation', 'medium', 'social-reputation', 'Social / review keywords → Social & Reputation Agent');
-  return { intent: 'social-reputation', routingTrace: trace, message: `**Routed to Social & Reputation Agent.**\n\nA first-pass draft is ready for review.\n\nOpen **Tasks** to see the output, or **Approvals** to review it formally.`, routedAgent: 'social-reputation', newTask: task, newApproval: approval };
+  return { intent: 'social-reputation', routingTrace: trace, assignments: buildAssignments([{ agent: 'social-reputation', title: 'Draft social / review response', reason: 'Best fit for public-facing brand and review communication', deliverable: 'Two review-safe draft options with tone guidance' }]), message: `**Routed to Social & Reputation Agent.**\n\nA first-pass draft is ready for review.\n\n**What the team prepared:**\n- Two response directions with different tone profiles\n- Language designed to protect trust and professionalism\n- A review-safe draft that can be revised before anything goes public\n\nOpen **Tasks** to see the output, or **Approvals** to review it formally.`, routedAgent: 'social-reputation', newTask: task, newApproval: approval };
 }
 
 function leadResponseResponse(userMessage) {
@@ -510,7 +539,7 @@ function leadResponseResponse(userMessage) {
   const approval = makeApproval(task, `Lead Follow-up Approval — ${shortTitle}`, 'Lead Response Agent prepared email and SMS follow-up drafts for review.', 'lead-response', 'Lead Response Agent', 'high', 'Lead Follow-up');
   task.generatedApproval = approval; task.newApproval = approval;
   const trace = buildTrace('lead-response', 'medium', 'lead-response', 'Lead / follow-up keywords → Lead Response Agent');
-  return { intent: 'lead-response', routingTrace: trace, message: `**Routed to Lead Response Agent — high priority.**\n\nA first-pass follow-up draft (email + SMS) is ready in review.`, routedAgent: 'lead-response', newTask: task, newApproval: approval };
+  return { intent: 'lead-response', routingTrace: trace, assignments: buildAssignments([{ agent: 'lead-response', title: 'Draft quote-ready follow-up', reason: 'Owns first-contact speed, tone, and consultation conversion', deliverable: 'Email + SMS draft with consultation-focused CTA' }]), message: `**Routed to Lead Response Agent — high priority.**\n\nA first-pass follow-up draft (email + SMS) is ready in review.\n\n**What the team prepared:**\n- A consultation-first email draft\n- A short SMS follow-up for fast response\n- Language tuned for qualified inquiry handling and low-friction next steps`, routedAgent: 'lead-response', newTask: task, newApproval: approval };
 }
 
 function contentStrategistResponse(userMessage) {
@@ -528,7 +557,7 @@ function contentStrategistResponse(userMessage) {
   const approval = makeApproval(task, `Content Brief Approval — ${shortTitle}`, 'Content Strategist Agent prepared a content brief for review.', 'content-strategist', 'Content Strategist Agent', 'medium', 'Campaign Brief');
   task.generatedApproval = approval; task.newApproval = approval;
   const trace = buildTrace('content-strategist', 'medium', 'content-strategist', 'Blog / SEO / content keywords → Content Strategist Agent');
-  return { intent: 'content-strategist', routingTrace: trace, message: `**Routed to Content Strategist Agent.**\n\nA first-pass content brief has been generated and placed into review.`, routedAgent: 'content-strategist', newTask: task, newApproval: approval };
+  return { intent: 'content-strategist', routingTrace: trace, assignments: buildAssignments([{ agent: 'content-strategist', title: 'Draft content brief', reason: 'Best fit for copy, SEO, landing-page structure, and trust assets', deliverable: 'Detailed content brief with angle, structure, and CTA' }]), message: `**Routed to Content Strategist Agent.**\n\nA first-pass content brief has been generated and placed into review.\n\n**What the team prepared:**\n- A content angle aligned to homeowner intent\n- A draft outline and conversion-focused structure\n- Recommended positioning, objections, and CTA direction`, routedAgent: 'content-strategist', newTask: task, newApproval: approval };
 }
 
 function reportingResponse(userMessage) {
@@ -546,7 +575,7 @@ function reportingResponse(userMessage) {
   const approval = makeApproval(task, `Reporting Snapshot Approval — ${shortTitle}`, 'Reporting Agent prepared a first-pass metrics summary and recommendations.', 'reporting', 'Reporting Agent', 'medium', 'Campaign Brief');
   task.generatedApproval = approval; task.newApproval = approval;
   const trace = buildTrace('reporting', 'medium', 'reporting', 'Analytics / metrics keywords → Reporting Agent');
-  return { intent: 'reporting', routingTrace: trace, message: `**Routed to Reporting Agent.**\n\nA first-pass reporting snapshot is ready for review.`, routedAgent: 'reporting', newTask: task, newApproval: approval };
+  return { intent: 'reporting', routingTrace: trace, assignments: buildAssignments([{ agent: 'reporting', title: 'Build reporting snapshot', reason: 'Owns KPI synthesis, trend interpretation, and recommendations', deliverable: 'Metrics summary with observations, risks, and next actions' }]), message: `**Routed to Reporting Agent.**\n\nA first-pass reporting snapshot is ready for review.\n\n**What the team prepared:**\n- A KPI snapshot across traffic, leads, and response speed\n- Observations on campaign efficiency and weak spots\n- Immediate actions the business can review and prioritize`, routedAgent: 'reporting', newTask: task, newApproval: approval };
 }
 
 function growthOpsResponse(userMessage) {
@@ -564,7 +593,7 @@ function growthOpsResponse(userMessage) {
   const approval = makeApproval(task, `Growth Ops Approval — ${shortTitle}`, 'Growth Ops Agent prepared an initial brief covering CRM, conversion, or campaign operations.', 'growth-ops', 'Growth Ops Agent', 'medium', 'Campaign Brief');
   task.generatedApproval = approval; task.newApproval = approval;
   const trace = buildTrace('growth-ops', 'medium', 'growth-ops', 'CRM / conversion / campaign keywords → Growth Ops Agent');
-  return { intent: 'growth-ops', routingTrace: trace, message: `**Routed to Growth Ops Agent.**\n\nA first-pass operating brief has been generated and added to review.`, routedAgent: 'growth-ops', newTask: task, newApproval: approval };
+  return { intent: 'growth-ops', routingTrace: trace, assignments: buildAssignments([{ agent: 'growth-ops', title: 'Build operating brief', reason: 'Best fit for CRM, campaign operations, conversion friction, and workflow alignment', deliverable: 'Operating brief with diagnosis, next actions, and risk areas' }]), message: `**Routed to Growth Ops Agent.**\n\nA first-pass operating brief has been generated and added to review.\n\n**What the team prepared:**\n- A diagnosis of funnel and campaign friction\n- Operational next steps for CRM, CTA, and workflow clean-up\n- A brief designed to turn into an approval-ready execution plan`, routedAgent: 'growth-ops', newTask: task, newApproval: approval };
 }
 
 // ── Clarification responses ──────────────────────────────────────────────────

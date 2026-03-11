@@ -266,6 +266,7 @@ export default function Chat({ onTaskCreated, onNav }) {
         intent: res.intent,
         routingTrace: res.routingTrace || null,
         routedAgent: res.routedAgent || null,
+        assignments: res.assignments || [],
         newTask: res.newTask || null,
         hasApproval: !!(res.newApproval),
         extraTaskCount: res.extraTasks?.length || 0,
@@ -489,6 +490,29 @@ function MessageBubble({ msg, onSend, onNav, loading }) {
           </div>
         )}
 
+        {/* Assignment plan */}
+        {!isUser && msg.assignments?.length > 0 && (
+          <div style={s.assignmentsBox}>
+            <div style={s.assignmentsTitle}>Delegated workstreams</div>
+            <div style={s.assignmentsList}>
+              {msg.assignments.map((item) => {
+                const agent = AGENTS.find((a) => a.id === item.agent);
+                return (
+                  <div key={item.id} style={s.assignmentCard}>
+                    <div style={s.assignmentTop}>
+                      <span style={{ ...s.assignmentDot, background: agent?.color || 'var(--color-primary)' }} />
+                      <strong style={s.assignmentAgent}>{agent?.name || item.agent}</strong>
+                    </div>
+                    <div style={s.assignmentTask}>{item.title}</div>
+                    <div style={s.assignmentReason}>{item.reason}</div>
+                    <div style={s.assignmentDeliverable}>Deliverable: {item.deliverable}</div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
         {/* Action chips */}
         {msg.newTask && !isUser && (
           <div style={s.actionRow}>
@@ -591,6 +615,35 @@ const s = {
   traceDot: { fontSize: 10, color: 'var(--color-text-muted)' },
   traceText: { fontSize: 11, color: 'var(--color-text-muted)' },
 
+  assignmentsBox: {
+    marginTop: 10,
+    paddingTop: 9,
+    borderTop: '1px dashed var(--color-border)',
+  },
+  assignmentsTitle: {
+    fontSize: 11,
+    fontWeight: 700,
+    color: 'var(--color-text-muted)',
+    textTransform: 'uppercase',
+    letterSpacing: '0.05em',
+    marginBottom: 8,
+  },
+  assignmentsList: {
+    display: 'grid',
+    gap: 8,
+  },
+  assignmentCard: {
+    border: '1px solid var(--color-border)',
+    background: 'var(--color-surface)',
+    borderRadius: 10,
+    padding: '9px 10px',
+  },
+  assignmentTop: { display: 'flex', alignItems: 'center', gap: 7, marginBottom: 4 },
+  assignmentDot: { width: 8, height: 8, borderRadius: '50%' },
+  assignmentAgent: { fontSize: 12, color: 'var(--color-text)' },
+  assignmentTask: { fontSize: 12, fontWeight: 600, color: 'var(--color-text)', marginBottom: 3 },
+  assignmentReason: { fontSize: 11, color: 'var(--color-text-secondary)', lineHeight: 1.45, marginBottom: 4 },
+  assignmentDeliverable: { fontSize: 11, color: 'var(--color-text-muted)', lineHeight: 1.4 },
   actionRow: { display: 'flex', gap: 6, marginTop: 9, flexWrap: 'wrap' },
   actionChip: {
     background: 'var(--color-primary-muted)', color: 'var(--color-primary)',

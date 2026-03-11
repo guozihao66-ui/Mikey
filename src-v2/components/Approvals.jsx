@@ -173,15 +173,27 @@ function ApprovalDetail({ item, feedback, setFeedback, onApprove, onRequestChang
         </div>
       </div>
 
-      <div style={styles.detailSection}>
-        <div style={styles.detailSectionLabel}>Reviewer Feedback</div>
-        <textarea
-          value={feedback}
-          onChange={(e) => setFeedback(e.target.value)}
-          placeholder="Add revision notes, tone adjustments, or execution guidance here..."
-          style={styles.textarea}
-          disabled={isResolved && item.resolved === 'approved'}
-        />
+      <div style={styles.reviewGrid}>
+        <div style={styles.detailSection}>
+          <div style={styles.detailSectionLabel}>Reviewer Feedback</div>
+          <textarea
+            value={feedback}
+            onChange={(e) => setFeedback(e.target.value)}
+            placeholder="Add revision notes, tone adjustments, execution guidance, or approval conditions here..."
+            style={styles.textarea}
+            disabled={isResolved && item.resolved === 'approved'}
+          />
+        </div>
+
+        <div style={styles.detailSection}>
+          <div style={styles.detailSectionLabel}>Review Checklist</div>
+          <div style={styles.checklistBox}>
+            <div style={styles.checkItem}>• Is the tone aligned with Okeanos: trust, professionalism, and clarity?</div>
+            <div style={styles.checkItem}>• Does the draft protect brand reputation and avoid overpromising?</div>
+            <div style={styles.checkItem}>• Are the next steps, CTA, and ownership clear enough to execute?</div>
+            <div style={styles.checkItem}>• If approved, is this ready to move into execution without ambiguity?</div>
+          </div>
+        </div>
       </div>
 
       {item.feedback && (
@@ -272,8 +284,11 @@ const styles = {
   detailSection: { display: 'flex', flexDirection: 'column', gap: 6 },
   detailSectionLabel: { fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--color-text-muted)' },
   detailDesc: { fontSize: 13, color: 'var(--color-text-secondary)', lineHeight: 1.6, margin: 0 },
-  previewBox: { background: 'var(--color-surface-2)', border: '1px solid var(--color-border)', borderRadius: 8, padding: '12px 14px', maxHeight: 240, overflow: 'auto' },
-  previewText: { fontSize: 12, fontFamily: 'var(--font-sans)', color: 'var(--color-text-secondary)', lineHeight: 1.65, whiteSpace: 'pre-wrap', margin: 0 },
+  previewBox: { background: 'var(--color-surface-2)', border: '1px solid var(--color-border)', borderRadius: 8, padding: '12px 14px', maxHeight: 320, overflow: 'auto' },
+  previewText: { fontSize: 12, fontFamily: 'var(--font-sans)', color: 'var(--color-text-secondary)', lineHeight: 1.7, whiteSpace: 'pre-wrap', margin: 0 },
+  reviewGrid: { display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: 12 },
+  checklistBox: { background: 'var(--color-accent-muted)', border: '1px solid #b6f3f7', borderRadius: 8, padding: '12px 14px', display: 'flex', flexDirection: 'column', gap: 8 },
+  checkItem: { fontSize: 12, color: 'var(--color-text-secondary)', lineHeight: 1.5 },
   textarea: {
     minHeight: 96, resize: 'vertical', border: '1px solid var(--color-border)', borderRadius: 8, padding: '10px 12px',
     fontSize: 12, lineHeight: 1.6, color: 'var(--color-text)', background: 'var(--color-surface)',

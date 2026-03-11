@@ -41,7 +41,7 @@ export default function Header({ page }) {
         <p style={styles.sub}>{meta.sub}</p>
       </div>
       <div style={styles.right}>
-        <div style={styles.v2Badge}>Client Demo</div>
+        <div style={styles.v2Badge}>Prototype Mode</div>
         <div style={styles.modelBadge}>workflow-first</div>
         <div style={styles.avatar} title="Marketing Team">OK</div>
       </div>

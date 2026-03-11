@@ -15,7 +15,6 @@ const PAGE_META = {
   reports:   { title: 'Reports',         sub: 'Generated outputs & analytics',                  badge: null },
   approvals: { title: 'Approvals',       sub: 'Items awaiting your sign-off',                   badge: 'action' },
   playbooks: { title: 'Playbooks',       sub: 'Standard workflows & processes',                 badge: null },
-  settings:  { title: 'Settings',        sub: 'Approval controls, brand tone, markets, and lead targets', badge: null },
 };
 
 const BADGE_STYLES = {

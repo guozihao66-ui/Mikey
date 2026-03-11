@@ -9,7 +9,6 @@ import Tasks      from './components/Tasks.jsx';
 import Reports    from './components/Reports.jsx';
 import Approvals  from './components/Approvals.jsx';
 import Playbooks  from './components/Playbooks.jsx';
-import Settings   from './components/Settings.jsx';
 import { INITIAL_TASKS, APPROVAL_ITEMS } from '../src/data/tasks.js';
 import { INITIAL_GOALS } from '../src/data/goals.js';
 
@@ -102,8 +101,6 @@ export default function App() {
         return <Approvals items={approvals} onAction={handleApprovalAction} />;
       case 'playbooks':
         return <Playbooks />;
-      case 'settings':
-        return <Settings />;
       default:
         return <Dashboard onNav={setPage} approvalCount={approvalCount} tasks={tasks} approvals={approvals} />;
     }

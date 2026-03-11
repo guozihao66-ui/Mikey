@@ -18,7 +18,6 @@ const NAV = [
   { id: 'team',      label: 'AI Team',    icon: '◈', section: 'Insights' },
   { id: 'reports',   label: 'Reports',    icon: '⊞', section: null },
   { id: 'playbooks', label: 'Playbooks',  icon: '◑', section: null },
-  { id: 'settings',  label: 'Settings',   icon: '⚙', section: 'Configuration' },
 ];
 
 export default function Sidebar({ active, onNav, taskBadge, approvalBadge }) {

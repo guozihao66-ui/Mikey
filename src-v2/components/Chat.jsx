@@ -51,7 +51,7 @@ const DEMO_SCENARIOS = [
   {
     category: 'Goals',
     icon: '◎',
-    label: '我想提升线索回复速度并提高转化',
+    label: 'Improve lead response speed and conversion rate',
     color: '#0f4c81',
   },
   {
@@ -81,7 +81,7 @@ const DEMO_SCENARIOS = [
   {
     category: 'Tasks',
     icon: '◻',
-    label: '帮我做一个内容计划，重点放在Google评价和案例展示',
+    label: 'Create a content plan focused on Google reviews and project case studies',
     color: '#059669',
   },
 ];
@@ -90,27 +90,27 @@ const GOAL_SIGNAL_GROUPS = [
   {
     label: 'Lead / Response',
     color: '#d97706',
-    keywords: ['lead', 'follow-up', 'quote', 'reply', 'consultation', '线索', '跟进', '回复客户', '预约'],
+    keywords: ['lead', 'follow-up', 'quote', 'reply', 'consultation', 'booking', 'response'],
   },
   {
     label: 'Growth / Ads',
     color: '#b91c1c',
-    keywords: ['ads', 'campaign', 'cpl', 'roas', 'traffic', '投放', '广告', '成本', '获客'],
+    keywords: ['ads', 'campaign', 'cpl', 'roas', 'traffic', 'budget', 'cost'],
   },
   {
     label: 'Content / SEO',
     color: '#059669',
-    keywords: ['content', 'blog', 'seo', 'copy', 'landing page', '内容', '文案', '文章', '落地页'],
+    keywords: ['content', 'blog', 'seo', 'copy', 'landing page', 'case study', 'email'],
   },
   {
     label: 'Social / Reputation',
     color: '#7c3aed',
-    keywords: ['review', 'caption', 'instagram', 'social', '评价', '口碑', '评论', '社媒'],
+    keywords: ['review', 'caption', 'instagram', 'social', 'reputation', 'comment'],
   },
   {
     label: 'Reporting',
     color: '#0ea5e9',
-    keywords: ['report', 'analytics', 'kpi', 'ga4', '报告', '分析', '数据', '周报'],
+    keywords: ['report', 'analytics', 'kpi', 'ga4', 'metrics', 'weekly report'],
   },
 ];
 
@@ -372,7 +372,7 @@ export default function Chat({ onTaskCreated, onNav }) {
                     <span style={s.signalHits}>{group.hits.slice(0, 3).join(' · ')}</span>
                   </div>
                 )) : (
-                  <div style={s.signalEmpty}>Tip: include words like leads, ads, content, review, report — or 中文关键词 like 线索 / 投放 / 内容 / 评价 / 报告.</div>
+                  <div style={s.signalEmpty}>Tip: include words like leads, ads, content, review, report, conversion, budget, or follow-up to improve routing.</div>
                 )}
               </div>
             </div>
@@ -385,7 +385,7 @@ export default function Chat({ onTaskCreated, onNav }) {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={onKey}
-              placeholder="Describe a goal or task… e.g. 我想提升线索回复速度并提高转化"
+              placeholder="Describe a goal or task… e.g. Improve lead response speed and conversion rate"
               rows={2}
               disabled={loading}
             />
@@ -406,12 +406,12 @@ export default function Chat({ onTaskCreated, onNav }) {
         <div className="card" style={s.sideCard}>
           <div style={s.sideTitle}>Agent Routing</div>
           {[
-            { kw: 'goal / growth objective / 目标 / 策略', agent: 'Growth Ops + team', color: '#0f4c81' },
-            { kw: 'lead / follow-up / 线索 / 跟进', agent: 'Lead Response Agent', color: '#d97706' },
-            { kw: 'social / review / caption / 评价 / 社媒', agent: 'Social & Rep. Agent', color: '#7c3aed' },
-            { kw: 'blog / SEO / copy / 内容 / 文案', agent: 'Content Strategist', color: '#059669' },
-            { kw: 'analytics / report / GA4 / 数据 / 周报', agent: 'Reporting Agent', color: '#0ea5e9' },
-            { kw: 'CRM / pipeline / campaign / 投放 / 成本', agent: 'Growth Ops Agent', color: '#b91c1c' },
+            { kw: 'goal / growth objective / strategy', agent: 'Growth Ops + team', color: '#0f4c81' },
+            { kw: 'lead / follow-up / quote / booking', agent: 'Lead Response Agent', color: '#d97706' },
+            { kw: 'social / review / caption / reputation', agent: 'Social & Rep. Agent', color: '#7c3aed' },
+            { kw: 'blog / SEO / copy / landing page', agent: 'Content Strategist', color: '#059669' },
+            { kw: 'analytics / report / GA4 / metrics', agent: 'Reporting Agent', color: '#0ea5e9' },
+            { kw: 'CRM / pipeline / campaign / budget', agent: 'Growth Ops Agent', color: '#b91c1c' },
           ].map((r) => (
             <div key={r.kw} style={s.routeRow}>
               <code style={s.routeKw}>{r.kw}</code>

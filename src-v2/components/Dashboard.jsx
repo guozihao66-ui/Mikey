@@ -86,7 +86,7 @@ export default function Dashboard({ onNav, approvalCount, tasks = [], approvals 
           <button className="btn btn-primary" onClick={() => onNav('chat')}>
             Chat with Team Leader
           </button>
-          <button className="btn btn-ghost" onClick={() => onNav('approvals')}>
+          <button className="btn btn-ghost" style={s.approvalsBtn} onClick={() => onNav('approvals')}>
             Approvals {approvalCount > 0 && `(${approvalCount})`}
           </button>
         </div>
@@ -283,6 +283,13 @@ const s = {
   heroTitle: { fontSize: 18, fontWeight: 700, color: '#fff', lineHeight: 1.2, marginBottom: 6 },
   heroSub: { fontSize: 12, color: 'rgba(255,255,255,0.7)', lineHeight: 1.5 },
   heroActions: { display: 'flex', gap: 8, flexShrink: 0 },
+  approvalsBtn: {
+    color: '#e5eef8',
+    borderColor: 'rgba(255,255,255,0.28)',
+    fontWeight: 700,
+    letterSpacing: '0.01em',
+    textShadow: '0 1px 0 rgba(0,0,0,0.18)',
+  },
 
   metricGrid: { display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 10 },
   metricCard: { padding: '12px 14px' },

@@ -70,6 +70,21 @@ const PRIORITY_CHANNELS = [
   'Direct Mail / Neighbourhood Offers',
 ];
 
+const OKEANOS_SIGNALS = [
+  {
+    title: 'What homeowners care about most',
+    items: ['Transparent pricing', 'Low maintenance', 'Fast response', 'Project clarity', 'Trustworthy installation'],
+  },
+  {
+    title: 'High-value trust assets',
+    items: ['Before / after project photos', 'Google reviews', 'Showroom experience', 'Warranty confidence', 'Simple payment process'],
+  },
+  {
+    title: 'Sales process checkpoints',
+    items: ['Inquiry within 24h', 'Quote follow-up after 3 days', 'Consultation reminders', 'Review request after completion', 'Referral prompt'],
+  },
+];
+
 export default function Dashboard({ onNav, approvalCount, tasks = [], approvals = [] }) {
   const recentTasks   = [...tasks].sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)).slice(0, 5);
   const activeTasks   = tasks.filter((t) => t.status !== 'completed').length;
@@ -164,18 +179,53 @@ export default function Dashboard({ onNav, approvalCount, tasks = [], approvals 
       </div>
 
       <div style={s.infoGrid}>
-        <div className="card" style={s.panel}>
-          <div style={s.panelHeader}>
-            <span style={s.panelTitle}>Customer Journey</span>
+        <div style={s.mainStack}>
+          <div className="card" style={s.panel}>
+            <div style={s.panelHeader}>
+              <span style={s.panelTitle}>Customer Journey</span>
+            </div>
+            <div style={s.journeyGrid}>
+              {JOURNEY_STAGES.map((stage) => (
+                <div key={stage.title} style={s.journeyCard}>
+                  <div style={s.journeyTitle}>{stage.title}</div>
+                  <div style={s.journeySub}>{stage.sub}</div>
+                  <div style={s.journeyStatus}>{stage.status}</div>
+                </div>
+              ))}
+            </div>
           </div>
-          <div style={s.journeyGrid}>
-            {JOURNEY_STAGES.map((stage) => (
-              <div key={stage.title} style={s.journeyCard}>
-                <div style={s.journeyTitle}>{stage.title}</div>
-                <div style={s.journeySub}>{stage.sub}</div>
-                <div style={s.journeyStatus}>{stage.status}</div>
+
+          <div className="card" style={s.signalPanel}>
+            <div style={s.panelHeader}>
+              <span style={s.panelTitle}>What This Prototype Is Demonstrating</span>
+            </div>
+            <div style={s.signalHero}>
+              <div>
+                <div style={s.signalEyebrow}>Okeanos operating model</div>
+                <div style={s.signalTitle}>A client-facing AI team built around trust, speed, and process clarity.</div>
+                <div style={s.signalText}>
+                  This section anchors the dashboard so it feels intentional during demos: not just a set of widgets,
+                  but a visible operating system for how Okeanos handles leads, quotes, reviews, and local market growth.
+                </div>
               </div>
-            ))}
+              <div style={s.signalBadgeWrap}>
+                <div style={s.bigBadge}>Trust-first</div>
+                <div style={s.bigBadgeAlt}>Human-approved</div>
+              </div>
+            </div>
+
+            <div style={s.signalColumns}>
+              {OKEANOS_SIGNALS.map((group) => (
+                <div key={group.title} style={s.signalCard}>
+                  <div style={s.signalCardTitle}>{group.title}</div>
+                  <div style={s.signalList}>
+                    {group.items.map((item) => (
+                      <div key={item} style={s.signalItem}>{item}</div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -390,6 +440,20 @@ const s = {
   activeDot: { width: 5, height: 5, borderRadius: '50%', background: 'var(--color-green)', display: 'inline-block', flexShrink: 0 },
 
   infoGrid: { display: 'grid', gridTemplateColumns: '1.3fr 0.9fr', gap: 12, alignItems: 'start' },
+  mainStack: { display: 'flex', flexDirection: 'column', gap: 12 },
+  signalPanel: { padding: '18px 18px 16px', minHeight: 290, background: 'linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(232,247,255,0.95) 100%)' },
+  signalHero: { display: 'flex', justifyContent: 'space-between', gap: 18, alignItems: 'flex-start', marginBottom: 16 },
+  signalEyebrow: { fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--color-primary-mid)', marginBottom: 8 },
+  signalTitle: { fontSize: 22, lineHeight: 1.15, fontWeight: 800, color: 'var(--color-primary)', maxWidth: 560, marginBottom: 10 },
+  signalText: { fontSize: 13, color: 'var(--color-text-secondary)', lineHeight: 1.65, maxWidth: 620 },
+  signalBadgeWrap: { display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-end', flexShrink: 0 },
+  bigBadge: { padding: '8px 12px', borderRadius: 999, background: 'linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-mid) 100%)', color: '#fff', fontSize: 12, fontWeight: 800, boxShadow: '0 10px 24px rgba(18,117,188,0.18)' },
+  bigBadgeAlt: { padding: '8px 12px', borderRadius: 999, background: 'var(--color-accent-muted)', color: 'var(--color-primary)', fontSize: 12, fontWeight: 800, border: '1px solid #b9f4f8' },
+  signalColumns: { display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0,1fr))', gap: 10 },
+  signalCard: { background: 'rgba(255,255,255,0.78)', border: '1px solid var(--color-border)', borderRadius: 12, padding: '12px 12px 10px', boxShadow: 'var(--shadow-sm)' },
+  signalCardTitle: { fontSize: 12, fontWeight: 800, color: 'var(--color-text)', marginBottom: 8 },
+  signalList: { display: 'flex', flexDirection: 'column', gap: 6 },
+  signalItem: { fontSize: 12, color: 'var(--color-text-secondary)', lineHeight: 1.45, paddingLeft: 0 },
   journeyGrid: { display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0,1fr))', gap: 8 },
   journeyCard: { background: 'var(--color-surface-2)', border: '1px solid var(--color-border)', borderRadius: 10, padding: '10px 11px' },
   journeyTitle: { fontSize: 12, fontWeight: 700, color: 'var(--color-text)', marginBottom: 3 },

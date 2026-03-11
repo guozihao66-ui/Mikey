@@ -10,7 +10,7 @@ import React from 'react';
 const LOGO_SRC = '/okeanos-logo.jpg';
 
 const NAV = [
-  { id: 'dashboard', label: 'Dashboard',  icon: '▦', section: null },
+  { id: 'dashboard', label: 'Dashboard',  icon: '▦', section: 'Overview' },
   { id: 'goals',     label: 'Goals',      icon: '◎', section: null },
   { id: 'chat',      label: 'Command Chat', icon: '◻', section: 'Operations' },
   { id: 'approvals', label: 'Approvals',  icon: '✓', badge: 'approvalBadge', section: null },

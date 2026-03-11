@@ -70,19 +70,20 @@ const PRIORITY_CHANNELS = [
   'Direct Mail / Neighbourhood Offers',
 ];
 
-const OKEANOS_SIGNALS = [
-  {
-    title: 'What homeowners care about most',
-    items: ['Transparent pricing', 'Low maintenance', 'Fast response', 'Project clarity', 'Trustworthy installation'],
-  },
-  {
-    title: 'High-value trust assets',
-    items: ['Before / after project photos', 'Google reviews', 'Showroom experience', 'Warranty confidence', 'Simple payment process'],
-  },
-  {
-    title: 'Sales process checkpoints',
-    items: ['Inquiry within 24h', 'Quote follow-up after 3 days', 'Consultation reminders', 'Review request after completion', 'Referral prompt'],
-  },
+const EXEC_SUMMARY = [
+  { label: 'Primary ICP', value: 'Budget-conscious GTA families', sub: 'Detached homes · family / property value buyers' },
+  { label: 'Core Promise', value: 'Trust + affordability + low maintenance', sub: 'Professional install with simple process and clear communication' },
+  { label: 'Proof Assets', value: 'Reviews · showroom · before/after · warranty', sub: 'Trust signals supporting quote and consultation conversion' },
+  { label: 'Service Standard', value: 'Response inside 24h / target under 30 min', sub: 'Call, email, text, then timed follow-up reminders' },
+];
+
+const OPERATING_PRIORITIES = [
+  'Protect Google review quality and response discipline',
+  'Increase consultation bookings from qualified inquiries',
+  'Keep quote follow-up active after 3 days and 1 week',
+  'Use local proof assets in Oakville / Vaughan / GTA campaigns',
+  'Expand referral flow from landscapers, builders, and realtors',
+  'Concentrate spend on high-fit postal codes and profitable markets',
 ];
 
 export default function Dashboard({ onNav, approvalCount, tasks = [], approvals = [] }) {
@@ -195,36 +196,34 @@ export default function Dashboard({ onNav, approvalCount, tasks = [], approvals 
             </div>
           </div>
 
-          <div className="card" style={s.signalPanel}>
-            <div style={s.panelHeader}>
-              <span style={s.panelTitle}>What This Prototype Is Demonstrating</span>
-            </div>
-            <div style={s.signalHero}>
-              <div>
-                <div style={s.signalEyebrow}>Okeanos operating model</div>
-                <div style={s.signalTitle}>A client-facing AI team built around trust, speed, and process clarity.</div>
-                <div style={s.signalText}>
-                  This section anchors the dashboard so it feels intentional during demos: not just a set of widgets,
-                  but a visible operating system for how Okeanos handles leads, quotes, reviews, and local market growth.
-                </div>
+          <div style={s.summaryGrid}>
+            <div className="card" style={s.panel}>
+              <div style={s.panelHeader}>
+                <span style={s.panelTitle}>Executive Summary</span>
               </div>
-              <div style={s.signalBadgeWrap}>
-                <div style={s.bigBadge}>Trust-first</div>
-                <div style={s.bigBadgeAlt}>Human-approved</div>
+              <div style={s.execGrid}>
+                {EXEC_SUMMARY.map((item) => (
+                  <div key={item.label} style={s.execCard}>
+                    <div style={s.execLabel}>{item.label}</div>
+                    <div style={s.execValue}>{item.value}</div>
+                    <div style={s.execSub}>{item.sub}</div>
+                  </div>
+                ))}
               </div>
             </div>
 
-            <div style={s.signalColumns}>
-              {OKEANOS_SIGNALS.map((group) => (
-                <div key={group.title} style={s.signalCard}>
-                  <div style={s.signalCardTitle}>{group.title}</div>
-                  <div style={s.signalList}>
-                    {group.items.map((item) => (
-                      <div key={item} style={s.signalItem}>{item}</div>
-                    ))}
+            <div className="card" style={s.panel}>
+              <div style={s.panelHeader}>
+                <span style={s.panelTitle}>Operating Priorities</span>
+              </div>
+              <div style={s.priorityList}>
+                {OPERATING_PRIORITIES.map((item, idx) => (
+                  <div key={item} style={s.priorityRow}>
+                    <div style={s.priorityIndex}>{idx + 1}</div>
+                    <div style={s.priorityText}>{item}</div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -441,19 +440,16 @@ const s = {
 
   infoGrid: { display: 'grid', gridTemplateColumns: '1.3fr 0.9fr', gap: 12, alignItems: 'start' },
   mainStack: { display: 'flex', flexDirection: 'column', gap: 12 },
-  signalPanel: { padding: '18px 18px 16px', minHeight: 290, background: 'linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(232,247,255,0.95) 100%)' },
-  signalHero: { display: 'flex', justifyContent: 'space-between', gap: 18, alignItems: 'flex-start', marginBottom: 16 },
-  signalEyebrow: { fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--color-primary-mid)', marginBottom: 8 },
-  signalTitle: { fontSize: 22, lineHeight: 1.15, fontWeight: 800, color: 'var(--color-primary)', maxWidth: 560, marginBottom: 10 },
-  signalText: { fontSize: 13, color: 'var(--color-text-secondary)', lineHeight: 1.65, maxWidth: 620 },
-  signalBadgeWrap: { display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-end', flexShrink: 0 },
-  bigBadge: { padding: '8px 12px', borderRadius: 999, background: 'linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-mid) 100%)', color: '#fff', fontSize: 12, fontWeight: 800, boxShadow: '0 10px 24px rgba(18,117,188,0.18)' },
-  bigBadgeAlt: { padding: '8px 12px', borderRadius: 999, background: 'var(--color-accent-muted)', color: 'var(--color-primary)', fontSize: 12, fontWeight: 800, border: '1px solid #b9f4f8' },
-  signalColumns: { display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0,1fr))', gap: 10 },
-  signalCard: { background: 'rgba(255,255,255,0.78)', border: '1px solid var(--color-border)', borderRadius: 12, padding: '12px 12px 10px', boxShadow: 'var(--shadow-sm)' },
-  signalCardTitle: { fontSize: 12, fontWeight: 800, color: 'var(--color-text)', marginBottom: 8 },
-  signalList: { display: 'flex', flexDirection: 'column', gap: 6 },
-  signalItem: { fontSize: 12, color: 'var(--color-text-secondary)', lineHeight: 1.45, paddingLeft: 0 },
+  summaryGrid: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 },
+  execGrid: { display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0,1fr))', gap: 10 },
+  execCard: { background: 'var(--color-surface-2)', border: '1px solid var(--color-border)', borderRadius: 10, padding: '10px 12px' },
+  execLabel: { fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--color-text-muted)', marginBottom: 5 },
+  execValue: { fontSize: 14, fontWeight: 800, lineHeight: 1.25, color: 'var(--color-text)', marginBottom: 4 },
+  execSub: { fontSize: 11, lineHeight: 1.45, color: 'var(--color-text-secondary)' },
+  priorityList: { display: 'flex', flexDirection: 'column', gap: 8 },
+  priorityRow: { display: 'grid', gridTemplateColumns: '24px 1fr', gap: 10, alignItems: 'start', padding: '8px 0', borderBottom: '1px solid var(--color-border)' },
+  priorityIndex: { width: 24, height: 24, borderRadius: 999, background: 'var(--color-primary-muted)', color: 'var(--color-primary)', fontSize: 11, fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center' },
+  priorityText: { fontSize: 12, color: 'var(--color-text-secondary)', lineHeight: 1.5 },
   journeyGrid: { display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0,1fr))', gap: 8 },
   journeyCard: { background: 'var(--color-surface-2)', border: '1px solid var(--color-border)', borderRadius: 10, padding: '10px 11px' },
   journeyTitle: { fontSize: 12, fontWeight: 700, color: 'var(--color-text)', marginBottom: 3 },

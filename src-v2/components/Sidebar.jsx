@@ -33,7 +33,7 @@ export default function Sidebar({ active, onNav, taskBadge, approvalBadge }) {
           <div style={styles.brandName}>Okeanos</div>
           <div style={styles.brandRow}>
             <div style={styles.brandSub}>Marketing AI Team</div>
-            <div style={styles.v2Pill}>V2</div>
+            <div style={styles.v2Pill}>PM</div>
           </div>
         </div>
       </div>
@@ -138,13 +138,13 @@ const styles = {
     fontSize: 10,
   },
   v2Pill: {
-    background: 'rgba(14,165,233,0.2)',
-    color: '#0ea5e9',
+    background: 'rgba(245,158,11,0.18)',
+    color: '#fbbf24',
     fontSize: 9,
-    fontWeight: 700,
-    padding: '1px 5px',
+    fontWeight: 800,
+    padding: '1px 6px',
     borderRadius: 99,
-    letterSpacing: '0.04em',
+    letterSpacing: '0.06em',
   },
   nav: {
     flex: 1,

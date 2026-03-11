@@ -141,10 +141,46 @@ function ApprovalListItem({ item, active, onClick }) {
   );
 }
 
+function inferApprovalMeta(item) {
+  const text = `${item.title} ${item.description} ${item.preview}`.toLowerCase();
+  if (item.type === 'Lead Follow-up') {
+    return {
+      label: 'Lead Context',
+      rows: [
+        ['Lead Stage', text.includes('quote') ? 'Quote-ready / comparison stage' : 'Inquiry / consultation stage'],
+        ['Primary Objective', 'Move lead toward consultation or next-step conversation'],
+        ['Signals', text.includes('financing') ? 'Financing interest present' : 'Needs qualification on budget / timing'],
+        ['Recommended CTA', 'Consultation booking or site-visit discussion'],
+      ],
+    };
+  }
+  if (item.type === 'Review Response') {
+    return {
+      label: 'Reputation Context',
+      rows: [
+        ['Platform', text.includes('google') ? 'Google Reviews' : 'Public review channel'],
+        ['Risk Level', text.includes('1-star') ? 'High visibility reputation risk' : 'Moderate review management need'],
+        ['Tone Goal', 'Professional, calm, trust-protective'],
+        ['Escalation', 'Move detailed resolution offline if needed'],
+      ],
+    };
+  }
+  return {
+    label: 'Execution Context',
+    rows: [
+      ['Primary Objective', 'Translate request into an approval-ready execution plan'],
+      ['Audience / Scope', text.includes('oakville') ? 'Geo-targeted / market-specific' : 'Business-facing internal workflow'],
+      ['Decision Focus', 'Channel, clarity, next action, and approval readiness'],
+      ['Review Need', 'Confirm direction before anything changes live'],
+    ],
+  };
+}
+
 function ApprovalDetail({ item, feedback, setFeedback, onApprove, onRequestChanges }) {
   const color = agentColors[item.agent] || '#64748b';
   const palette = TYPE_BADGES[item.type] || { bg: '#f8fafc', color: '#475569', border: '#e2e8f0' };
   const isResolved = !!item.resolved;
+  const meta = inferApprovalMeta(item);
 
   return (
     <div className="card" style={styles.detail}>
@@ -161,9 +197,23 @@ function ApprovalDetail({ item, feedback, setFeedback, onApprove, onRequestChang
         </span>
       </div>
 
-      <div style={styles.detailSection}>
-        <div style={styles.detailSectionLabel}>Context</div>
-        <p style={styles.detailDesc}>{item.description}</p>
+      <div style={styles.contextGrid}>
+        <div style={styles.detailSection}>
+          <div style={styles.detailSectionLabel}>Context</div>
+          <p style={styles.detailDesc}>{item.description}</p>
+        </div>
+
+        <div style={styles.detailSection}>
+          <div style={styles.detailSectionLabel}>{meta.label}</div>
+          <div style={styles.metaInfoBox}>
+            {meta.rows.map(([k, v]) => (
+              <div key={k} style={styles.metaInfoRow}>
+                <div style={styles.metaInfoKey}>{k}</div>
+                <div style={styles.metaInfoValue}>{v}</div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
       <div style={styles.detailSection}>
@@ -281,7 +331,12 @@ const styles = {
   detailTitle: { fontSize: 14, fontWeight: 600, color: 'var(--color-text)', lineHeight: 1.3 },
   detailMeta: { fontSize: 11, color: 'var(--color-text-muted)', marginTop: 2 },
   typeBadge: { fontSize: 11, fontWeight: 600, padding: '3px 9px', borderRadius: 99, flexShrink: 0 },
+  contextGrid: { display: 'grid', gridTemplateColumns: '1.1fr 0.9fr', gap: 12 },
   detailSection: { display: 'flex', flexDirection: 'column', gap: 6 },
+  metaInfoBox: { background: 'var(--color-surface-2)', border: '1px solid var(--color-border)', borderRadius: 8, padding: '10px 12px', display: 'flex', flexDirection: 'column', gap: 8 },
+  metaInfoRow: { display: 'grid', gridTemplateColumns: '110px 1fr', gap: 8, alignItems: 'start' },
+  metaInfoKey: { fontSize: 11, fontWeight: 700, color: 'var(--color-text-muted)' },
+  metaInfoValue: { fontSize: 12, color: 'var(--color-text-secondary)', lineHeight: 1.5 },
   detailSectionLabel: { fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--color-text-muted)' },
   detailDesc: { fontSize: 13, color: 'var(--color-text-secondary)', lineHeight: 1.6, margin: 0 },
   previewBox: { background: 'var(--color-surface-2)', border: '1px solid var(--color-border)', borderRadius: 8, padding: '12px 14px', maxHeight: 320, overflow: 'auto' },

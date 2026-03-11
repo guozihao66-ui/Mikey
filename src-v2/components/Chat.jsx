@@ -39,49 +39,49 @@ const DEMO_SCENARIOS = [
   {
     category: 'Goals',
     icon: '◎',
-    label: 'I want 20 more qualified leads next month in Vaughan and Oakville',
+    label: 'Increase consultation bookings from budget-conscious GTA families without hurting lead quality',
     color: '#0f4c81',
   },
   {
     category: 'Goals',
     icon: '◎',
-    label: 'Reduce ad spend without losing lead quality',
+    label: 'Build a referral workflow for landscapers and builders in Vaughan and Oakville',
     color: '#0f4c81',
   },
   {
     category: 'Goals',
     icon: '◎',
-    label: 'Improve lead response speed and consultation conversion rate',
+    label: 'Reduce ad spend without losing lead quality in our top postal code targets',
     color: '#0f4c81',
   },
   {
     category: 'Reports',
     icon: '⊞',
-    label: 'Generate this week\'s weekly marketing report',
+    label: 'Generate this week\'s weekly marketing report with priority markets and review status',
     color: '#0ea5e9',
   },
   {
     category: 'Reports',
     icon: '⊞',
-    label: 'Give me a work summary across leads, ads, and reviews',
+    label: 'Give me a summary of leads, quotes, reviews, and follow-up bottlenecks',
     color: '#0ea5e9',
   },
   {
     category: 'Tasks',
     icon: '◻',
-    label: 'Draft a follow-up for a new lead who requested a quote',
+    label: 'Draft a follow-up for a lead comparing 3 quotes and asking about financing',
     color: '#d97706',
   },
   {
     category: 'Tasks',
     icon: '◻',
-    label: 'Write an Instagram caption for a fiberglass pool transformation post',
+    label: 'Write an Instagram caption for an Oakville before-and-after fiberglass pool project',
     color: '#7c3aed',
   },
   {
     category: 'Tasks',
     icon: '◻',
-    label: 'Create a content plan focused on Google reviews, financing, and project case studies',
+    label: 'Create a showroom visit nurture sequence using brochure, before-and-after photos, and trust messaging',
     color: '#059669',
   },
 ];
@@ -386,7 +386,7 @@ export default function Chat({ onTaskCreated, onNav }) {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={onKey}
-              placeholder="Describe a goal or task… e.g. Improve consultation bookings in Oakville while protecting lead quality"
+              placeholder="Describe a goal or task… e.g. Build a showroom-to-quote follow-up workflow for GTA family homeowners"
               rows={2}
               disabled={loading}
             />

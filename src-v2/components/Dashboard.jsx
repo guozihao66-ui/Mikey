@@ -44,6 +44,32 @@ const statusMeta = {
   pending:      { label: 'Pending',     cls: 'badge-gray'  },
 };
 
+const JOURNEY_STAGES = [
+  { title: 'Inquiry', sub: 'Google Ads · Referral · Organic', status: '14 this week' },
+  { title: 'First Response', sub: 'Call / email / text within 24h', status: '23 min avg' },
+  { title: 'Consultation', sub: 'Showroom or site-visit conversation', status: '6 scheduled' },
+  { title: 'Quote', sub: 'Clear pricing + brochure + next steps', status: '4 sent' },
+  { title: 'Follow-Up', sub: '3-day / 1-week reminders', status: 'Active' },
+  { title: 'Review Request', sub: 'Post-project QR / Google review ask', status: '2 new' },
+];
+
+const PRIORITY_MARKETS = [
+  { name: 'Oakville', note: 'Strong fit for family-value messaging', tag: 'High priority' },
+  { name: 'Vaughan', note: 'Good suburban homeowner demand', tag: 'Active campaigns' },
+  { name: 'Thornhill', note: 'Quote-quality targeting opportunity', tag: 'Watchlist' },
+  { name: 'Barrie', note: 'Growth market for fiberglass demand', tag: 'Expansion' },
+  { name: 'Brampton', note: 'Postal-code selective approach recommended', tag: 'Targeted' },
+];
+
+const PRIORITY_CHANNELS = [
+  'Google Ads',
+  'Facebook / Instagram',
+  'Referral Program',
+  'Realtor / Landscaper Partnerships',
+  'SEO + Before/After Content',
+  'Direct Mail / Neighbourhood Offers',
+];
+
 export default function Dashboard({ onNav, approvalCount, tasks = [], approvals = [] }) {
   const recentTasks   = [...tasks].sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)).slice(0, 5);
   const activeTasks   = tasks.filter((t) => t.status !== 'completed').length;
@@ -134,6 +160,53 @@ export default function Dashboard({ onNav, approvalCount, tasks = [], approvals 
               </div>
             );
           })}
+        </div>
+      </div>
+
+      <div style={s.infoGrid}>
+        <div className="card" style={s.panel}>
+          <div style={s.panelHeader}>
+            <span style={s.panelTitle}>Customer Journey</span>
+          </div>
+          <div style={s.journeyGrid}>
+            {JOURNEY_STAGES.map((stage) => (
+              <div key={stage.title} style={s.journeyCard}>
+                <div style={s.journeyTitle}>{stage.title}</div>
+                <div style={s.journeySub}>{stage.sub}</div>
+                <div style={s.journeyStatus}>{stage.status}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div style={s.sideStack}>
+          <div className="card" style={s.panel}>
+            <div style={s.panelHeader}>
+              <span style={s.panelTitle}>Priority Markets</span>
+            </div>
+            <div style={s.marketList}>
+              {PRIORITY_MARKETS.map((market) => (
+                <div key={market.name} style={s.marketRow}>
+                  <div>
+                    <div style={s.marketName}>{market.name}</div>
+                    <div style={s.marketNote}>{market.note}</div>
+                  </div>
+                  <span className="badge badge-blue">{market.tag}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="card" style={s.panel}>
+            <div style={s.panelHeader}>
+              <span style={s.panelTitle}>Priority Channels</span>
+            </div>
+            <div style={s.channelList}>
+              {PRIORITY_CHANNELS.map((channel) => (
+                <div key={channel} style={s.channelItem}>{channel}</div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
@@ -316,6 +389,19 @@ const s = {
   agentStat: { display: 'flex', alignItems: 'center', gap: 4, fontSize: 10, color: 'var(--color-text-muted)', marginTop: 1 },
   activeDot: { width: 5, height: 5, borderRadius: '50%', background: 'var(--color-green)', display: 'inline-block', flexShrink: 0 },
 
+  infoGrid: { display: 'grid', gridTemplateColumns: '1.3fr 0.9fr', gap: 12, alignItems: 'start' },
+  journeyGrid: { display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0,1fr))', gap: 8 },
+  journeyCard: { background: 'var(--color-surface-2)', border: '1px solid var(--color-border)', borderRadius: 10, padding: '10px 11px' },
+  journeyTitle: { fontSize: 12, fontWeight: 700, color: 'var(--color-text)', marginBottom: 3 },
+  journeySub: { fontSize: 11, color: 'var(--color-text-secondary)', lineHeight: 1.45, minHeight: 32 },
+  journeyStatus: { fontSize: 11, color: 'var(--color-primary)', fontWeight: 700, marginTop: 6 },
+  sideStack: { display: 'flex', flexDirection: 'column', gap: 12 },
+  marketList: { display: 'flex', flexDirection: 'column', gap: 8 },
+  marketRow: { display: 'flex', justifyContent: 'space-between', gap: 10, alignItems: 'center', padding: '8px 0', borderBottom: '1px solid var(--color-border)' },
+  marketName: { fontSize: 12, fontWeight: 700, color: 'var(--color-text)' },
+  marketNote: { fontSize: 11, color: 'var(--color-text-muted)', marginTop: 2 },
+  channelList: { display: 'flex', flexDirection: 'column', gap: 8 },
+  channelItem: { fontSize: 12, color: 'var(--color-text)', background: 'var(--color-surface-2)', border: '1px solid var(--color-border)', borderRadius: 8, padding: '8px 10px' },
   columns: { display: 'grid', gridTemplateColumns: '1.3fr 1fr', gap: 12, alignItems: 'start' },
   col: { display: 'flex', flexDirection: 'column', gap: 12 },
   panel: { padding: '14px 16px' },

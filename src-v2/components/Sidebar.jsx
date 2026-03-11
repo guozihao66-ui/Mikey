@@ -7,6 +7,8 @@
 
 import React from 'react';
 
+const LOGO_SRC = '/okeanos-logo.jpg';
+
 const NAV = [
   { id: 'dashboard', label: 'Dashboard',  icon: '▦', section: null },
   { id: 'goals',     label: 'Goals',      icon: '◎', section: null },
@@ -27,7 +29,7 @@ export default function Sidebar({ active, onNav, taskBadge, approvalBadge }) {
       {/* Brand */}
       <div style={styles.brand}>
         <div style={styles.logoWrap}>
-          <div style={styles.logoO}>O</div>
+          <img src={LOGO_SRC} alt="Okeanos logo" style={styles.logoImg} />
         </div>
         <div style={styles.brandText}>
           <div style={styles.brandName}>Okeanos</div>
@@ -105,20 +107,24 @@ const styles = {
     borderBottom: '1px solid rgba(255,255,255,0.07)',
   },
   logoWrap: {
-    width: 36,
-    height: 36,
-    borderRadius: 9,
-    background: 'linear-gradient(135deg, #0f4c81 0%, #0ea5e9 100%)',
+    width: 40,
+    height: 40,
+    borderRadius: 10,
+    overflow: 'hidden',
+    background: '#000',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     flexShrink: 0,
-    boxShadow: '0 2px 8px rgba(14,165,233,0.3)',
+    boxShadow: '0 4px 14px rgba(14,165,233,0.18)',
+    border: '1px solid rgba(255,255,255,0.08)',
   },
-  logoO: {
-    color: '#fff',
-    fontSize: 17,
-    fontWeight: 800,
+  logoImg: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+    objectPosition: 'center',
+    display: 'block',
   },
   brandText: { minWidth: 0 },
   brandName: {

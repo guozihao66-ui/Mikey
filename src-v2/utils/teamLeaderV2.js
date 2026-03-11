@@ -58,19 +58,19 @@ function extractFeatures(raw) {
 
   return {
     // Verbs indicating growth/change intent
-    verbGrow:    zhGrow || anyOf(m, [/\bincrease\b/, /\bgrow\b/, /\bboost\b/, /\braise\b/, /\blift\b/, /\badd\b/, /\bget\b/, /\bgain\b/, /\bhit\b/, /\bachieve\b/, /\bimprove\b/, /\bscale\b/, /\bexpand\b/]),
+    verbGrow:    zhGrow || anyOf(m, [/\bincrease\b/, /\bgrow\b/, /\bboost\b/, /\braise\b/, /\blift\b/, /\badd\b/, /\bget\b/, /\bgain\b/, /\bhit\b/, /\bachieve\b/, /\bimprove\b/, /\bscale\b/, /\bexpand\b/, /\bmaximize\b/, /\bstrengthen\b/]),
     verbReduce:  zhReduce || anyOf(m, [/\breduce\b/, /\bdecrease\b/, /\bcut\b/, /\blower\b/, /\bminimize\b/, /\bsave\b/, /\bstop wasting\b/, /\btrim\b/, /\boptimi[sz]e cost\b/]),
     verbWant:    zhWant || anyOf(m, [/\bwant\b/, /\bneed\b/, /\bwould like\b/, /\bhope to\b/, /\btrying to\b/, /\bhelp me\b/]),
     verbPlan:    zhPlan || anyOf(m, [/\bplan\b/, /\bstrategy\b/, /\broadmap\b/, /\bobjective\b/, /\bgoal\b/, /\btarget\b/, /\binitiative\b/]),
 
     // Metrics — bucketed
-    metricOrders:   anyOf(m, [/\border\b/, /\borders\b/, /\brevenue\b/, /\bsales\b/, /\bclose rate\b/, /\binstallation\b/]) || includesAny(m, ['订单', '营收', '销售额', '成交率', '安装量']),
-    metricLeads:    zhLeads || anyOf(m, [/\blead\b/, /\bleads\b/, /\binquir/, /\bbooking\b/, /\bconsultation\b/, /\btraffic\b/, /\bdemand\b/]),
-    metricAds:      zhAds || anyOf(m, [/\bad spend\b/, /\bads spend\b/, /\bcpl\b/, /\bcpa\b/, /\bcampaign efficiency\b/, /\bpaid media\b/, /\bgoogle ads\b/, /\bmeta ads\b/, /\broas\b/, /\bctr\b/]),
-    metricCost:     zhCost || anyOf(m, [/\bexpense\b/, /\bexpenses\b/, /\bcost\b/, /\bspend\b/, /\bbudget\b/]),
-    metricReviews:  zhReviews || anyOf(m, [/\breview\b/, /\breviews\b/, /\brating\b/, /\breputation\b/, /\btrust\b/, /\bstars\b/]),
-    metricResponse: zhResponse || anyOf(m, [/\bresponse time\b/, /\bresponse speed\b/, /\bspeed to lead\b/, /\bfollow.?up time\b/, /\bfollow.?up speed\b/, /\bfirst response\b/]),
-    metricConversion: zhConversion || anyOf(m, [/\bconversion\b/, /\bconversions\b/, /\bconvert\b/, /\bwebsite conversion\b/, /\bclose rate\b/, /\bcvr\b/]),
+    metricOrders:   anyOf(m, [/\border\b/, /\borders\b/, /\brevenue\b/, /\bsales\b/, /\bclose rate\b/, /\binstallation\b/, /\bproperty value\b/]) || includesAny(m, ['订单', '营收', '销售额', '成交率', '安装量']),
+    metricLeads:    zhLeads || anyOf(m, [/\blead\b/, /\bleads\b/, /\binquir/, /\bbooking\b/, /\bconsultation\b/, /\btraffic\b/, /\bdemand\b/, /\bquote request\b/, /\bshowroom visit\b/]),
+    metricAds:      zhAds || anyOf(m, [/\bad spend\b/, /\bads spend\b/, /\bcpl\b/, /\bcpa\b/, /\bcampaign efficiency\b/, /\bpaid media\b/, /\bgoogle ads\b/, /\bmeta ads\b/, /\broas\b/, /\bctr\b/, /\bppc\b/, /\bretargeting\b/]),
+    metricCost:     zhCost || anyOf(m, [/\bexpense\b/, /\bexpenses\b/, /\bcost\b/, /\bspend\b/, /\bbudget\b/, /\baffordability\b/, /\bpricing\b/, /\bfinancing\b/]),
+    metricReviews:  zhReviews || anyOf(m, [/\breview\b/, /\breviews\b/, /\brating\b/, /\breputation\b/, /\btrust\b/, /\bstars\b/, /\breferral\b/, /\baward\b/]),
+    metricResponse: zhResponse || anyOf(m, [/\bresponse time\b/, /\bresponse speed\b/, /\bspeed to lead\b/, /\bfollow.?up time\b/, /\bfollow.?up speed\b/, /\bfirst response\b/, /\bfast response\b/]),
+    metricConversion: zhConversion || anyOf(m, [/\bconversion\b/, /\bconversions\b/, /\bconvert\b/, /\bwebsite conversion\b/, /\bclose rate\b/, /\bcvr\b/, /\bconsultation rate\b/]),
 
     // Timeframe
     timeWeek:    zhWeek || anyOf(m, [/\bthis week\b/, /\bnext week\b/, /\bweekly\b/]),
@@ -85,11 +85,11 @@ function extractFeatures(raw) {
     // Request types
     isReport:    zhReport || anyOf(m, [/\bweekly report\b/, /\bmarketing report\b/, /\bperformance report\b/, /\breport for the week\b/, /\bdashboard summary\b/]),
     isSummary:   zhSummary || anyOf(m, [/\bwork summary\b/, /\bteam summary\b/, /\bstatus update\b/, /\bprogress update\b/, /what.{0,20}(done|working on)/]),
-    isSocial:    zhSocial || anyOf(m, [/\binstagram\b/, /\bfacebook\b/, /\bhouzz\b/, /\bcaption\b/, /\bpost\b/, /\bsocial media\b/, /\bsocial post\b/, /\bgoogle review\b/, /\breview response\b/]),
-    isLead:      zhLead || anyOf(m, [/\bfollow.?up\b/, /\bnew lead\b/, /\bnew inquiry\b/, /\bquote request\b/, /\blead response\b/, /\bnurture\b/]),
-    isContent:   zhContent || anyOf(m, [/\bblog\b/, /\bblog post\b/, /\bcontent\b/, /\bseo\b/, /\blanding page\b/, /\bemail campaign\b/, /\bkeyword\b/, /\bcopy\b/, /\barticle\b/, /\bcase study\b/, /\bwrite\b.*\bpage\b/]),
-    isAnalytics: zhAnalytics || anyOf(m, [/\banalytics\b/, /\bga4\b/, /\bmetrics\b/, /\bdata\b/, /\bkpi\b/]),
-    isCRM:       zhCRM || anyOf(m, [/\bcrm\b/, /\bpipeline\b/, /\bstalled\b/, /\bdeal\b/, /\bnurture sequence\b/]),
+    isSocial:    zhSocial || anyOf(m, [/\binstagram\b/, /\bfacebook\b/, /\bhouzz\b/, /\bcaption\b/, /\bpost\b/, /\bsocial media\b/, /\bsocial post\b/, /\bgoogle review\b/, /\breview response\b/, /\btestimonial\b/, /\breferral\b/, /\byoutube\b/]),
+    isLead:      zhLead || anyOf(m, [/\bfollow.?up\b/, /\bnew lead\b/, /\bnew inquiry\b/, /\bquote request\b/, /\blead response\b/, /\bnurture\b/, /\bshowroom\b/, /\bsite visit\b/, /\bconsultation booking\b/]),
+    isContent:   zhContent || anyOf(m, [/\bblog\b/, /\bblog post\b/, /\bcontent\b/, /\bseo\b/, /\blanding page\b/, /\bemail campaign\b/, /\bkeyword\b/, /\bcopy\b/, /\barticle\b/, /\bcase study\b/, /\bwrite\b.*\bpage\b/, /\bbrochure\b/, /\bwarranty\b/, /\bfinancing\b/, /\bbefore and after\b/]),
+    isAnalytics: zhAnalytics || anyOf(m, [/\banalytics\b/, /\bga4\b/, /\bmetrics\b/, /\bdata\b/, /\bkpi\b/, /\bdashboard\b/]),
+    isCRM:       zhCRM || anyOf(m, [/\bcrm\b/, /\bpipeline\b/, /\bstalled\b/, /\bdeal\b/, /\bnurture sequence\b/, /\bpostal code\b/, /\bterritory\b/, /\bdirect mail\b/, /\bpartnership\b/, /\blandscaper\b/, /\bbuilder\b/]),
     isApproval:  zhApproval || anyOf(m, [/\bapproval\b/, /\bapprovals\b/, /\bapprove\b/, /\bchanges requested\b/]),
     isTaskStatus: zhTask || anyOf(m, [/\bopen tasks\b/, /\btask list\b/, /\bblocked\b/, /\bshow tasks\b/, /\bwhat is the team\b/]),
     isHelp:      zhHelp || anyOf(m, [/\bhelp\b/, /\bwhat can\b/, /\bhow do\b/, /\bhow does\b/, /\btell me\b/, /\bexplain\b/, /\bwhat is\b/, /\bwhat are\b/]),

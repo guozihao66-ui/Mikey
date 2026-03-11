@@ -39,31 +39,31 @@ const DEMO_SCENARIOS = [
   {
     category: 'Goals',
     icon: '◎',
-    label: 'I want 20 more leads next month',
+    label: 'I want 20 more qualified leads next month in Vaughan and Oakville',
     color: '#0f4c81',
   },
   {
     category: 'Goals',
     icon: '◎',
-    label: 'Reduce our ad spend without losing leads',
+    label: 'Reduce ad spend without losing lead quality',
     color: '#0f4c81',
   },
   {
     category: 'Goals',
     icon: '◎',
-    label: 'Improve lead response speed and conversion rate',
+    label: 'Improve lead response speed and consultation conversion rate',
     color: '#0f4c81',
   },
   {
     category: 'Reports',
     icon: '⊞',
-    label: 'Generate this week\'s weekly report',
+    label: 'Generate this week\'s weekly marketing report',
     color: '#0ea5e9',
   },
   {
     category: 'Reports',
     icon: '⊞',
-    label: 'Give me a work summary',
+    label: 'Give me a work summary across leads, ads, and reviews',
     color: '#0ea5e9',
   },
   {
@@ -75,13 +75,13 @@ const DEMO_SCENARIOS = [
   {
     category: 'Tasks',
     icon: '◻',
-    label: 'Write an Instagram caption for a pool transformation post',
+    label: 'Write an Instagram caption for a fiberglass pool transformation post',
     color: '#7c3aed',
   },
   {
     category: 'Tasks',
     icon: '◻',
-    label: 'Create a content plan focused on Google reviews and project case studies',
+    label: 'Create a content plan focused on Google reviews, financing, and project case studies',
     color: '#059669',
   },
 ];
@@ -90,27 +90,27 @@ const GOAL_SIGNAL_GROUPS = [
   {
     label: 'Lead / Response',
     color: '#d97706',
-    keywords: ['lead', 'follow-up', 'quote', 'reply', 'consultation', 'booking', 'response'],
+    keywords: ['lead', 'follow-up', 'quote', 'reply', 'consultation', 'booking', 'response', 'inquiry', 'prospect', 'site visit', 'showroom'],
   },
   {
     label: 'Growth / Ads',
     color: '#b91c1c',
-    keywords: ['ads', 'campaign', 'cpl', 'roas', 'traffic', 'budget', 'cost'],
+    keywords: ['ads', 'campaign', 'cpl', 'roas', 'traffic', 'budget', 'cost', 'postal code', 'retargeting', 'google ads', 'meta ads', 'facebook ads'],
   },
   {
     label: 'Content / SEO',
     color: '#059669',
-    keywords: ['content', 'blog', 'seo', 'copy', 'landing page', 'case study', 'email'],
+    keywords: ['content', 'blog', 'seo', 'copy', 'landing page', 'case study', 'email', 'brochure', 'before and after', 'financing', 'warranty'],
   },
   {
     label: 'Social / Reputation',
     color: '#7c3aed',
-    keywords: ['review', 'caption', 'instagram', 'social', 'reputation', 'comment'],
+    keywords: ['review', 'caption', 'instagram', 'social', 'reputation', 'comment', 'facebook', 'youtube', 'award', 'referral'],
   },
   {
     label: 'Reporting',
     color: '#0ea5e9',
-    keywords: ['report', 'analytics', 'kpi', 'ga4', 'metrics', 'weekly report'],
+    keywords: ['report', 'analytics', 'kpi', 'ga4', 'metrics', 'weekly report', 'dashboard', 'summary'],
   },
 ];
 
@@ -406,12 +406,12 @@ export default function Chat({ onTaskCreated, onNav }) {
         <div className="card" style={s.sideCard}>
           <div style={s.sideTitle}>Agent Routing</div>
           {[
-            { kw: 'goal / growth objective / strategy', agent: 'Growth Ops + team', color: '#0f4c81' },
-            { kw: 'lead / follow-up / quote / booking', agent: 'Lead Response Agent', color: '#d97706' },
-            { kw: 'social / review / caption / reputation', agent: 'Social & Rep. Agent', color: '#7c3aed' },
-            { kw: 'blog / SEO / copy / landing page', agent: 'Content Strategist', color: '#059669' },
-            { kw: 'analytics / report / GA4 / metrics', agent: 'Reporting Agent', color: '#0ea5e9' },
-            { kw: 'CRM / pipeline / campaign / budget', agent: 'Growth Ops Agent', color: '#b91c1c' },
+            { kw: 'goal / growth objective / strategy / target', agent: 'Growth Ops + team', color: '#0f4c81' },
+            { kw: 'lead / follow-up / quote / booking / showroom', agent: 'Lead Response Agent', color: '#d97706' },
+            { kw: 'social / review / caption / reputation / referral', agent: 'Social & Rep. Agent', color: '#7c3aed' },
+            { kw: 'blog / SEO / copy / landing page / warranty / financing', agent: 'Content Strategist', color: '#059669' },
+            { kw: 'analytics / report / GA4 / metrics / dashboard', agent: 'Reporting Agent', color: '#0ea5e9' },
+            { kw: 'CRM / pipeline / campaign / budget / postal codes', agent: 'Growth Ops Agent', color: '#b91c1c' },
           ].map((r) => (
             <div key={r.kw} style={s.routeRow}>
               <code style={s.routeKw}>{r.kw}</code>

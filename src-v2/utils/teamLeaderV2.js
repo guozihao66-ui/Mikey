@@ -219,6 +219,199 @@ function makeApproval(task, title, description, agent, agentName, priority, type
   };
 }
 
+function shortTitle(text, max = 60) {
+  return text.length > max ? text.substring(0, max - 3) + '...' : text;
+}
+
+function detectPlatform(message) {
+  const m = message.toLowerCase();
+  if (m.includes('instagram') || m.includes('ig')) return 'Instagram';
+  if (m.includes('facebook')) return 'Facebook';
+  if (m.includes('google review') || m.includes('review response') || m.includes('review')) return 'Google Reviews';
+  if (m.includes('houzz')) return 'Houzz';
+  return 'Instagram';
+}
+
+function socialDraftOutput(userMessage) {
+  const platform = detectPlatform(userMessage);
+  const lower = userMessage.toLowerCase();
+  const isCaption = /caption|post|instagram|facebook|social/.test(lower);
+  const isReview = /review|rating|response/.test(lower);
+
+  if (isCaption && !isReview) {
+    return `Request Summary
+- Platform: ${platform}
+- Objective: Create social-ready brand content aligned with Okeanos trust, professionalism, and visual transformation value
+- Source request: "${userMessage}"
+
+Creative Direction
+1. Lead with the visual transformation or lifestyle payoff
+2. Reinforce trust, craftsmanship, and low-maintenance fiberglass positioning
+3. End with a simple call to action that invites a quote request or consultation
+
+Draft Option A
+From planning to poolside — this transformation was built to turn an underused backyard into a clean, family-ready outdoor space. Okeanos focuses on fiberglass pool installations that combine long-term durability, low maintenance, and a professional installation experience from start to finish.
+
+Thinking about your own backyard project in the GTA? Reach out to book a consultation.
+
+Draft Option B
+A great backyard project should feel simple, well-managed, and built to last. This Okeanos transformation highlights what homeowners ask for most: strong design guidance, professional installation, and a fiberglass pool that is easier to maintain long term.
+
+If you're exploring a pool project in the GTA, message us to start the conversation.
+
+Recommended CTA
+- Book a consultation
+- Request a quote
+- Explore recent project transformations
+
+Approval Notes
+- Confirm visual asset pairing
+- Confirm hashtag set / geo tags
+- Human approval required before posting.`;
+  }
+
+  return `Request Summary
+- Platform: ${platform}
+- Objective: Prepare a public-facing response that protects trust and professionalism
+- Source request: "${userMessage}"
+
+Tone Guidance
+- Calm, respectful, professional
+- Avoid defensiveness
+- Acknowledge feedback and move resolution offline where appropriate
+
+Draft Option A
+Thank you for sharing your feedback. We take concerns like this seriously and have already reviewed the issue internally. Our team is committed to clear communication, professional follow-through, and making things right wherever possible.
+
+Draft Option B
+We appreciate you taking the time to leave feedback. Okeanos is committed to professionalism, transparency, and strong customer care. We would welcome the opportunity to follow up directly and address this properly.
+
+Approval Notes
+- Confirm whether an offline follow-up has already happened
+- Confirm whether the tone should be warmer or more formal
+- Human approval required before posting.`;
+}
+
+function leadDraftOutput(userMessage) {
+  return `Request Summary
+- Objective: Prepare a fast, consultation-oriented follow-up for a new inquiry
+- Source request: "${userMessage}"
+
+Recommended Handling Plan
+1. Acknowledge the inquiry quickly
+2. Move the lead toward a consultation or site-visit conversation
+3. Keep the message short, clear, and low-friction
+4. Avoid overloading the lead with technical detail on first touch
+
+Email Draft
+Subject: Your Okeanos pool inquiry — next steps
+
+Hi there,
+
+Thanks for reaching out to Okeanos. We would be happy to learn more about your project and help you understand the best next step based on your property, timeline, and design goals.
+
+The easiest next move is a short consultation so we can confirm the scope, answer any early questions, and recommend the right direction for your backyard project.
+
+If you'd like, reply with a good time and our team can coordinate the next conversation.
+
+Best,
+Okeanos Pools GTA
+
+SMS Draft
+Thanks for contacting Okeanos. We'd be happy to help with your pool project. Would you prefer a quick consultation call or to discuss next steps by text/email?
+
+Reviewer Checklist
+- Confirm if this lead is quote-ready or still researching
+- Confirm whether financing, timing, or design questions should be addressed now
+- Human approval required before sending.`;
+}
+
+function contentDraftOutput(userMessage) {
+  return `Request Summary
+- Objective: Build a content asset that supports trust, education, and conversion
+- Source request: "${userMessage}"
+
+Strategic Angle
+- Position Okeanos as professional, trustworthy, and easy to work with
+- Reinforce low-maintenance fiberglass advantages where relevant
+- Use homeowner-friendly language, not over-technical explanation
+
+Detailed Brief
+1. Audience
+- GTA homeowners comparing options, worried about hidden fees, maintenance, and installation quality
+
+2. Core Message
+- Okeanos combines trust, professionalism, affordability, and a smoother installation experience
+
+3. Recommended Structure
+- Opening hook tied to homeowner intent
+- Short explanation of the problem / need
+- Okeanos differentiators
+- Proof: reviews, case studies, before/after work, warranty, process clarity
+- CTA to consultation or quote request
+
+4. Objections to Address
+- Cost clarity
+- Maintenance burden
+- Timeline uncertainty
+- Whether fiberglass is the right long-term fit
+
+5. Deliverable Notes
+- Write for conversion, not just information
+- Keep sections easy to scan
+- Human approval required before publishing.`;
+}
+
+function reportingDraftOutput(userMessage) {
+  return `Request Summary
+- Objective: Produce a concise but decision-useful reporting snapshot
+- Source request: "${userMessage}"
+
+Metrics Snapshot
+- Website sessions: 1,842
+- New leads: 14
+- Avg. lead response time: 23 minutes
+- Google Ads remains the strongest high-intent source
+- Meta performance needs creative refresh
+
+Detailed Readout
+1. Traffic and lead flow remain healthy, with organic and high-intent search continuing to carry the strongest quality signals.
+2. Lead response speed is still within target, which supports consultation conversion.
+3. Paid social is underperforming relative to spend and likely needs new creative and tighter audience control.
+4. Trust assets such as reviews and case-study content remain important conversion support for homeowners still comparing installers.
+
+Recommended Actions
+- Review approvals queue first
+- Refresh weak paid-social creative
+- Prioritize the next BOFU or proof-driven content asset
+- Track consultation rate, not just lead volume
+
+Human review required before presenting this externally.`;
+}
+
+function growthOpsDraftOutput(userMessage) {
+  return `Request Summary
+- Objective: Diagnose operational blockers affecting lead handling, conversion, or campaign execution
+- Source request: "${userMessage}"
+
+Initial Diagnosis Areas
+1. CRM stage drop-off between inquiry and consultation
+2. Follow-up speed and consistency for qualified leads
+3. Landing-page CTA clarity and form friction
+4. Alignment between campaign promise and post-click experience
+
+Recommended Action Plan
+- Audit where qualified opportunities are slowing down
+- Identify whether the biggest issue is traffic quality, response speed, or conversion friction
+- Tighten CTA language toward consultation-driven next steps
+- Build a cleaner execution loop between campaigns, CRM handling, and approvals
+
+Execution Notes
+- Prioritize the highest-intent lead sources first
+- Keep messaging aligned with trust, professionalism, and affordability
+- Human review required before changing live workflows.`;
+}
+
 // ── Goal family: ad-efficiency ──────────────────────────────────────────────
 
 function adEfficiencyGoalResponse(userMessage, confidence) {
@@ -507,16 +700,17 @@ function workSummaryResponse() {
 }
 
 function socialReputationResponse(userMessage) {
-  const shortTitle = userMessage.length > 60 ? userMessage.substring(0, 57) + '...' : userMessage;
+  const label = shortTitle(userMessage);
+  const platform = detectPlatform(userMessage);
   const task = {
     id: nextId(),
-    title: `Social/Reputation: ${shortTitle}`,
-    description: `Request: "${userMessage}"\n\nSocial & Reputation Agent prepared a first-pass draft for review.`,
+    title: `Social/Reputation: ${label}`,
+    description: `Request: "${userMessage}"\n\nSocial & Reputation Agent prepared a first-pass draft for review.\n\nPlatform focus: ${platform}.\nExecution expectation: protect trust, maintain professionalism, and keep the next step clear.`,
     assignedTo: 'social-reputation', requestedBy: 'team-leader', priority: 'medium',
     status: 'in-review', createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(),
-    tags: ['social', 'routed'],
-    outputLabel: 'Draft Output',
-    output: `Recommended platform: Google / Instagram / Facebook (confirm as needed)\n\nDraft Option A\n"Thank you for the feedback. We take this seriously and have already reviewed the issue internally."\n\nDraft Option B\n"We appreciate the feedback and understand the concern. Okeanos is committed to clear communication and professional follow-through."\n\nHuman approval required before posting.`,
+    tags: ['social', 'routed', platform.toLowerCase().replace(/\s+/g, '-')],
+    outputLabel: `${platform} Draft`,
+    output: socialDraftOutput(userMessage),
   };
   const approval = makeApproval(task, `Social Draft Approval — ${shortTitle}`, 'Social & Reputation Agent prepared a first-pass response draft for review.', 'social-reputation', 'Social & Reputation Agent', 'medium', 'Review Response');
   task.generatedApproval = approval; task.newApproval = approval;
@@ -525,16 +719,16 @@ function socialReputationResponse(userMessage) {
 }
 
 function leadResponseResponse(userMessage) {
-  const shortTitle = userMessage.substring(0, 55) + (userMessage.length > 55 ? '...' : '');
+  const label = shortTitle(userMessage, 55);
   const task = {
     id: nextId(),
-    title: `Lead Response: ${shortTitle}`,
-    description: `Request: "${userMessage}"\n\nLead Response Agent prepared an initial follow-up draft.`,
+    title: `Lead Response: ${label}`,
+    description: `Request: "${userMessage}"\n\nLead Response Agent prepared an initial follow-up draft.\n\nExecution expectation: move the lead toward a consultation or next-step conversation with minimal friction.`,
     assignedTo: 'lead-response', requestedBy: 'team-leader', priority: 'high',
     status: 'in-review', createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(),
     tags: ['leads', 'routed', 'urgent'],
     outputLabel: 'Draft Follow-up',
-    output: `Subject Option A: Your Okeanos pool quote — next steps\nSubject Option B: Thanks for reaching out about your pool project\n\nEmail Draft\nHi there,\n\nThank you for reaching out to Okeanos. The next best step is a short consultation so we can confirm timeline, layout, and project goals.\n\nBest,\nOkeanos Pools GTA\n\nSMS Draft\nThanks for reaching out to Okeanos — would you prefer a quick call or site visit discussion?\n\nHuman approval required before sending.`,
+    output: leadDraftOutput(userMessage),
   };
   const approval = makeApproval(task, `Lead Follow-up Approval — ${shortTitle}`, 'Lead Response Agent prepared email and SMS follow-up drafts for review.', 'lead-response', 'Lead Response Agent', 'high', 'Lead Follow-up');
   task.generatedApproval = approval; task.newApproval = approval;
@@ -543,16 +737,16 @@ function leadResponseResponse(userMessage) {
 }
 
 function contentStrategistResponse(userMessage) {
-  const shortTitle = userMessage.substring(0, 60) + (userMessage.length > 60 ? '...' : '');
+  const label = shortTitle(userMessage);
   const task = {
     id: nextId(),
-    title: `Content: ${shortTitle}`,
-    description: `Request: "${userMessage}"\n\nContent Strategist Agent prepared a first-pass brief for review.`,
+    title: `Content: ${label}`,
+    description: `Request: "${userMessage}"\n\nContent Strategist Agent prepared a first-pass brief for review.\n\nExecution expectation: combine homeowner-friendly education with trust signals and a clear CTA.`,
     assignedTo: 'content-strategist', requestedBy: 'team-leader', priority: 'medium',
     status: 'in-review', createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(),
     tags: ['content', 'seo', 'routed'],
     outputLabel: 'Content Brief',
-    output: `Recommended primary angle\n- Engineer-led pool expertise for Ontario homeowners\n\nProposed outline\n1. Homeowner problem / goal\n2. Why fiberglass works in Ontario\n3. Okeanos differentiators\n4. Common objections and answers\n5. Clear CTA to consultation\n\nHuman approval required before publishing.`,
+    output: contentDraftOutput(userMessage),
   };
   const approval = makeApproval(task, `Content Brief Approval — ${shortTitle}`, 'Content Strategist Agent prepared a content brief for review.', 'content-strategist', 'Content Strategist Agent', 'medium', 'Campaign Brief');
   task.generatedApproval = approval; task.newApproval = approval;
@@ -561,16 +755,16 @@ function contentStrategistResponse(userMessage) {
 }
 
 function reportingResponse(userMessage) {
-  const shortTitle = userMessage.substring(0, 60) + (userMessage.length > 60 ? '...' : '');
+  const label = shortTitle(userMessage);
   const task = {
     id: nextId(),
-    title: `Analytics: ${shortTitle}`,
-    description: `Request: "${userMessage}"\n\nReporting Agent prepared an initial analysis snapshot for review.`,
+    title: `Analytics: ${label}`,
+    description: `Request: "${userMessage}"\n\nReporting Agent prepared an initial analysis snapshot for review.\n\nExecution expectation: surface the most decision-relevant metrics, risks, and next actions.`,
     assignedTo: 'reporting', requestedBy: 'team-leader', priority: 'medium',
     status: 'in-review', createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(),
     tags: ['reporting', 'analytics', 'routed'],
     outputLabel: 'Reporting Snapshot',
-    output: `Metrics snapshot\n- Website sessions: 1,842 · New leads: 14 · Avg. lead response time: 23 minutes\n\nTop observations\n- Organic traffic is trending up\n- Meta performance needs refresh\n- Lead response remains within target\n\nRecommended actions\n1. Clear approvals queue\n2. Refresh paid creative\n3. Publish the next high-intent content asset`,
+    output: reportingDraftOutput(userMessage),
   };
   const approval = makeApproval(task, `Reporting Snapshot Approval — ${shortTitle}`, 'Reporting Agent prepared a first-pass metrics summary and recommendations.', 'reporting', 'Reporting Agent', 'medium', 'Campaign Brief');
   task.generatedApproval = approval; task.newApproval = approval;
@@ -579,16 +773,16 @@ function reportingResponse(userMessage) {
 }
 
 function growthOpsResponse(userMessage) {
-  const shortTitle = userMessage.substring(0, 55) + (userMessage.length > 55 ? '...' : '');
+  const label = shortTitle(userMessage, 55);
   const task = {
     id: nextId(),
-    title: `Growth Ops: ${shortTitle}`,
-    description: `Request: "${userMessage}"\n\nGrowth Ops Agent prepared an initial operating brief for review.`,
+    title: `Growth Ops: ${label}`,
+    description: `Request: "${userMessage}"\n\nGrowth Ops Agent prepared an initial operating brief for review.\n\nExecution expectation: identify operational friction and translate it into a clean action plan.`,
     assignedTo: 'growth-ops', requestedBy: 'team-leader', priority: 'medium',
     status: 'in-review', createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(),
     tags: ['growth-ops', 'routed'],
     outputLabel: 'Growth Ops Brief',
-    output: `Initial diagnosis\n- Review CRM stage drop-off between inquiry and consultation\n- Check response-time gaps for qualified leads\n- Review landing page CTA clarity and form friction\n\nRecommended next actions\n1. Re-engage stalled leads\n2. Simplify the primary consultation CTA\n3. Align campaign messaging with landing page promise\n\nHuman review required before changing live workflows.`,
+    output: growthOpsDraftOutput(userMessage),
   };
   const approval = makeApproval(task, `Growth Ops Approval — ${shortTitle}`, 'Growth Ops Agent prepared an initial brief covering CRM, conversion, or campaign operations.', 'growth-ops', 'Growth Ops Agent', 'medium', 'Campaign Brief');
   task.generatedApproval = approval; task.newApproval = approval;

@@ -20,6 +20,10 @@ function anyOf(text, patterns) {
   return patterns.some((p) => p.test(text));
 }
 
+function includesAny(text, keywords) {
+  return keywords.some((kw) => text.includes(kw));
+}
+
 // ── Multi-pass feature extraction ─────────────────────────────────────────────
 // Returns an object with named features, each true/false, to avoid regex
 // collisions that plagued v1 (e.g. "reduce" matching both goal and social).
@@ -27,43 +31,68 @@ function anyOf(text, patterns) {
 function extractFeatures(raw) {
   const m = raw.toLowerCase();
 
+  const zhGrow = includesAny(m, ['增加', '提升', '提高', '扩大', '增长', '多一点', '更多']);
+  const zhReduce = includesAny(m, ['降低', '减少', '压低', '省', '缩减', '控制成本']);
+  const zhWant = includesAny(m, ['我想', '我要', '希望', '需要', '想要', '帮我']);
+  const zhPlan = includesAny(m, ['目标', '计划', '策略', '路线图', '规划', '方向']);
+  const zhLeads = includesAny(m, ['线索', '潜在客户', '客户咨询', '咨询量', '预约', '获客']);
+  const zhAds = includesAny(m, ['广告', '投放', 'ad', 'ads', 'cpl', 'cpa', 'roas']);
+  const zhCost = includesAny(m, ['成本', '花费', '预算', '开支', '支出']);
+  const zhReviews = includesAny(m, ['评价', '评论', '口碑', '评分', '好评', '差评']);
+  const zhResponse = includesAny(m, ['回复速度', '响应速度', '跟进速度', '首响时间', '回复时间']);
+  const zhConversion = includesAny(m, ['转化', '成交', '成单', '转化率']);
+  const zhWeek = includesAny(m, ['这周', '本周', '下周', '每周']);
+  const zhMonth = includesAny(m, ['这个月', '本月', '下个月', '每月', '30天']);
+  const zhQuarter = includesAny(m, ['这个季度', '本季度', '下个季度', '90天']);
+  const zhYear = includesAny(m, ['今年', '明年', '年底']);
+  const zhReport = includesAny(m, ['周报', '报告', '汇报', '数据报告']);
+  const zhSummary = includesAny(m, ['总结', '进展', '做了什么', '现在怎么样']);
+  const zhSocial = includesAny(m, ['社媒', '小红书', '抖音', 'instagram', 'facebook', '评论回复', '帖子', 'caption']);
+  const zhLead = includesAny(m, ['跟进', '回复客户', '回复线索', '询盘', '报价请求', '潜在客户']);
+  const zhContent = includesAny(m, ['内容', '文案', '文章', '博客', 'seo', '落地页', '邮件活动', '案例']);
+  const zhAnalytics = includesAny(m, ['数据', '分析', '指标', 'ga4', 'analytics']);
+  const zhCRM = includesAny(m, ['crm', '管道', '销售漏斗', '客户阶段', '商机']);
+  const zhApproval = includesAny(m, ['审批', '批准', '审核', '修改意见']);
+  const zhTask = includesAny(m, ['任务', '待办', '阻塞', '卡住了']);
+  const zhHelp = includesAny(m, ['能做什么', '怎么做', '怎么用', '说明一下', '解释一下']);
+
   return {
     // Verbs indicating growth/change intent
-    verbGrow:    anyOf(m, [/\bincrease\b/, /\bgrow\b/, /\bboost\b/, /\braise\b/, /\blift\b/, /\badd\b/, /\bget\b/, /\bgain\b/, /\bhit\b/, /\bachieve\b/]),
-    verbReduce:  anyOf(m, [/\breduce\b/, /\bdecrease\b/, /\bcut\b/, /\blower\b/, /\bminimize\b/, /\bsave\b/, /\bstop wasting\b/]),
-    verbWant:    anyOf(m, [/\bwant\b/, /\bneed\b/, /\bwould like\b/, /\bhope to\b/, /\btrying to\b/]),
-    verbPlan:    anyOf(m, [/\bplan\b/, /\bstrategy\b/, /\broadmap\b/, /\bobjective\b/, /\bgoal\b/, /\btarget\b/]),
+    verbGrow:    zhGrow || anyOf(m, [/\bincrease\b/, /\bgrow\b/, /\bboost\b/, /\braise\b/, /\blift\b/, /\badd\b/, /\bget\b/, /\bgain\b/, /\bhit\b/, /\bachieve\b/, /\bimprove\b/, /\bscale\b/, /\bexpand\b/]),
+    verbReduce:  zhReduce || anyOf(m, [/\breduce\b/, /\bdecrease\b/, /\bcut\b/, /\blower\b/, /\bminimize\b/, /\bsave\b/, /\bstop wasting\b/, /\btrim\b/, /\boptimi[sz]e cost\b/]),
+    verbWant:    zhWant || anyOf(m, [/\bwant\b/, /\bneed\b/, /\bwould like\b/, /\bhope to\b/, /\btrying to\b/, /\bhelp me\b/]),
+    verbPlan:    zhPlan || anyOf(m, [/\bplan\b/, /\bstrategy\b/, /\broadmap\b/, /\bobjective\b/, /\bgoal\b/, /\btarget\b/, /\binitiative\b/]),
 
     // Metrics — bucketed
-    metricOrders:   anyOf(m, [/\border\b/, /\borders\b/, /\brevenue\b/, /\bsales\b/, /\bclose rate\b/, /\binstallation\b/]),
-    metricLeads:    anyOf(m, [/\blead\b/, /\bleads\b/, /\binquir/, /\bbooking\b/, /\bconsultation\b/, /\btraffic\b/]),
-    metricAds:      anyOf(m, [/\bad spend\b/, /\bads spend\b/, /\bcpl\b/, /\bcpa\b/, /\bcampaign efficiency\b/, /\bpaid media\b/, /\bgoogle ads\b/, /\bmeta ads\b/]),
-    metricCost:     anyOf(m, [/\bexpense\b/, /\bexpenses\b/, /\bcost\b/, /\bspend\b/, /\bbudget\b/]),
-    metricReviews:  anyOf(m, [/\breview\b/, /\breviews\b/, /\brating\b/, /\breputation\b/, /\btrust\b/, /\bstars\b/]),
-    metricResponse: anyOf(m, [/\bresponse time\b/, /\bresponse speed\b/, /\bspeed to lead\b/, /\bfollow.?up time\b/, /\bfollow.?up speed\b/]),
-    metricConversion:anyOf(m, [/\bconversion\b/, /\bconversions\b/, /\bconvert\b/, /\bwebsite conversion\b/, /\bclose rate\b/]),
+    metricOrders:   anyOf(m, [/\border\b/, /\borders\b/, /\brevenue\b/, /\bsales\b/, /\bclose rate\b/, /\binstallation\b/]) || includesAny(m, ['订单', '营收', '销售额', '成交率', '安装量']),
+    metricLeads:    zhLeads || anyOf(m, [/\blead\b/, /\bleads\b/, /\binquir/, /\bbooking\b/, /\bconsultation\b/, /\btraffic\b/, /\bdemand\b/]),
+    metricAds:      zhAds || anyOf(m, [/\bad spend\b/, /\bads spend\b/, /\bcpl\b/, /\bcpa\b/, /\bcampaign efficiency\b/, /\bpaid media\b/, /\bgoogle ads\b/, /\bmeta ads\b/, /\broas\b/, /\bctr\b/]),
+    metricCost:     zhCost || anyOf(m, [/\bexpense\b/, /\bexpenses\b/, /\bcost\b/, /\bspend\b/, /\bbudget\b/]),
+    metricReviews:  zhReviews || anyOf(m, [/\breview\b/, /\breviews\b/, /\brating\b/, /\breputation\b/, /\btrust\b/, /\bstars\b/]),
+    metricResponse: zhResponse || anyOf(m, [/\bresponse time\b/, /\bresponse speed\b/, /\bspeed to lead\b/, /\bfollow.?up time\b/, /\bfollow.?up speed\b/, /\bfirst response\b/]),
+    metricConversion: zhConversion || anyOf(m, [/\bconversion\b/, /\bconversions\b/, /\bconvert\b/, /\bwebsite conversion\b/, /\bclose rate\b/, /\bcvr\b/]),
 
     // Timeframe
-    timeWeek:    anyOf(m, [/\bthis week\b/, /\bnext week\b/, /\bweekly\b/]),
-    timeMonth:   anyOf(m, [/\bthis month\b/, /\bnext month\b/, /\bmonthly\b/, /\bin 30 days\b/]),
-    timeQuarter: anyOf(m, [/\bthis quarter\b/, /\bnext quarter\b/, /\bquarterly\b/, /\bin 60 days\b/, /\bin 90 days\b/]),
-    timeYear:    anyOf(m, [/\bthis year\b/, /\bnext year\b/, /\bby year.?end\b/]),
+    timeWeek:    zhWeek || anyOf(m, [/\bthis week\b/, /\bnext week\b/, /\bweekly\b/]),
+    timeMonth:   zhMonth || anyOf(m, [/\bthis month\b/, /\bnext month\b/, /\bmonthly\b/, /\bin 30 days\b/]),
+    timeQuarter: zhQuarter || anyOf(m, [/\bthis quarter\b/, /\bnext quarter\b/, /\bquarterly\b/, /\bin 60 days\b/, /\bin 90 days\b/]),
+    timeYear:    zhYear || anyOf(m, [/\bthis year\b/, /\bnext year\b/, /\bby year.?end\b/]),
     timeSuffix:  /\bby [a-zA-Z]+\b/.test(m),
 
     // Numeric
-    hasNumber:   /\b\d+\b/.test(m),
+    hasNumber:   /\b\d+\b/.test(m) || anyOf(m, [/\d+%/, /\d+个/, /\d+条/, /\d+位/]),
 
     // Request types
-    isReport:    anyOf(m, [/\bweekly report\b/, /\bmarketing report\b/, /\bperformance report\b/, /\breport for the week\b/]),
-    isSummary:   anyOf(m, [/\bwork summary\b/, /\bteam summary\b/, /\bstatus update\b/, /\bprogress update\b/, /what.{0,20}(done|working on)/]),
-    isSocial:    anyOf(m, [/\binstagram\b/, /\bfacebook\b/, /\bhouzz\b/, /\bcaption\b/, /\bpost\b/, /\bsocial media\b/, /\bsocial post\b/, /\bgoogle review\b/, /\breview response\b/]),
-    isLead:      anyOf(m, [/\bfollow.?up\b/, /\bnew lead\b/, /\bnew inquiry\b/, /\bquote request\b/, /\blead response\b/, /\bnurture\b/]),
-    isContent:   anyOf(m, [/\bblog\b/, /\bblog post\b/, /\bcontent\b/, /\bseo\b/, /\blanding page\b/, /\bemail campaign\b/, /\bkeyword\b/, /\bcopy\b/, /\barticle\b/, /\bcase study\b/, /\bwrite\b.*\bpage\b/]),
-    isAnalytics: anyOf(m, [/\banalytics\b/, /\bga4\b/, /\bmetrics\b/, /\bdata\b/]),
-    isCRM:       anyOf(m, [/\bcrm\b/, /\bpipeline\b/, /\bstalled\b/, /\bdeal\b/, /\bnurture sequence\b/]),
-    isApproval:  anyOf(m, [/\bapproval\b/, /\bapprovals\b/, /\bapprove\b/, /\bchanges requested\b/]),
-    isTaskStatus:anyOf(m, [/\bopen tasks\b/, /\btask list\b/, /\bblocked\b/, /\bshow tasks\b/, /\bwhat is the team\b/]),
-    isHelp:      anyOf(m, [/\bhelp\b/, /\bwhat can\b/, /\bhow do\b/, /\bhow does\b/, /\btell me\b/, /\bexplain\b/, /\bwhat is\b/, /\bwhat are\b/]),
+    isReport:    zhReport || anyOf(m, [/\bweekly report\b/, /\bmarketing report\b/, /\bperformance report\b/, /\breport for the week\b/, /\bdashboard summary\b/]),
+    isSummary:   zhSummary || anyOf(m, [/\bwork summary\b/, /\bteam summary\b/, /\bstatus update\b/, /\bprogress update\b/, /what.{0,20}(done|working on)/]),
+    isSocial:    zhSocial || anyOf(m, [/\binstagram\b/, /\bfacebook\b/, /\bhouzz\b/, /\bcaption\b/, /\bpost\b/, /\bsocial media\b/, /\bsocial post\b/, /\bgoogle review\b/, /\breview response\b/]),
+    isLead:      zhLead || anyOf(m, [/\bfollow.?up\b/, /\bnew lead\b/, /\bnew inquiry\b/, /\bquote request\b/, /\blead response\b/, /\bnurture\b/]),
+    isContent:   zhContent || anyOf(m, [/\bblog\b/, /\bblog post\b/, /\bcontent\b/, /\bseo\b/, /\blanding page\b/, /\bemail campaign\b/, /\bkeyword\b/, /\bcopy\b/, /\barticle\b/, /\bcase study\b/, /\bwrite\b.*\bpage\b/]),
+    isAnalytics: zhAnalytics || anyOf(m, [/\banalytics\b/, /\bga4\b/, /\bmetrics\b/, /\bdata\b/, /\bkpi\b/]),
+    isCRM:       zhCRM || anyOf(m, [/\bcrm\b/, /\bpipeline\b/, /\bstalled\b/, /\bdeal\b/, /\bnurture sequence\b/]),
+    isApproval:  zhApproval || anyOf(m, [/\bapproval\b/, /\bapprovals\b/, /\bapprove\b/, /\bchanges requested\b/]),
+    isTaskStatus: zhTask || anyOf(m, [/\bopen tasks\b/, /\btask list\b/, /\bblocked\b/, /\bshow tasks\b/, /\bwhat is the team\b/]),
+    isHelp:      zhHelp || anyOf(m, [/\bhelp\b/, /\bwhat can\b/, /\bhow do\b/, /\bhow does\b/, /\btell me\b/, /\bexplain\b/, /\bwhat is\b/, /\bwhat are\b/]),
   };
 }
 

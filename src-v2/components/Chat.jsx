@@ -49,6 +49,12 @@ const DEMO_SCENARIOS = [
     color: '#0f4c81',
   },
   {
+    category: 'Goals',
+    icon: '◎',
+    label: '我想提升线索回复速度并提高转化',
+    color: '#0f4c81',
+  },
+  {
     category: 'Reports',
     icon: '⊞',
     label: 'Generate this week\'s weekly report',
@@ -72,7 +78,49 @@ const DEMO_SCENARIOS = [
     label: 'Write an Instagram caption for a pool transformation post',
     color: '#7c3aed',
   },
+  {
+    category: 'Tasks',
+    icon: '◻',
+    label: '帮我做一个内容计划，重点放在Google评价和案例展示',
+    color: '#059669',
+  },
 ];
+
+const GOAL_SIGNAL_GROUPS = [
+  {
+    label: 'Lead / Response',
+    color: '#d97706',
+    keywords: ['lead', 'follow-up', 'quote', 'reply', 'consultation', '线索', '跟进', '回复客户', '预约'],
+  },
+  {
+    label: 'Growth / Ads',
+    color: '#b91c1c',
+    keywords: ['ads', 'campaign', 'cpl', 'roas', 'traffic', '投放', '广告', '成本', '获客'],
+  },
+  {
+    label: 'Content / SEO',
+    color: '#059669',
+    keywords: ['content', 'blog', 'seo', 'copy', 'landing page', '内容', '文案', '文章', '落地页'],
+  },
+  {
+    label: 'Social / Reputation',
+    color: '#7c3aed',
+    keywords: ['review', 'caption', 'instagram', 'social', '评价', '口碑', '评论', '社媒'],
+  },
+  {
+    label: 'Reporting',
+    color: '#0ea5e9',
+    keywords: ['report', 'analytics', 'kpi', 'ga4', '报告', '分析', '数据', '周报'],
+  },
+];
+
+function detectSignals(text) {
+  const lower = text.toLowerCase();
+  return GOAL_SIGNAL_GROUPS.map((group) => {
+    const hits = group.keywords.filter((kw) => lower.includes(kw.toLowerCase()));
+    return { ...group, hits };
+  }).filter((group) => group.hits.length > 0);
+}
 
 const INTENT_META = {
   'goal-planning':     { label: 'Growth Objective',   color: '#b91c1c', bg: '#fff1f2' },
@@ -167,6 +215,7 @@ export default function Chat({ onTaskCreated, onNav }) {
   const [showScenarios, setShowScenarios] = useState(messages.length <= 1);
   const bottomRef = useRef(null);
   const inputRef = useRef(null);
+  const liveSignals = detectSignals(input);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -311,25 +360,44 @@ export default function Chat({ onTaskCreated, onNav }) {
           <div ref={bottomRef} />
         </div>
 
-        <div style={s.inputArea}>
-          <textarea
-            ref={inputRef}
-            style={s.textarea}
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={onKey}
-            placeholder="Message the AI Team Leader…"
-            rows={2}
-            disabled={loading}
-          />
-          <button
-            className="btn btn-primary"
-            style={s.sendBtn}
-            onClick={() => send(input)}
-            disabled={loading || !input.trim()}
-          >
-            Send
-          </button>
+        <div style={s.inputAreaWrap}>
+          {!!input.trim() && (
+            <div style={s.signalBar}>
+              <div style={s.signalTitle}>Detected goal signals</div>
+              <div style={s.signalChips}>
+                {liveSignals.length > 0 ? liveSignals.map((group) => (
+                  <div key={group.label} style={{ ...s.signalChip, borderColor: group.color }}>
+                    <span style={{ ...s.signalDot, background: group.color }} />
+                    <strong>{group.label}</strong>
+                    <span style={s.signalHits}>{group.hits.slice(0, 3).join(' · ')}</span>
+                  </div>
+                )) : (
+                  <div style={s.signalEmpty}>Tip: include words like leads, ads, content, review, report — or 中文关键词 like 线索 / 投放 / 内容 / 评价 / 报告.</div>
+                )}
+              </div>
+            </div>
+          )}
+
+          <div style={s.inputArea}>
+            <textarea
+              ref={inputRef}
+              style={s.textarea}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={onKey}
+              placeholder="Describe a goal or task… e.g. 我想提升线索回复速度并提高转化"
+              rows={2}
+              disabled={loading}
+            />
+            <button
+              className="btn btn-primary"
+              style={s.sendBtn}
+              onClick={() => send(input)}
+              disabled={loading || !input.trim()}
+            >
+              Send
+            </button>
+          </div>
         </div>
       </div>
 
@@ -338,12 +406,12 @@ export default function Chat({ onTaskCreated, onNav }) {
         <div className="card" style={s.sideCard}>
           <div style={s.sideTitle}>Agent Routing</div>
           {[
-            { kw: 'goal / growth objective', agent: 'Growth Ops + team', color: '#0f4c81' },
-            { kw: 'lead / follow-up', agent: 'Lead Response Agent', color: '#d97706' },
-            { kw: 'social / review / caption', agent: 'Social & Rep. Agent', color: '#7c3aed' },
-            { kw: 'blog / SEO / copy', agent: 'Content Strategist', color: '#059669' },
-            { kw: 'analytics / report / GA4', agent: 'Reporting Agent', color: '#0ea5e9' },
-            { kw: 'CRM / pipeline / campaign', agent: 'Growth Ops Agent', color: '#b91c1c' },
+            { kw: 'goal / growth objective / 目标 / 策略', agent: 'Growth Ops + team', color: '#0f4c81' },
+            { kw: 'lead / follow-up / 线索 / 跟进', agent: 'Lead Response Agent', color: '#d97706' },
+            { kw: 'social / review / caption / 评价 / 社媒', agent: 'Social & Rep. Agent', color: '#7c3aed' },
+            { kw: 'blog / SEO / copy / 内容 / 文案', agent: 'Content Strategist', color: '#059669' },
+            { kw: 'analytics / report / GA4 / 数据 / 周报', agent: 'Reporting Agent', color: '#0ea5e9' },
+            { kw: 'CRM / pipeline / campaign / 投放 / 成本', agent: 'Growth Ops Agent', color: '#b91c1c' },
           ].map((r) => (
             <div key={r.kw} style={s.routeRow}>
               <code style={s.routeKw}>{r.kw}</code>
@@ -541,9 +609,49 @@ const s = {
   thinkingRow: { display: 'flex', alignItems: 'center', gap: 8 },
   thinkingLabel: { fontSize: 11, color: 'var(--color-text-muted)', fontStyle: 'italic' },
 
+  inputAreaWrap: {
+    borderTop: '1px solid var(--color-border)', background: 'var(--color-surface)',
+  },
+  signalBar: {
+    padding: '10px 14px 0',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 8,
+  },
+  signalTitle: {
+    fontSize: 11,
+    fontWeight: 700,
+    textTransform: 'uppercase',
+    letterSpacing: '0.06em',
+    color: 'var(--color-text-muted)',
+  },
+  signalChips: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: 8,
+    paddingBottom: 2,
+  },
+  signalChip: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: 8,
+    padding: '6px 10px',
+    borderRadius: 999,
+    border: '1px solid var(--color-border)',
+    background: 'var(--color-surface-2)',
+    fontSize: 11,
+    color: 'var(--color-text)',
+  },
+  signalDot: { width: 8, height: 8, borderRadius: '50%' },
+  signalHits: { color: 'var(--color-text-muted)' },
+  signalEmpty: {
+    fontSize: 11,
+    color: 'var(--color-text-muted)',
+    padding: '4px 0 8px',
+  },
   inputArea: {
     display: 'flex', gap: 8, padding: '10px 14px',
-    borderTop: '1px solid var(--color-border)', background: 'var(--color-surface)',
+    background: 'var(--color-surface)',
   },
   textarea: {
     flex: 1, resize: 'none', border: '1px solid var(--color-border)', borderRadius: 8,

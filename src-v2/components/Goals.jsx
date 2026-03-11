@@ -21,7 +21,7 @@ export default function Goals({ goals = [], tasks = [], onNav }) {
     <div style={styles.page}>
       <div style={styles.hero} className="card">
         <div>
-          <div style={styles.eyebrow}>Goals v1</div>
+          <div style={styles.eyebrow}>Goal Planning</div>
           <h2 style={styles.title}>Translate strategy into visible workstreams.</h2>
           <p style={styles.sub}>
             This view keeps business objectives separate from day-to-day tasks so managers can see
@@ -102,7 +102,7 @@ export default function Goals({ goals = [], tasks = [], onNav }) {
 
 const styles = {
   page: { display: 'flex', flexDirection: 'column', gap: 16 },
-  hero: { padding: '18px 20px', display: 'flex', justifyContent: 'space-between', gap: 16, alignItems: 'flex-end' },
+  hero: { padding: '18px 20px', display: 'flex', justifyContent: 'space-between', gap: 16, alignItems: 'flex-end', background: 'linear-gradient(180deg, rgba(229,244,255,0.95) 0%, rgba(255,255,255,0.92) 100%)' },
   eyebrow: { fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--color-primary)', marginBottom: 8 },
   title: { fontSize: 24, lineHeight: 1.15, marginBottom: 8, color: 'var(--color-text)' },
   sub: { color: 'var(--color-text-secondary)', maxWidth: 760, lineHeight: 1.6 },

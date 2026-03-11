@@ -78,9 +78,9 @@ export default function Dashboard({ onNav, approvalCount, tasks = [], approvals 
       {/* ── Hero / positioning banner ──────────── */}
       <div className="card" style={s.heroBanner}>
         <div style={s.heroLeft}>
-          <div style={s.eyebrow}>Okeanos AI Team · Command Center</div>
-          <h2 style={s.heroTitle}>Your 6-agent marketing team is running.</h2>
-          <p style={s.heroSub}>AI drafts · You approve · Team executes. Nothing ships without your sign-off.</p>
+          <div style={s.eyebrow}>Okeanos AI Team · Ocean Professional</div>
+          <h2 style={s.heroTitle}>A trust-first operating system for growth, leads, and reputation.</h2>
+          <p style={s.heroSub}>Built around Okeanos priorities: trust, professionalism, affordability, fast response, and visible approval control.</p>
         </div>
         <div style={s.heroActions}>
           <button className="btn btn-primary" onClick={() => onNav('chat')}>
@@ -274,9 +274,10 @@ const s = {
   alertBtn: { background: '#d97706', color: '#fff', border: 'none', flexShrink: 0 },
 
   heroBanner: {
-    padding: '16px 20px', display: 'flex', justifyContent: 'space-between',
-    alignItems: 'center', gap: 16, background: 'linear-gradient(135deg, #0b3d6b 0%, #0f4c81 100%)',
-    borderColor: '#0b3d6b',
+    padding: '18px 22px', display: 'flex', justifyContent: 'space-between',
+    alignItems: 'center', gap: 16, background: 'linear-gradient(135deg, #0b2d4d 0%, #1275bc 58%, #12d6e5 120%)',
+    borderColor: '#0b2d4d',
+    boxShadow: '0 18px 40px rgba(18,117,188,0.18)',
   },
   heroLeft: { flex: 1 },
   eyebrow: { fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'rgba(255,255,255,0.6)', marginBottom: 6 },

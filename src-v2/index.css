@@ -1,46 +1,45 @@
 /* ── CSS Variables ─────────────────────────────────────────────── */
 :root {
-  --color-bg: #f0f4f8;
+  --color-bg: #f4f8fb;
   --color-surface: #ffffff;
-  --color-surface-2: #f7f9fc;
-  --color-surface-3: #eef2f7;
-  --color-border: #e1e7ef;
-  --color-border-strong: #c7d2de;
+  --color-surface-2: #f6fbff;
+  --color-surface-3: #e9f3fa;
+  --color-border: #d8e7f2;
+  --color-border-strong: #adc8db;
 
-  --color-primary: #0b3d6b;
-  --color-primary-mid: #0f4c81;
-  --color-primary-light: #1a6eb5;
-  --color-primary-muted: #dbeafe;
+  --color-primary: #0b2d4d;
+  --color-primary-mid: #1275bc;
+  --color-primary-light: #1696d2;
+  --color-primary-muted: #e5f4ff;
 
-  --color-accent: #0ea5e9;
-  --color-accent-muted: #e0f2fe;
+  --color-accent: #12d6e5;
+  --color-accent-muted: #e7fdff;
 
-  --color-green: #10b981;
-  --color-green-muted: #d1fae5;
+  --color-green: #10966d;
+  --color-green-muted: #d9f7ee;
 
-  --color-amber: #f59e0b;
-  --color-amber-muted: #fef3c7;
+  --color-amber: #d29a1f;
+  --color-amber-muted: #fff4d8;
 
-  --color-red: #ef4444;
-  --color-red-muted: #fee2e2;
+  --color-red: #d84d57;
+  --color-red-muted: #fee9eb;
 
-  --color-text: #0c1929;
-  --color-text-secondary: #3d5166;
-  --color-text-muted: #7a93ab;
+  --color-text: #123047;
+  --color-text-secondary: #44657d;
+  --color-text-muted: #7391a7;
 
-  /* V2: slightly narrower sidebar, taller header */
-  --sidebar-width: 232px;
-  --header-height: 60px;
+  --sidebar-width: 244px;
+  --header-height: 64px;
 
   --radius-sm: 4px;
-  --radius: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
+  --radius: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
 
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
-  --shadow: 0 2px 6px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.05);
-  --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.05);
-  --shadow-lg: 0 12px 24px rgba(0,0,0,0.10), 0 4px 8px rgba(0,0,0,0.05);
+  --shadow-sm: 0 1px 3px rgba(11,45,77,0.05), 0 1px 2px rgba(18,117,188,0.03);
+  --shadow: 0 8px 24px rgba(11,45,77,0.08), 0 2px 8px rgba(18,117,188,0.04);
+  --shadow-md: 0 14px 36px rgba(11,45,77,0.10), 0 4px 14px rgba(18,117,188,0.05);
+  --shadow-lg: 0 20px 44px rgba(11,45,77,0.12), 0 6px 18px rgba(18,117,188,0.06);
 
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
@@ -52,7 +51,9 @@
 html, body, #root {
   height: 100%;
   font-family: var(--font-sans);
-  background: var(--color-bg);
+  background:
+    radial-gradient(circle at top left, rgba(18, 214, 229, 0.10), transparent 28%),
+    linear-gradient(180deg, #f8fcff 0%, var(--color-bg) 100%);
   color: var(--color-text);
   font-size: 14px;
   line-height: 1.5;
@@ -89,10 +90,11 @@ input, textarea { font-family: inherit; }
 
 /* ── Card ──────────────────────────────────────────────────────── */
 .card {
-  background: var(--color-surface);
+  background: linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(246,251,255,0.96) 100%);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(8px);
 }
 
 /* ── Buttons ───────────────────────────────────────────────────── */
@@ -109,11 +111,11 @@ input, textarea { font-family: inherit; }
 }
 
 .btn-primary {
-  background: var(--color-primary);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-mid) 100%);
   color: #fff;
-  box-shadow: 0 1px 3px rgba(11,61,107,0.25);
+  box-shadow: 0 6px 16px rgba(18,117,188,0.18);
 }
-.btn-primary:hover { background: var(--color-primary-light); }
+.btn-primary:hover { background: linear-gradient(135deg, var(--color-primary-mid) 0%, var(--color-primary-light) 100%); }
 .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .btn-ghost {

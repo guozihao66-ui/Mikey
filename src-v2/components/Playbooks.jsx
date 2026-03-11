@@ -57,9 +57,8 @@ export default function Playbooks() {
       <div style={styles.intro} className="card">
         <h2 style={styles.title}>Core Operating Playbooks</h2>
         <p style={styles.text}>
-          These are the main prototype workflows behind the Okeanos Marketing AI Team. The goal is
-          not to show every possible process — just the few that best explain how the team works in
-          practice.
+          These are the prototype workflows that best communicate how Okeanos turns trust, fast response,
+          and operational discipline into repeatable execution.
         </p>
       </div>
 

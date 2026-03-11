@@ -18,10 +18,10 @@ export default function Team({ onChatWithLeader }) {
 
       <div style={styles.intro}>
         <p style={styles.introText}>
-          The Okeanos Marketing AI Team is a compact 6-agent team built on a{' '}
-          <strong>draft → review → approve</strong> model. Every output is reviewed by your
+          The Okeanos Marketing AI Team is a compact 6-agent operating model built around
+          <strong> trust, professionalism, affordability, and approval control</strong>. Every output is reviewed by your
           human team before any action is taken. No content is published, no email is sent,
-          and no response is posted without your explicit sign-off.
+          and no response is posted without explicit sign-off.
         </p>
       </div>
 

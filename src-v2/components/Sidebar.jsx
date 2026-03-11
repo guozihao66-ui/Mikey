@@ -93,11 +93,12 @@ const styles = {
   sidebar: {
     width: 'var(--sidebar-width)',
     minWidth: 'var(--sidebar-width)',
-    background: '#0b1e34',
+    background: 'linear-gradient(180deg, #081f34 0%, #0b2d4d 52%, #1170af 100%)',
     display: 'flex',
     flexDirection: 'column',
     height: '100vh',
     overflow: 'hidden',
+    boxShadow: 'inset -1px 0 0 rgba(255,255,255,0.08)',
   },
   brand: {
     display: 'flex',
@@ -140,12 +141,12 @@ const styles = {
     marginTop: 2,
   },
   brandSub: {
-    color: 'rgba(255,255,255,0.45)',
+    color: 'rgba(255,255,255,0.62)',
     fontSize: 10,
   },
   v2Pill: {
-    background: 'rgba(245,158,11,0.18)',
-    color: '#fbbf24',
+    background: 'rgba(18,214,229,0.18)',
+    color: '#9df8ff',
     fontSize: 9,
     fontWeight: 800,
     padding: '1px 6px',

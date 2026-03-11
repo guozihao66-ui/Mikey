@@ -372,7 +372,7 @@ export default function Chat({ onTaskCreated, onNav }) {
                     <span style={s.signalHits}>{group.hits.slice(0, 3).join(' · ')}</span>
                   </div>
                 )) : (
-                  <div style={s.signalEmpty}>Tip: include words like leads, ads, content, review, report, conversion, budget, or follow-up to improve routing.</div>
+                  <div style={s.signalEmpty}>Tip: mention concrete business terms such as quote request, financing, showroom, reviews, warranty, postal code targeting, consultation, or referral to improve routing.</div>
                 )}
               </div>
             </div>
@@ -385,7 +385,7 @@ export default function Chat({ onTaskCreated, onNav }) {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={onKey}
-              placeholder="Describe a goal or task… e.g. Improve lead response speed and conversion rate"
+              placeholder="Describe a goal or task… e.g. Improve consultation bookings in Oakville while protecting lead quality"
               rows={2}
               disabled={loading}
             />

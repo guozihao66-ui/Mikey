@@ -41,9 +41,9 @@ export default function Header({ page }) {
         <p style={styles.sub}>{meta.sub}</p>
       </div>
       <div style={styles.right}>
-        <div style={styles.v2Badge}>Prototype Mode</div>
+        <div style={styles.v2Badge}>Client Demo</div>
         <div style={styles.modelBadge}>workflow-first</div>
-        <div style={styles.avatar} title="Marketing Team">MT</div>
+        <div style={styles.avatar} title="Marketing Team">OK</div>
       </div>
     </header>
   );
@@ -92,9 +92,9 @@ const styles = {
   v2Badge: {
     fontSize: 11,
     fontWeight: 700,
-    color: '#92400e',
-    background: '#fef3c7',
-    border: '1px solid #fcd34d',
+    color: '#0b5d78',
+    background: 'var(--color-accent-muted)',
+    border: '1px solid #a5f3fc',
     borderRadius: 6,
     padding: '3px 9px',
     letterSpacing: '0.02em',

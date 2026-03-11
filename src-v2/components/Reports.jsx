@@ -185,7 +185,7 @@ export default function Reports() {
 const styles = {
   layout: { display: 'flex', gap: 16, alignItems: 'flex-start', height: '100%' },
   listCol: { width: 260, flexShrink: 0, display: 'flex', flexDirection: 'column', gap: 8 },
-  listHeader: { display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 },
+  listHeader: { display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4, padding: '4px 2px' },
   listTitle: { fontSize: 13, fontWeight: 600, color: 'var(--color-text)' },
   listCount: {
     background: 'var(--color-border)',
@@ -208,7 +208,7 @@ const styles = {
   reportTitle: { fontSize: 13, fontWeight: 500, color: 'var(--color-text)', lineHeight: 1.4, marginBottom: 4 },
   reportMeta: { fontSize: 11, color: 'var(--color-text-muted)' },
   viewerCol: { flex: 1, minHeight: 400 },
-  viewer: { padding: '22px 26px' },
+  viewer: { padding: '22px 26px', background: 'linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(247,252,255,0.96) 100%)' },
   viewerHeader: {
     display: 'flex',
     justifyContent: 'space-between',

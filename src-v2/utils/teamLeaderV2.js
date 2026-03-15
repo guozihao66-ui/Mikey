@@ -202,6 +202,10 @@ function buildAssignments(assignments) {
   }));
 }
 
+function normalizeInput(text) {
+  return text.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+}
+
 // ── Approval helper ──────────────────────────────────────────────────────────
 
 function makeApproval(task, title, description, agent, agentName, priority, type) {
@@ -862,6 +866,158 @@ function fallbackResponse(userMessage) {
   };
 }
 
+function quickStartResponse(userMessage) {
+  const normalized = normalizeInput(userMessage);
+
+  if (normalized === 'increase consultation bookings from budget conscious gta families without hurting lead quality') {
+    return leadGenerationGoalResponse('Increase consultation bookings from budget-conscious GTA families without hurting lead quality', 'high', {
+      hasNumber: false,
+      timeWeek: false,
+      timeMonth: true,
+      timeQuarter: false,
+    });
+  }
+
+  if (normalized === 'build a referral workflow for landscapers and builders in vaughan and oakville') {
+    const taskA = {
+      id: nextId(),
+      title: 'Referral Workflow: Partner Program Design',
+      description: 'Growth Ops Agent is designing a practical referral workflow for landscapers and builders in Vaughan and Oakville.',
+      assignedTo: 'growth-ops', requestedBy: 'team-leader', priority: 'high',
+      status: 'in-review', createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(),
+      tags: ['goal', 'referral', 'growth-ops'],
+      outputLabel: 'Partner Referral Workflow',
+      output: `Workflow objective
+- Build a repeatable referral system for landscapers and builders in Vaughan and Oakville
+
+Recommended structure
+1. Identify ideal partner profiles by volume, reputation, and project fit
+2. Create a simple partner offer with clear referral handoff rules
+3. Prepare outreach messaging, follow-up cadence, and referral tracking
+4. Define success metrics: partner sign-ups, referred consultations, referred quotes, closed projects`,
+    };
+    const taskB = {
+      id: nextId(),
+      title: 'Referral Workflow: Partner Messaging Kit',
+      description: 'Content Strategist is preparing outreach copy and a simple partner-facing value proposition.',
+      assignedTo: 'content-strategist', requestedBy: 'team-leader', priority: 'medium',
+      status: 'in-review', createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(),
+      tags: ['goal', 'referral', 'content'],
+      outputLabel: 'Referral Messaging Kit',
+      output: `Messaging kit
+- Short intro email for landscapers and builders
+- Partner value proposition focused on trust, professionalism, and homeowner fit
+- One-page referral process summary
+- Suggested CTA: book a partner intro call`,
+    };
+    const taskC = {
+      id: nextId(),
+      title: 'Referral Workflow: KPI Tracking Setup',
+      description: 'Reporting Agent is defining how referral activity should be tracked and reviewed.',
+      assignedTo: 'reporting', requestedBy: 'team-leader', priority: 'medium',
+      status: 'in-review', createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(),
+      tags: ['goal', 'referral', 'reporting'],
+      outputLabel: 'Referral KPI Framework',
+      output: `Tracking framework
+- Active partners
+- Referrals received
+- Consultations booked from referrals
+- Quote conversion from referrals
+- Closed projects from referral channel`,
+    };
+    const approval = makeApproval(taskA, 'Referral Workflow Plan — Approve to Activate', 'AI Team Leader prepared a first-pass partner referral workflow for Vaughan and Oakville.', 'growth-ops', 'AI Team Leader + Growth Ops Agent', 'high', 'Campaign Brief');
+    taskA.generatedApproval = approval; taskA.newApproval = approval;
+    return {
+      intent: 'goal-planning',
+      routingTrace: buildTrace('goal-planning', 'high', 'growth-ops', 'Referral workflow objective → Growth Ops + Content Strategist + Reporting'),
+      assignments: buildAssignments([
+        { agent: 'growth-ops', title: 'Partner Program Design', reason: 'Owns workflow, partner qualification, and operational rollout', deliverable: 'Referral workflow and partner handoff design' },
+        { agent: 'content-strategist', title: 'Partner Messaging Kit', reason: 'Owns outreach positioning and partner-facing copy', deliverable: 'Intro email, partner pitch, and one-page workflow summary' },
+        { agent: 'reporting', title: 'Referral KPI Setup', reason: 'Keeps referral channel measurable from the start', deliverable: 'KPI framework and review cadence' },
+      ]),
+      message: `**Goal received** — I'm treating this as a **partner referral workflow objective**.\n\n**What I extracted:**\n- Audience: landscapers and builders\n- Markets: Vaughan and Oakville\n- Outcome: build a repeatable referral channel, not just a one-off outreach campaign\n\n**Initial operating plan:**\n1. Define who the best-fit partners are and what qualifies them\n2. Build a simple referral workflow with clear handoff and follow-up rules\n3. Prepare partner-facing messaging so outreach is professional and easy to repeat\n4. Track whether referral activity is leading to consultations, quotes, and closed projects\n\n**3 workstreams created:**\n1. **Partner Program Design** → Growth Ops Agent\n2. **Partner Messaging Kit** → Content Strategist\n3. **Referral KPI Setup** → Reporting Agent\n\nOpen **Tasks** to review the workstreams, or **Approvals** to approve the direction.`,
+      routedAgent: 'growth-ops',
+      newTask: taskA,
+      extraTasks: [taskB, taskC],
+      newApproval: approval,
+    };
+  }
+
+  if (normalized === 'reduce ad spend without losing lead quality in our top postal code targets') {
+    return adEfficiencyGoalResponse('Reduce ad spend without losing lead quality in our top postal code targets', 'high');
+  }
+
+  if (normalized === 'generate this week s weekly marketing report with priority markets and review status') {
+    const base = weeklyReportResponse();
+    return {
+      ...base,
+      message: `**Weekly Marketing Report — Okeanos Pools GTA**\n**Week of ${today()}**\n\n---\n\n**Website Traffic (GA4)**\n- Sessions: **1,842** ↑12% WoW\n- Unique users: **1,390** ↑14%\n- Goal completions: **14** ↑27%\n\n**Lead Summary**\n- 14 new leads this week\n- Google Ads: 7 | Organic: 4 | Direct: 2 | Meta: 1\n- Avg. lead response time: **23 min** ✅ (target <30 min)\n\n**Priority Markets**\n- **Oakville** — strongest trust/proof-content opportunity\n- **Vaughan** — strongest partner/referral opportunity\n- **Thornhill** — worth testing for consultation demand\n\n**Review Status**\n- 1 high-priority negative review still awaiting approval\n- Review response backlog should stay under 24h\n- Review generation should target recent completed projects first\n\n**Recommended Actions**\n1. Clear pending review approvals first\n2. Push the next proof-driven content asset in Oakville\n3. Keep Vaughan partner/referral outreach active this week\n\nFull formatted report is in the **Reports** tab.`,
+    };
+  }
+
+  if (normalized === 'give me a summary of leads quotes reviews and follow up bottlenecks') {
+    return {
+      intent: 'work-summary',
+      routingTrace: buildTrace('work-summary', 'high', null, 'Executive operating summary across leads, quotes, reviews, and follow-up bottlenecks'),
+      message: `**Operating Summary — Leads, Quotes, Reviews, and Follow-Up Bottlenecks**\n\n**Leads**\n- Lead volume remains healthy, with Google Ads still producing the strongest high-intent inquiries\n- Organic leads continue to support trust-driven demand\n- Meta remains weaker on quality and should be watched closely\n\n**Quotes**\n- Quote activity is steady, but conversion depends heavily on follow-up discipline\n- The biggest risk is not lack of quoting — it is slow or inconsistent follow-up after the quote is sent\n\n**Reviews**\n- Reviews remain one of the strongest trust assets in the funnel\n- One negative review item still needs approval and response\n- Review generation after completed projects is still underused\n\n**Follow-Up Bottlenecks**\n1. Response speed is good overall, but quote-stage follow-up can stall\n2. Some leads are not being moved quickly enough toward consultation\n3. Trust assets are not always visible enough at decision stage\n\n**Priority next actions**\n- Clear pending approvals\n- Tighten quote-stage follow-up cadence\n- Push more review requests from completed projects`,
+      routedAgent: null,
+      newTask: null,
+    };
+  }
+
+  if (normalized === 'draft a follow up for a lead comparing 3 quotes and asking about financing') {
+    return leadResponseResponse('Draft a follow-up for a lead comparing 3 quotes and asking about financing');
+  }
+
+  if (normalized === 'write an instagram caption for an oakville before and after fiberglass pool project') {
+    return socialReputationResponse('Write an Instagram caption for an Oakville before-and-after fiberglass pool project');
+  }
+
+  if (normalized === 'create a showroom visit nurture sequence using brochure before and after photos and trust messaging') {
+    const task = {
+      id: nextId(),
+      title: 'Lead Nurture: Showroom Visit Sequence',
+      description: 'Lead Response Agent prepared a showroom-visit nurture sequence using brochure support, before/after visuals, and trust messaging.',
+      assignedTo: 'lead-response', requestedBy: 'team-leader', priority: 'high',
+      status: 'in-review', createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(),
+      tags: ['lead-response', 'nurture', 'showroom'],
+      outputLabel: 'Showroom Nurture Sequence',
+      output: `Sequence objective
+- Move a showroom visitor from early interest toward consultation and quote readiness
+
+Email 1 — Thank you + brochure send
+- Thank the prospect for visiting the showroom
+- Attach or reference the brochure
+- Reinforce Okeanos trust, process clarity, and fiberglass expertise
+
+Email 2 — Before/after proof
+- Share before-and-after project visuals
+- Emphasize project transformation, quality, and homeowner confidence
+- Invite questions about fit, timing, and budget
+
+Email 3 — Trust + next step
+- Reinforce reviews, professionalism, and low-friction experience
+- Invite a consultation or site-visit discussion
+- Keep the CTA simple and consultation-focused`,
+    };
+    const approval = makeApproval(task, 'Showroom Nurture Approval — Review Sequence', 'Lead Response Agent prepared a 3-step showroom visitor nurture sequence for review.', 'lead-response', 'Lead Response Agent', 'high', 'Lead Follow-up');
+    task.generatedApproval = approval; task.newApproval = approval;
+    return {
+      intent: 'lead-response',
+      routingTrace: buildTrace('lead-response', 'high', 'lead-response', 'Showroom nurture request → Lead Response Agent'),
+      assignments: buildAssignments([
+        { agent: 'lead-response', title: 'Build showroom nurture sequence', reason: 'Owns lead follow-up structure and consultation-oriented messaging', deliverable: '3-step email sequence using brochure, proof visuals, and trust messaging' },
+      ]),
+      message: `**Routed to Lead Response Agent — high priority.**\n\nA showroom-visit nurture sequence is ready for review.\n\n**What the team prepared:**\n- A 3-step sequence built around brochure support, before/after proof, and trust messaging\n- Clear progression from showroom interest to consultation-ready next step\n- Low-friction CTA language designed to keep the conversation moving\n\nOpen **Tasks** to review the draft, or **Approvals** to review it formally.`,
+      routedAgent: 'lead-response',
+      newTask: task,
+      newApproval: approval,
+    };
+  }
+
+  return null;
+}
+
 // ── Public API ───────────────────────────────────────────────────────────────
 
 export async function getTeamLeaderResponse(userMessage) {
@@ -873,10 +1029,14 @@ export async function getTeamLeaderResponse(userMessage) {
   const delay = 600 + Math.random() * 800;
   await new Promise((resolve) => setTimeout(resolve, delay));
 
-  // 3. Classify
+  // 3. High-quality exact handling for quick-start prompts
+  const quickStart = quickStartResponse(userMessage);
+  if (quickStart) return quickStart;
+
+  // 4. Classify
   const { intent, confidence, features } = classifyIntent(userMessage);
 
-  // 4. Dispatch
+  // 5. Dispatch
   switch (intent) {
     case 'goal-planning':     return goalPlanningResponse(userMessage, confidence, features);
     case 'weekly-report':     return weeklyReportResponse();

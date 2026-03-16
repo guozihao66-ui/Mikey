@@ -1029,10 +1029,6 @@ export async function getTeamLeaderResponse(userMessage) {
   const delay = 600 + Math.random() * 800;
   await new Promise((resolve) => setTimeout(resolve, delay));
 
-  // 3. High-quality exact handling for quick-start prompts
-  const quickStart = quickStartResponse(userMessage);
-  if (quickStart) return quickStart;
-
   // 4. Classify
   const { intent, confidence, features } = classifyIntent(userMessage);
 

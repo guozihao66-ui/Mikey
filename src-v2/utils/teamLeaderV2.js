@@ -980,13 +980,41 @@ Recommended structure
   }
 
   if (normalized === 'identify an under targeted fiberglass pool customer segment in ontario and propose a campaign to reach them' || isOntarioSegmentPrompt) {
+    const task = {
+      id: nextId(),
+      title: 'Ontario Segment Strategy: Under-Targeted Fiberglass Audience',
+      description: 'Growth Ops Agent prepared a strategic audience recommendation and campaign concept for an under-targeted fiberglass pool segment in Ontario.',
+      assignedTo: 'growth-ops', requestedBy: 'team-leader', priority: 'high',
+      status: 'in-review', createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(),
+      tags: ['growth-ops', 'strategy', 'segmentation', 'ontario', 'fiberglass'],
+      outputLabel: 'Segment Strategy Brief',
+      output: `Recommended segment
+- Affluent empty-nesters and downsizers in suburban GTA markets
+
+Why this segment
+- Often overlooked by family-first pool marketing
+- High fit for fiberglass positioning around low maintenance and predictable ownership
+- Strong alignment with premium backyard upgrade messaging
+
+Campaign concept
+- Theme: Low-Maintenance Luxury for Ontario Backyards
+- Channels: Paid Search, Paid Social, consultation-focused landing page
+- CTA: Book a Design Consultation
+
+Execution priorities
+1. Launch Ontario intent-based search terms
+2. Use premium transformation and lifestyle social creative
+3. Route traffic to a dedicated consultation-first landing page`,
+    };
     return {
       intent: 'growth-ops',
       routingTrace: buildTrace('growth-ops', 'high', 'growth-ops', 'Strategic segmentation + campaign design request for Ontario fiberglass audience'),
       assignments: buildAssignments([
         { agent: 'growth-ops', title: 'Define under-targeted Ontario segment', reason: 'Best fit for audience strategy, positioning, and channel selection', deliverable: 'Segment recommendation with campaign concept and execution plan' },
       ]),
-      message: `# Under-Targeted Customer Segment Opportunity
+      message: `**Routed to Growth Ops Agent — strategy brief created.**
+
+# Under-Targeted Customer Segment Opportunity
 
 One under-targeted fiberglass pool customer segment in Ontario is **affluent empty-nesters and downsizers in suburban GTA markets** — homeowners who want a premium backyard upgrade, but care more about **low maintenance, installation predictability, and long-term ease of ownership** than family-oriented “summer fun” messaging.
 
@@ -1058,7 +1086,7 @@ This segment is attractive because it is:
 
 If Okeanos wants a campaign that feels more distinctive and premium, this is one of the strongest under-targeted segments to pursue.`,
       routedAgent: 'growth-ops',
-      newTask: null,
+      newTask: task,
     };
   }
 

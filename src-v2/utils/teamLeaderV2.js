@@ -868,6 +868,12 @@ function fallbackResponse(userMessage) {
 
 function quickStartResponse(userMessage) {
   const normalized = normalizeInput(userMessage);
+  const isOntarioSegmentPrompt =
+    normalized.includes('under targeted') &&
+    normalized.includes('fiberglass') &&
+    normalized.includes('ontario') &&
+    normalized.includes('campaign') &&
+    normalized.includes('reach');
 
   if (normalized === 'increase consultation bookings from budget conscious gta families without hurting lead quality') {
     return leadGenerationGoalResponse('Increase consultation bookings from budget-conscious GTA families without hurting lead quality', 'high', {
@@ -973,7 +979,7 @@ Recommended structure
     return socialReputationResponse('Write an Instagram caption for an Oakville before-and-after fiberglass pool project');
   }
 
-  if (normalized === 'identify an under targeted fiberglass pool customer segment in ontario and propose a campaign to reach them') {
+  if (normalized === 'identify an under targeted fiberglass pool customer segment in ontario and propose a campaign to reach them' || isOntarioSegmentPrompt) {
     return {
       intent: 'growth-ops',
       routingTrace: buildTrace('growth-ops', 'high', 'growth-ops', 'Strategic segmentation + campaign design request for Ontario fiberglass audience'),

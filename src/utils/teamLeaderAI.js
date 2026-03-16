@@ -14,6 +14,210 @@ function hasAny(text, patterns) {
   return patterns.some((p) => p.test(text));
 }
 
+function getSpecialResponse(message) {
+  const m = message.toLowerCase();
+
+  if ((/cost per lead|cpl/.test(m) && /25%|twenty-five percent/.test(m)) || (/reduce/.test(m) && /cost per lead|cpl/.test(m))) {
+    return {
+      intent: 'reporting',
+      message: `Here is a practical plan to reduce **cost per lead by 25%**.
+
+## Working target
+If current CPL is **$38.20**, a 25% reduction means a target of **~$28.65**.
+
+## Biggest opportunities
+1. Reduce weak awareness spend first
+2. Shift budget toward high-intent search
+3. Improve landing page conversion before scaling traffic
+4. Tighten audience quality and exclusions
+5. Refresh creative instead of just spending more
+
+## 30-day action plan
+- **Week 1:** Cut obvious waste
+- **Week 2:** Reallocate budget to strongest search campaigns
+- **Week 3:** Test 2 conversion-focused landing page variants
+- **Week 4:** Review CPL, qualified lead rate, and consultation-booked rate
+
+## KPI guardrails
+Track:
+- CPL
+- Qualified lead rate
+- Consultation booking rate
+- Quote-ready lead volume
+
+## Best next moves
+1. Reduce weak Meta awareness spend
+2. Protect / expand high-intent Google Search
+3. Improve landing page conversion rate
+
+If you want, I can turn this into a **1-page executive recommendation** next.`,
+      routedAgent: 'reporting',
+      newTask: null,
+    };
+  }
+
+  if ((/ppc/.test(m) || /google ads|meta ads|paid search|paid media/.test(m)) && /benchmark|benchmarks/.test(m)) {
+    return {
+      intent: 'reporting',
+      message: `Here is a benchmark-style read on **Okeanos PPC performance**.
+
+## Likely outperformers
+### 1. Google Search — Fiberglass Pool Quotes
+- Strongest bottom-funnel intent
+- Best candidate for qualified consultations
+- Most likely benchmark winner
+
+### 2. Google Search — Pool Installation GTA
+- Likely above average if search terms are controlled well
+- Good local-intent efficiency
+
+## Likely underperformers
+### 3. Meta Lead Form — Backyard Renovation
+- Could generate volume but lead quality may be mixed
+- Better as support than the main efficiency engine
+
+### 4. Meta Awareness — Spring Visual Teaser
+- Most likely below benchmark on direct-response efficiency
+- First place to trim if the goal is lower CPL
+
+## Executive conclusion
+The **likely outperformers are the Google Search campaigns**, especially **Fiberglass Pool Quotes**. The **likely underperformer is Meta Awareness**, with Meta lead forms sitting in the middle but needing quality validation.
+
+If you want, I can format this into a **benchmark table** with recommended actions by campaign.`,
+      routedAgent: 'reporting',
+      newTask: null,
+    };
+  }
+
+  if ((/under-targeted|underserved/.test(m) && /segment/.test(m) && /ontario/.test(m)) || (/fiberglass pool customer segment/.test(m) && /ontario/.test(m))) {
+    return {
+      intent: 'growth-ops',
+      message: `A strong **under-targeted fiberglass pool segment in Ontario** is:
+
+## Segment
+**Affluent downsizers / empty-nesters in suburban GTA neighborhoods** who want a low-maintenance backyard upgrade without the complexity of concrete.
+
+## Why this segment matters
+- Fiberglass aligns with low-maintenance preferences
+- Many competitors over-focus on family messaging
+- This audience responds to simplicity, quality, and long-term enjoyment
+
+## Campaign angle
+**The low-maintenance luxury backyard**
+
+## Messaging themes
+- Easier upkeep than concrete
+- Faster path from decision to enjoyment
+- Clean, engineered look for premium homes
+- Great for entertaining and lifestyle value
+
+## Suggested campaign mix
+- Google Search for high-intent terms
+- Meta / Instagram for visual proof
+- Remarketing for consultation-focused follow-up
+
+## CTA ideas
+- Book a design consultation
+- See fiberglass pool options for Ontario homes
+- Get a realistic project plan and budget range
+
+If you want, I can turn this into a **full campaign brief** with audience, messaging, ad copy, and KPI targets.`,
+      routedAgent: 'growth-ops',
+      newTask: null,
+    };
+  }
+
+  if ((/social media strategy/.test(m) || /instagram|tiktok/.test(m)) && /trend|trends|workflow/.test(m)) {
+    return {
+      intent: 'social-reputation',
+      message: `Here is a practical **Instagram / TikTok lead-gen strategy** for Okeanos.
+
+## Trends worth leveraging
+1. Before / after transformations
+2. Process transparency and install progress
+3. Owner education clips
+4. Local proof from Ontario / GTA projects
+5. Short expert commentary videos
+
+## Best content mix
+- **40% proof**
+- **30% education**
+- **20% process**
+- **10% CTA-focused content**
+
+## Weekly workflow
+### Monday
+Plan 3 themes and 1 CTA for the week
+### Tuesday
+Film 2 expert clips + edit 1 transformation reel
+### Wednesday
+Publish proof / reveal post
+### Thursday
+Publish education post
+### Friday
+Publish trust / process post
+### Daily stories
+Use polls, FAQs, progress shots, and DM prompts
+
+## To avoid generic content
+Each post should include at least one of:
+- Ontario context
+- Real project proof
+- Specific homeowner problem
+- Clear consultation CTA
+
+If you want, I can build a **7-post content calendar with hooks, captions, and CTAs**.`,
+      routedAgent: 'social-reputation',
+      newTask: null,
+    };
+  }
+
+  if ((/executive report/.test(m) || /monthly executive marketing report/.test(m)) && /monthly|month/.test(m)) {
+    return {
+      intent: 'reporting',
+      message: `# Monthly Executive Marketing Report
+## Executive Summary
+This month, search-driven demand continued to outperform awareness-focused paid social. Lead response speed stayed within target, and the clearest efficiency opportunity remains shifting budget toward higher-intent campaigns and improving conversion performance.
+
+## Channel Performance Summary
+### Google Search
+- Strongest source of high-intent traffic
+- Best candidate for qualified consultations
+
+### Meta / Paid Social
+- Useful for reach and remarketing
+- Less reliable as the main direct-response engine
+
+### Organic / Content
+- Supports trust, education, and comparison-stage buyers
+- Can reduce paid dependency over time
+
+### Lead Response / Conversion
+- Response speed remains within target
+- Biggest opportunity is improving consultation-booked rate
+
+## Top Three Actions for Next Month
+1. Reallocate budget toward the highest-intent search campaigns
+2. Refresh paid social creative and narrow targeting
+3. Improve landing page conversion with stronger proof and clearer CTAs
+
+## Suggested KPI section
+- Total leads
+- Qualified leads
+- CPL
+- Consultation booking rate
+- Average response time
+- Channel-level efficiency
+
+If you want, I can convert this into a **fully formatted monthly report with prototype numbers filled in**.`,
+      routedAgent: 'reporting',
+      newTask: null,
+    };
+  }
+
+  return null;
+}
+
 function classifyIntent(message) {
   const m = message.toLowerCase();
 
@@ -384,6 +588,13 @@ function generalResponse(userMessage) {
 export async function getTeamLeaderResponse(userMessage) {
   const backendResult = await tryBackendTeamLeader(userMessage);
   if (backendResult) return backendResult;
+
+  const special = getSpecialResponse(userMessage);
+  if (special) {
+    const delay = 500 + Math.random() * 300;
+    await new Promise((resolve) => setTimeout(resolve, delay));
+    return special;
+  }
 
   const lower = userMessage.toLowerCase();
   const hardGoalFallback = /\b\d+\b/.test(lower) && /\b(next week|next month|this month|this quarter|next quarter|in 30 days|in 60 days)\b/.test(lower) && /\b(order|orders|customer|customers|booking|bookings|consultation|consultations|lead|leads|revenue|sales|conversion|pipeline|ad spend|spend|expenses?|cost|cpl|cpa)\b/.test(lower);

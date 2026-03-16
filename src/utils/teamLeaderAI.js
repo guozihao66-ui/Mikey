@@ -20,37 +20,50 @@ function getSpecialResponse(message) {
   if ((/cost per lead|cpl/.test(m) && /25%|twenty-five percent/.test(m)) || (/reduce/.test(m) && /cost per lead|cpl/.test(m))) {
     return {
       intent: 'reporting',
-      message: `Here is a practical plan to reduce **cost per lead by 25%**.
+      message: `**Key takeaway:** the clearest path to a 25% CPL reduction is not broad cost-cutting. It is a combination of **reducing low-intent paid social waste, protecting high-intent search, and improving landing-page conversion before scaling spend**.
 
-## Working target
-If current CPL is **$38.20**, a 25% reduction means a target of **~$28.65**.
+## 1) Target
+Using the current prototype CPL of **$38.20**, a 25% reduction implies a target of roughly **$28.65 per lead**.
 
-## Biggest opportunities
-1. Reduce weak awareness spend first
-2. Shift budget toward high-intent search
-3. Improve landing page conversion before scaling traffic
-4. Tighten audience quality and exclusions
-5. Refresh creative instead of just spending more
+## 2) Biggest opportunities
+### A. Cut low-efficiency spend first
+The weakest candidate in the current mix is **Meta Awareness — Spring Visual Teaser**.
+- it appears better suited to reach than direct-response lead generation
+- if the goal is lower CPL, this is the first budget line I would reduce or repurpose
 
-## 30-day action plan
-- **Week 1:** Cut obvious waste
-- **Week 2:** Reallocate budget to strongest search campaigns
-- **Week 3:** Test 2 conversion-focused landing page variants
-- **Week 4:** Review CPL, qualified lead rate, and consultation-booked rate
+### B. Protect the highest-intent search campaigns
+The most efficient leads are still most likely coming from **Google Search campaigns tied to quote and installation intent**.
 
-## KPI guardrails
+### C. Improve conversion rate before adding more traffic
+- match ad promise to landing-page headline
+- simplify the consultation form
+- move Ontario trust signals and project clarity above the fold
+
+### D. Tighten audience quality
+- exclude lower-intent placements and broad audiences
+- prioritize stronger homeowner-intent signals
+
+### E. Refresh creative instead of forcing spend
+Use stronger before/after proof, consultation CTAs, and clearer value framing.
+
+## 3) Recommended action plan
+1. trim underperforming awareness spend
+2. reallocate budget into high-intent Google Search campaigns
+3. test two landing-page variants focused on consultation conversion
+4. review both CPL and lead quality
+
+## 4) KPI guardrails
 Track:
 - CPL
-- Qualified lead rate
-- Consultation booking rate
-- Quote-ready lead volume
+- qualified lead rate
+- consultation booking rate
+- quote-ready lead volume
 
-## Best next moves
-1. Reduce weak Meta awareness spend
-2. Protect / expand high-intent Google Search
-3. Improve landing page conversion rate
-
-If you want, I can turn this into a **1-page executive recommendation** next.`,
+## 5) Recommendation
+The most credible route to a 25% CPL reduction is:
+1. reduce weak Meta awareness spend
+2. concentrate budget in quote-intent search campaigns
+3. improve landing-page conversion before scaling traffic further`,
       routedAgent: 'reporting',
       newTask: null,
     };
@@ -59,31 +72,41 @@ If you want, I can turn this into a **1-page executive recommendation** next.`,
   if ((/ppc/.test(m) || /google ads|meta ads|paid search|paid media/.test(m)) && /benchmark|benchmarks/.test(m)) {
     return {
       intent: 'reporting',
-      message: `Here is a benchmark-style read on **Okeanos PPC performance**.
+      message: `**Bottom line:** based on the current prototype campaign mix, the **Google Search campaigns are the most likely outperformers**, while the **Meta awareness campaign is the clearest likely underperformer** against pool-industry direct-response benchmarks.
 
-## Likely outperformers
-### 1. Google Search — Fiberglass Pool Quotes
-- Strongest bottom-funnel intent
-- Best candidate for qualified consultations
-- Most likely benchmark winner
+## 1) Benchmark lens
+For a high-ticket, seasonal home-service category like fiberglass pools, the usual benchmark pattern is:
+- high-intent search drives the strongest lead quality
+- local non-brand search performs better than broad paid social on efficiency
+- awareness campaigns support demand creation but usually look weak on last-click CPL
 
-### 2. Google Search — Pool Installation GTA
-- Likely above average if search terms are controlled well
-- Good local-intent efficiency
+## 2) Likely outperformers
+### Google Search — Fiberglass Pool Quotes
+- strongest candidate to outperform
+- closest to decision-stage intent
+- most likely to generate consultation-ready traffic
 
-## Likely underperformers
-### 3. Meta Lead Form — Backyard Renovation
-- Could generate volume but lead quality may be mixed
-- Better as support than the main efficiency engine
+### Google Search — Pool Installation GTA
+- likely second-strongest performer
+- strong local intent
+- usually more efficient than social if keyword quality is managed well
 
-### 4. Meta Awareness — Spring Visual Teaser
-- Most likely below benchmark on direct-response efficiency
-- First place to trim if the goal is lower CPL
+## 3) Likely middle performer
+### Meta Lead Form — Backyard Renovation
+- may help with volume
+- but lead quality should be validated on booked consultations, not just form fills
 
-## Executive conclusion
-The **likely outperformers are the Google Search campaigns**, especially **Fiberglass Pool Quotes**. The **likely underperformer is Meta Awareness**, with Meta lead forms sitting in the middle but needing quality validation.
+## 4) Likely underperformer
+### Meta Awareness — Spring Visual Teaser
+- most likely weak on direct-response efficiency
+- better suited to reach than bottom-funnel conversion
+- first place to review if budget has to move
 
-If you want, I can format this into a **benchmark table** with recommended actions by campaign.`,
+## 5) Recommendation
+Leadership summary:
+- likely outperforming: Fiberglass Pool Quotes, Pool Installation GTA
+- needs quality validation: Backyard Renovation lead form campaign
+- most likely below benchmark: Spring Visual Teaser awareness campaign`,
       routedAgent: 'reporting',
       newTask: null,
     };
@@ -92,36 +115,42 @@ If you want, I can format this into a **benchmark table** with recommended actio
   if ((/under-targeted|underserved/.test(m) && /segment/.test(m) && /ontario/.test(m)) || (/fiberglass pool customer segment/.test(m) && /ontario/.test(m))) {
     return {
       intent: 'growth-ops',
-      message: `A strong **under-targeted fiberglass pool segment in Ontario** is:
+      message: `A strong **under-targeted fiberglass pool customer segment in Ontario** is **affluent empty-nesters / downsizers in suburban GTA markets** who want a premium backyard upgrade but value **low maintenance, installation predictability, and long-term ease of ownership**.
 
-## Segment
-**Affluent downsizers / empty-nesters in suburban GTA neighborhoods** who want a low-maintenance backyard upgrade without the complexity of concrete.
+## Why this segment stands out
+Most pool marketing over-focuses on families with young children. That creates an opening with homeowners who:
+- still have spending power
+- care more about simplicity and aesthetics than family-play messaging
+- are naturally aligned with the strengths of fiberglass
 
-## Why this segment matters
-- Fiberglass aligns with low-maintenance preferences
-- Many competitors over-focus on family messaging
-- This audience responds to simplicity, quality, and long-term enjoyment
+## Strategic insight
+This segment is buying:
+- convenience
+- quality
+- a polished outdoor lifestyle upgrade
+- less operational hassle over time
 
-## Campaign angle
-**The low-maintenance luxury backyard**
+## Campaign concept
+**Low-maintenance luxury for Ontario backyards**
 
-## Messaging themes
-- Easier upkeep than concrete
-- Faster path from decision to enjoyment
-- Clean, engineered look for premium homes
-- Great for entertaining and lifestyle value
+## Messaging pillars
+1. lower maintenance than concrete
+2. faster path from decision to enjoyment
+3. premium, engineered finish
+4. ideal for entertaining and long-term home enjoyment
 
-## Suggested campaign mix
-- Google Search for high-intent terms
-- Meta / Instagram for visual proof
-- Remarketing for consultation-focused follow-up
+## Campaign structure
+- Paid Search for high-intent Ontario terms
+- Instagram / Meta for premium visual proof
+- retargeting for consultation-focused follow-up
 
-## CTA ideas
+## Landing-page angle
+Build around low-maintenance ownership, premium design, and realistic install expectations.
+
+## Recommended CTA
 - Book a design consultation
-- See fiberglass pool options for Ontario homes
-- Get a realistic project plan and budget range
-
-If you want, I can turn this into a **full campaign brief** with audience, messaging, ad copy, and KPI targets.`,
+- See premium fiberglass pool options for Ontario homes
+- Get a realistic project plan and budget range`,
       routedAgent: 'growth-ops',
       newTask: null,
     };
@@ -130,43 +159,46 @@ If you want, I can turn this into a **full campaign brief** with audience, messa
   if ((/social media strategy/.test(m) || /instagram|tiktok/.test(m)) && /trend|trends|workflow/.test(m)) {
     return {
       intent: 'social-reputation',
-      message: `Here is a practical **Instagram / TikTok lead-gen strategy** for Okeanos.
+      message: `The most useful Instagram / TikTok trends for a pool company are the ones that combine **visual proof, practical education, and a clear conversion path**.
 
-## Trends worth leveraging
-1. Before / after transformations
-2. Process transparency and install progress
-3. Owner education clips
-4. Local proof from Ontario / GTA projects
-5. Short expert commentary videos
+## Trends Okeanos could leverage
+1. before-and-after transformation reels
+2. process transparency content
+3. educational expert clips
+4. local proof tied to GTA / Ontario projects
+5. story-led social proof instead of generic testimonials
+
+## Recommended weekly workflow
+### Monday — Strategy and sourcing
+- choose 3 themes
+- define 1 primary CTA
+- collect footage, photos, and customer proof
+
+### Tuesday — Production
+- film 2 short expert clips
+- edit 1 transformation reel
+- prepare 1 story Q&A or poll sequence
+
+### Wednesday — Publish proof content
+Post a transformation or reveal reel with a consultation CTA.
+
+### Thursday — Publish education content
+Answer a real buyer question and direct viewers to DM or consultation.
+
+### Friday — Publish trust/process content
+Show craftsmanship, install progress, or customer story content.
+
+### Daily stories
+Use stories for progress updates, polls, FAQs, myth-busting, and DM prompts.
 
 ## Best content mix
-- **40% proof**
-- **30% education**
-- **20% process**
-- **10% CTA-focused content**
+- 40% visual proof
+- 30% education
+- 20% process / behind the scenes
+- 10% direct CTA content
 
-## Weekly workflow
-### Monday
-Plan 3 themes and 1 CTA for the week
-### Tuesday
-Film 2 expert clips + edit 1 transformation reel
-### Wednesday
-Publish proof / reveal post
-### Thursday
-Publish education post
-### Friday
-Publish trust / process post
-### Daily stories
-Use polls, FAQs, progress shots, and DM prompts
-
-## To avoid generic content
-Each post should include at least one of:
-- Ontario context
-- Real project proof
-- Specific homeowner problem
-- Clear consultation CTA
-
-If you want, I can build a **7-post content calendar with hooks, captions, and CTAs**.`,
+## Recommendation
+The goal should not be to go viral. It should be to build a repeatable content engine that turns attention into consultation intent.`,
       routedAgent: 'social-reputation',
       newTask: null,
     };
@@ -176,40 +208,45 @@ If you want, I can build a **7-post content calendar with hooks, captions, and C
     return {
       intent: 'reporting',
       message: `# Monthly Executive Marketing Report
+
 ## Executive Summary
-This month, search-driven demand continued to outperform awareness-focused paid social. Lead response speed stayed within target, and the clearest efficiency opportunity remains shifting budget toward higher-intent campaigns and improving conversion performance.
+This month, Okeanos maintained healthy lead flow, with **Google Search continuing to act as the strongest demand-capture channel**. Paid social contributed reach and creative testing value, but appears less efficient as a direct-response acquisition engine. Lead response speed remained within target, while the clearest near-term opportunity is improving paid efficiency through budget reallocation and conversion-focused landing-page improvements.
 
-## Channel Performance Summary
+## Channel Performance
 ### Google Search
-- Strongest source of high-intent traffic
-- Best candidate for qualified consultations
+- strongest intent channel
+- best fit for quote and installation demand
+- should remain the priority for protected or expanded spend
 
-### Meta / Paid Social
-- Useful for reach and remarketing
-- Less reliable as the main direct-response engine
+### Paid Social
+- useful for awareness, remarketing, and creative testing
+- less reliable as the main direct-response engine
 
 ### Organic / Content
-- Supports trust, education, and comparison-stage buyers
-- Can reduce paid dependency over time
+- supports trust and education
+- can reduce long-term paid dependency if BOFU content expands
 
 ### Lead Response / Conversion
-- Response speed remains within target
-- Biggest opportunity is improving consultation-booked rate
+- response speed remains within target
+- biggest opportunity is improving consultation-booked rate
+
+## Leadership Takeaways
+1. Search is still the most dependable direct-response channel
+2. Paid social is more valuable as a support channel than as the core efficiency engine
+3. Conversion improvements can unlock better performance without relying only on more traffic
 
 ## Top Three Actions for Next Month
-1. Reallocate budget toward the highest-intent search campaigns
-2. Refresh paid social creative and narrow targeting
-3. Improve landing page conversion with stronger proof and clearer CTAs
+1. Reallocate more budget toward the highest-intent Google Search campaigns
+2. Refresh paid social creative and tighten audience targeting
+3. Improve the consultation landing-page experience with stronger proof and clearer messaging
 
-## Suggested KPI section
-- Total leads
-- Qualified leads
-- CPL
-- Consultation booking rate
-- Average response time
-- Channel-level efficiency
-
-If you want, I can convert this into a **fully formatted monthly report with prototype numbers filled in**.`,
+## Recommended KPI Focus
+- total leads
+- qualified leads
+- cost per lead
+- consultation booking rate
+- average response time
+- channel-level conversion efficiency`,
       routedAgent: 'reporting',
       newTask: null,
     };

@@ -7,268 +7,319 @@ function getSpecialResponse(message) {
   if ((/cost per lead|cpl/.test(m) && /25%|twenty-five percent/.test(m)) || (/reduce/.test(m) && /cost per lead|cpl/.test(m))) {
     return {
       intent: 'reporting',
-      reply: `Here is a practical plan to reduce **cost per lead by 25%** for Okeanos without pretending we can cut spend blindly.
+      reply: `**Key takeaway:** the clearest path to a 25% CPL reduction is not broad cost-cutting. It is a combination of **reducing low-intent paid social waste, protecting high-intent search, and improving landing-page conversion before scaling spend**.
 
-## Working target
-If current CPL is **$38.20**, a 25% reduction means a target of **~$28.65**.
+## 1) Target
+Using the current prototype CPL of **$38.20**, a 25% reduction implies a target of roughly **$28.65 per lead**.
 
-## Where the opportunity likely is
-1. **Pause or cap waste first**
-   - Meta Awareness \u2014 Spring Visual Teaser is currently the weakest use of budget
-   - Any ad set with spend but no consultation intent should be reduced first
-2. **Shift more budget toward high-intent search**
-   - Protect campaigns around fiberglass pool quotes, installation, pricing, and consultation intent
-   - Separate research traffic from quote-ready traffic so high-intent terms are not diluted
-3. **Tighten conversion quality on landing pages**
-   - Match ad promise to page headline
-   - Shorten the main form to the minimum fields needed for a consultation
-   - Put financing / timeline / Ontario trust signals above the fold
-4. **Improve qualification before scale**
-   - Exclude weak audiences and broad placements that generate clicks but low buying intent
-   - Prioritize GTA homeowners, higher-income renovation audiences, and consultation-oriented CTAs
-5. **Refresh creative instead of endlessly increasing spend**
-   - New before/after proof assets
-   - Stronger offer framing: design consult, project timeline clarity, financing guidance
+## 2) Biggest opportunities
+### A. Cut low-efficiency spend first
+The weakest candidate in the current mix is **Meta Awareness — Spring Visual Teaser**.
+- It appears better suited to reach than direct-response lead generation
+- If the goal is lower CPL, this is the first budget line I would reduce or repurpose
 
-## Recommended 30-day action plan
-- **Week 1:** Cut clear waste, especially zero-lead or low-intent paid social spend
-- **Week 2:** Reallocate budget into top Google Search campaigns and tighten keyword grouping
-- **Week 3:** Test 2 new landing page variants focused on quote request and consultation booking
-- **Week 4:** Review CPL by campaign, qualified lead rate, and consultation-booked rate before scaling
+### B. Protect the highest-intent search campaigns
+The most efficient leads are still most likely coming from **Google Search campaigns tied to quote and installation intent**.
+- Terms around fiberglass pool quotes, installation, pricing, and consultation intent should be protected
+- Budget should move away from broad awareness and toward bottom-funnel demand capture
 
-## KPI guardrails
-Do not judge CPL alone. Track:
+### C. Improve conversion rate before adding more traffic
+If the traffic is decent but the page is leaking intent, CPL stays elevated.
+Key fixes:
+- Match ad promise to landing-page headline
+- Simplify the consultation form
+- Move Ontario trust signals, financing language, and project timeline clarity above the fold
+
+### D. Tighten audience quality
+Not every lead is equally valuable.
+- Exclude low-intent placements and broad audiences that generate cheap but weak inquiries
+- Prioritize GTA homeowners with stronger renovation or premium-home signals
+
+### E. Refresh creative instead of forcing spend
+Before increasing budget, refresh the creative mix:
+- before/after project proof
+- stronger consultation CTA
+- clearer value framing around low maintenance, speed, and quality
+
+## 3) Recommended action plan
+### Next 30 days
+1. **Trim underperforming awareness spend**
+2. **Reallocate budget into high-intent Google Search campaigns**
+3. **Test two landing-page variants focused on consultation conversion**
+4. **Review results using both CPL and lead quality**
+
+## 4) KPI guardrails
+I would not optimize to CPL alone. I would track:
 - CPL
-- Qualified lead rate
-- Consultation booking rate
-- Quote-ready lead volume
+- qualified lead rate
+- consultation booking rate
+- quote-ready lead volume
 
-## Likely highest-leverage moves
-1. Reduce weak Meta awareness spend
-2. Increase budget share on high-intent Google Search
-3. Improve landing page conversion rate before scaling traffic
+## 5) Recommendation
+If Okeanos needs a fast path to a 25% CPL reduction, the highest-probability moves are:
+1. reduce weak Meta awareness spend
+2. concentrate budget in quote-intent search campaigns
+3. improve landing-page conversion before scaling traffic further
 
-If you want, I can also turn this into a **1-page executive recommendation** or a **tasked workstream plan by agent**.`,
+That combination is much more credible than simply cutting spend across the board.`,
     }
   }
 
   if ((/ppc/.test(m) || /google ads|meta ads|paid search|paid media/.test(m)) && /benchmark|benchmarks/.test(m)) {
     return {
       intent: 'reporting',
-      reply: `Here is a benchmark-style read on **Okeanos PPC performance** for the pool category.
+      reply: `**Bottom line:** based on the current prototype campaign mix, the **Google Search campaigns are the most likely outperformers**, while the **Meta awareness campaign is the clearest likely underperformer** against pool-industry direct-response benchmarks.
 
-## Likely benchmark lens for pool / high-ticket home services
-For fiberglass pool campaigns in Ontario, strong PPC usually means:
-- Search campaigns outperform paid social on lead quality
-- Branded + high-intent non-brand search produce the best consultation intent
-- Awareness/social campaigns support demand but often look weaker on last-click CPL
+## 1) Benchmark lens
+For a high-ticket, seasonal home-service category like fiberglass pools, the usual benchmark pattern is:
+- **high-intent search** drives the strongest lead quality
+- **local non-brand search** performs better than broad paid social on conversion efficiency
+- **awareness campaigns** can support demand creation, but usually look weak on last-click CPL and consultation intent
 
-## Okeanos campaigns most likely outperforming
-### 1. Google Search \u2014 Fiberglass Pool Quotes
-**Most likely outperformer** because it captures explicit quote intent.
-- Best fit for bottom-funnel traffic
-- Strongest candidate for qualified consultations
-- Should be the benchmark winner unless landing page quality is weak
+So I would evaluate Okeanos less like an ecommerce account and more like a premium home-improvement lead-gen account.
 
-### 2. Google Search \u2014 Pool Installation GTA
-**Likely solid / above average** if search terms are tightly managed.
-- Good local intent
-- Worth protecting if lead quality is acceptable
-- May trail quote-focused campaigns but still outperform social on efficiency
+## 2) Likely outperformers
+### Google Search — Fiberglass Pool Quotes
+This is the strongest candidate to outperform.
+Why:
+- it captures explicit quote intent
+- it is closest to the decision stage
+- it is the most likely to generate consultation-ready traffic
 
-## Campaigns most likely under benchmark
-### 3. Meta Lead Form \u2014 Backyard Renovation
-**Probably mixed.**
-- May generate cheaper form fills in some markets
-- Lead quality is usually less consistent than high-intent search
-- Better as a nurture / retargeting assist than the core efficiency engine
+### Google Search — Pool Installation GTA
+This is likely the second-strongest performer.
+Why:
+- strong local intent
+- relevant to buyers already comparing options
+- usually more efficient than social if keyword quality is managed well
 
-### 4. Meta Awareness \u2014 Spring Visual Teaser
-**Likely underperforming** on direct-response benchmarks.
-- Awareness helps reach, not necessarily qualified leads
-- Weak candidate if judged on CPL or consultation intent
-- First place to trim if the goal is efficiency
+## 3) Likely middle performer
+### Meta Lead Form — Backyard Renovation
+I would classify this as **mixed / watch closely**.
+- it may help with volume
+- but lead quality is usually less predictable than search
+- it should be validated on booked consultations, not just form fills
 
-## Recommended conclusion
-If we compare against typical pool-industry paid media behavior, the **likely outperformers are the two Google Search campaigns**, especially **Fiberglass Pool Quotes**. The **likely underperformer is the Meta Awareness campaign**, with Meta lead forms sitting in the middle but needing lead-quality validation.
+## 4) Likely underperformer
+### Meta Awareness — Spring Visual Teaser
+This is the most likely underperformer against direct-response benchmarks.
+Why:
+- awareness campaigns are rarely the most efficient source of qualified leads in this category
+- it is better suited to reach and assisted influence than to bottom-funnel conversion
+- if budget has to move, this is the first place I would review
 
-## What I would report to leadership
-- **Outperforming:** High-intent Google Search
-- **Stable but watch:** Local install search
-- **Needs stronger proof of quality:** Meta lead forms
-- **Most likely below benchmark:** Meta awareness creative
+## 5) Recommendation
+If I were presenting this to leadership, I would summarize it this way:
+- **Likely outperforming:** Fiberglass Pool Quotes, Pool Installation GTA
+- **Needs quality validation:** Backyard Renovation lead form campaign
+- **Most likely below benchmark:** Spring Visual Teaser awareness campaign
 
-If you want, I can convert this into a **benchmark table** with columns for campaign, funnel stage, likely benchmark position, and recommended action.`,
+The key message is that Okeanos should continue to treat **search as the core demand-capture engine** and use **paid social more selectively for support, remarketing, and creative testing**.`,
     }
   }
 
   if ((/under-targeted|underserved/.test(m) && /segment/.test(m) && /ontario/.test(m)) || (/fiberglass pool customer segment/.test(m) && /ontario/.test(m))) {
     return {
       intent: 'growth-ops',
-      reply: `A strong **under-targeted fiberglass pool segment in Ontario** is:
+      reply: `A strong **under-targeted fiberglass pool customer segment in Ontario** is **affluent empty-nesters / downsizers in suburban GTA markets** who want a premium backyard upgrade but place a high value on **low maintenance, installation predictability, and long-term ease of ownership**.
 
-## Segment
-**Affluent downsizers / empty-nesters in suburban GTA neighborhoods** who want a low-maintenance backyard upgrade without the complexity of concrete.
+## Why this segment stands out
+Most pool marketing over-indexes on families with young children. That leaves a meaningful opening with homeowners who:
+- still have spending power
+- care more about simplicity and aesthetics than family-play messaging
+- are attracted to fiberglass because it feels cleaner, faster, and easier to live with than concrete
 
-## Why this segment is attractive
-- Fiberglass aligns well with **lower maintenance** and faster install expectations
-- They often have disposable income but do not respond to family-oriented pool messaging
-- Many pool brands over-focus on young families, leaving this segment relatively under-addressed
+## Strategic insight
+This segment is not buying "summer fun." They are buying:
+- convenience
+- quality
+- a polished outdoor lifestyle upgrade
+- less operational hassle over time
 
-## Core insight
-This segment buys **simplicity, reliability, and property enjoyment** \u2014 not just "summer fun for kids."
+## Campaign concept
+### Campaign theme:
+**Low-maintenance luxury for Ontario backyards**
 
-## Campaign angle
-**"The low-maintenance luxury backyard"**
+## Messaging pillars
+1. **Lower maintenance than concrete**
+2. **Faster path from decision to usable backyard**
+3. **Premium, engineered finish**
+4. **Ideal for entertaining, relaxing, and long-term home enjoyment**
 
-### Messaging themes
-- Faster path from decision to enjoyment
-- Easier upkeep than concrete
-- Clean, engineered look that suits premium homes
-- Ideal for entertaining, wellness, and long-term home enjoyment
+## Campaign structure
+### Paid Search
+Target high-intent terms such as:
+- fiberglass pool Ontario
+- low maintenance pool Ontario
+- fiberglass vs concrete pool Ontario
+- pool installation consultation GTA
 
-## Suggested campaign structure
-### Channel mix
-- Google Search for high-intent terms around fiberglass pool cost, installation, and maintenance
-- Meta / Instagram for visual proof and lifestyle positioning
-- Remarketing to visitors who engaged with financing, gallery, or consultation pages
+### Paid Social / Instagram
+Use premium visual creative:
+- compact but elegant backyard transformations
+- before/after visuals
+- short expert clips explaining why fiberglass fits this lifestyle
 
-### Creative ideas
-1. Before/after transformation of a smaller premium backyard
-2. "Why Ontario homeowners are choosing fiberglass over concrete"
-3. Short video: maintenance simplicity, smooth finish, faster install path
+### Retargeting
+Retarget visitors who engaged with:
+- gallery pages
+- financing content
+- consultation pages
+- fiberglass vs concrete comparison content
 
-## CTA
+## Landing-page angle
+Build a dedicated page around:
+- low maintenance ownership
+- premium design
+- realistic install expectations
+- consultation-first CTA
+
+## Recommended CTA
 - **Book a design consultation**
-- **See fiberglass pool options for Ontario homes**
+- **See premium fiberglass pool options for Ontario homes**
 - **Get a realistic project plan and budget range**
 
-## Campaign workflow
-1. Build one landing page tailored to low-maintenance premium buyers
-2. Launch 2-3 paid search ad groups around maintenance + installation + Ontario intent
-3. Support with short-form visual proof on Instagram / Meta
-4. Retarget page visitors with consultation-first creative
-
-If you want, I can turn this into a **full campaign brief** with audience, messaging, ad copy, landing page sections, and KPI targets.`,
+## Recommendation
+This is attractive because it gives Okeanos a segment that is differentiated, economically viable, and well aligned with the natural strengths of fiberglass. It also creates a more distinctive campaign than simply targeting the same family-oriented audience everyone else is chasing.`,
     }
   }
 
   if ((/social media strategy/.test(m) || /instagram|tiktok/.test(m)) && /trend|trends|workflow/.test(m)) {
     return {
       intent: 'social-reputation',
-      reply: `Here is a practical **Instagram / TikTok lead-gen strategy** for a pool company like Okeanos.
+      reply: `The most useful Instagram / TikTok trends for a pool company are the ones that combine **visual proof, practical education, and a clear conversion path**. For Okeanos, I would focus on trends that make the company look credible, local, and easy to trust.
 
-## Trends worth leveraging now
-1. **Before / after transformation content**
-   - Fast visual payoff
-   - Strong hook in the first 2 seconds
-2. **Process transparency**
-   - Site prep, install stages, reveal moments, mistakes to avoid
-   - Builds trust and engineering credibility
-3. **Owner education clips**
-   - Fiberglass vs concrete
-   - What installation really costs
-   - What to expect in Ontario climates
-4. **Local proof**
-   - Oakville, Burlington, Vaughan, Mississauga project storytelling
-   - Place-based credibility improves lead intent
-5. **Short talking-head expert commentary**
-   - Founder / project lead explains one practical insight in 20-30 seconds
+## Trends Okeanos could leverage
+### 1. Before-and-after transformation reels
+These work well because the value is obvious in the first two seconds.
+Best use:
+- dramatic backyard transformation
+- overlay with timeline, budget context, or homeowner goal
 
-## Best lead-generation content mix
-- **40% proof:** transformations, testimonials, finished projects
-- **30% education:** cost, maintenance, timing, comparison content
-- **20% process:** behind the scenes, install phases, craftsmanship
-- **10% CTA content:** consultation invites, seasonal planning reminders, limited install-window prompts
+### 2. Process transparency content
+Short clips showing excavation, shell install, finishing, or reveal moments perform well because they reduce uncertainty.
+Best use:
+- "what the install process actually looks like"
+- "what happens in week 1 / week 2"
 
-## Weekly content workflow
-### Monday \u2014 Planning
-- Pick 3 content themes for the week
-- Choose 1 offer / CTA to repeat across posts
-- Pull project photos, clips, and any client proof
+### 3. Educational expert clips
+Short talking-head videos perform well when they answer real buyer questions.
+Best use:
+- fiberglass vs concrete
+- what affects pool cost
+- what Ontario homeowners should expect before starting
 
-### Tuesday \u2014 Production
-- Film 2 short expert clips
-- Edit 1 before/after reel
-- Prepare 1 story sequence with poll or Q&A sticker
+### 4. Local proof and neighborhood relevance
+Content tied to places like Oakville, Burlington, Vaughan, or Mississauga makes the brand feel real and nearby.
+Best use:
+- project spotlights
+- local homeowner use cases
+- location-specific captions and hooks
 
-### Wednesday \u2014 Publish proof post
-- Reel: transformation or reveal
-- CTA: book a consultation / request project pricing guidance
+### 5. Story-led social proof
+Instead of generic testimonials, use short story formats:
+- what the homeowner wanted
+- what problem they had
+- what changed after the project
 
-### Thursday \u2014 Publish education post
-- Topic like fiberglass vs concrete, budgeting, or install timing
-- CTA: download guide or book consult
+## Recommended weekly content workflow
+### Monday — Strategy and sourcing
+- choose the week’s 3 themes
+- define one primary CTA
+- collect project footage, photos, and customer proof
 
-### Friday \u2014 Publish trust/process post
-- Behind-the-scenes craftsmanship, install progress, or client quote
-- CTA: reply with project timing or send a DM for planning help
+### Tuesday — Production day
+- film 2 short expert clips
+- edit 1 transformation reel
+- prepare 1 story Q&A or poll sequence
+
+### Wednesday — Publish proof content
+Post a transformation or reveal reel.
+**CTA:** book a consultation or request planning guidance
+
+### Thursday — Publish education content
+Post a practical answer to a high-intent buyer question.
+**CTA:** visit consultation page or send a DM
+
+### Friday — Publish trust/process content
+Post craftsmanship, install progress, or customer story content.
+**CTA:** ask about project timing or next available install window
 
 ### Daily stories
-- Progress shots
-- FAQ box
-- Polls: budget, timing, design preferences
-- DM prompt: "Want a realistic pool plan for your yard?"
+Use stories for:
+- progress updates
+- FAQs
+- polls
+- quick myth-busting
+- DM prompts
 
-## To keep it from looking generic
-Each post should include at least one of these:
-- Ontario context
-- Real project proof
-- Specific homeowner problem
-- Clear next step toward consultation
+## Best content mix
+- **40% visual proof**
+- **30% education**
+- **20% process / behind the scenes**
+- **10% direct CTA content**
 
-If you want, I can turn this into a **weekly content calendar with 7 post ideas, hooks, captions, and CTAs**.`,
+## Recommendation
+The goal should not be "go viral." The goal should be to build a repeatable content engine that turns attention into consultation intent. The strongest version of this strategy is one where every week includes:
+- one proof asset
+- one education asset
+- one trust-building asset
+- one clear next step toward a consultation.`,
     }
   }
 
   if ((/executive report/.test(m) || /monthly executive marketing report/.test(m)) && /monthly|month/.test(m)) {
     return {
       intent: 'reporting',
-      reply: `Below is a clean **monthly executive marketing report** structure that sounds leadership-ready rather than robotic.
+      reply: `# Monthly Executive Marketing Report
 
-# Monthly Executive Marketing Report
 ## Executive Summary
-This month, Okeanos maintained solid lead flow with search-driven demand continuing to outperform awareness-focused paid social. Lead response speed remained within target, while the clearest efficiency opportunity remains reallocating budget away from weaker awareness spend and toward higher-intent campaigns and conversion improvements.
+This month, Okeanos maintained healthy lead flow, with **Google Search continuing to act as the strongest demand-capture channel**. Paid social contributed useful reach and creative testing value, but appears less efficient as a direct-response acquisition engine. Lead response speed remained within target, while the largest near-term opportunity is improving paid efficiency through budget reallocation and conversion-focused landing-page improvements.
 
-## Channel Performance Summary
+## Channel Performance
 ### Google Search
-- Strongest source of high-intent traffic
-- Best candidate for qualified consultation volume
-- Priority channel for protected or expanded budget
+Google Search remains the strongest-performing channel from an intent perspective.
+- highest likelihood of qualified consultation traffic
+- strongest fit for quote and installation demand
+- should remain the priority channel for protected or expanded spend
 
-### Meta / Paid Social
-- Useful for reach, remarketing, and creative testing
-- Less reliable for direct-response efficiency
-- Requires tighter creative and audience discipline
+### Paid Social
+Paid social remains useful, but should be treated selectively.
+- strongest role: awareness, remarketing, and creative testing
+- weaker role: primary source of efficient bottom-funnel leads
+- key risk: spend drifting into low-intent traffic or low-quality form volume
 
 ### Organic / Content
-- Supports trust, education, and comparison-stage buyers
-- Biggest role is improving conversion and lowering dependence on paid media over time
+Organic and educational content continue to play a trust-building role.
+- supports comparison-stage buyers
+- improves brand credibility
+- can reduce long-term dependence on paid acquisition if BOFU content expands
 
 ### Lead Response / Conversion
-- Response speed remains within target
-- Opportunity is improving consultation-booked rate and lead qualification consistency
+Lead response speed remains operationally healthy.
+- current response performance is within target
+- larger opportunity is improving consultation-booked rate and lead quality conversion
 
-## Key Leadership Takeaways
-1. Search remains the most dependable demand-capture channel
-2. Some paid social spend is likely better used as support, not the core acquisition engine
-3. Landing page and conversion improvements can unlock better efficiency without relying only on more traffic
+## Leadership Takeaways
+1. **Search is still the most dependable direct-response channel**
+2. **Paid social is more valuable as a supporting channel than as the core efficiency engine**
+3. **Conversion improvements can unlock better performance without relying only on more traffic**
 
 ## Top Three Actions for Next Month
-1. **Reallocate budget toward the highest-intent search campaigns**
-2. **Refresh paid social creative and narrow targeting before further spend expansion**
-3. **Improve consultation landing page conversion rate with stronger proof, simpler forms, and clearer CTAs**
+1. **Reallocate more budget toward the highest-intent Google Search campaigns**
+2. **Refresh paid social creative and tighten audience targeting before further spend expansion**
+3. **Improve the consultation landing-page experience with stronger proof, clearer messaging, and fewer conversion friction points**
 
-## Suggested KPI Section
-Track next month:
-- Total leads
-- Qualified leads
-- CPL
-- Consultation booking rate
-- Average response time
-- Channel-level conversion efficiency
+## Recommended KPI Focus for Next Month
+- total leads
+- qualified leads
+- cost per lead
+- consultation booking rate
+- average response time
+- channel-level conversion efficiency
 
-If you want, I can turn this into a **fully formatted monthly report template with numbers filled in from the current prototype data**.`,
+## Final Assessment
+The business is in a solid position, but the next step is not simply generating more activity. It is improving **efficiency and conversion quality**, especially across paid media and consultation-focused landing experiences.`,
     }
   }
 
